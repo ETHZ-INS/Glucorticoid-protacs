@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Dominique Paul" />
+
+<meta name="date" content="2022-05-25" />
+
+<title>Q1: DE Gene overlap</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GR-PROTAC-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Q1: DE Gene overlap</h1>
+<h4 class="author">Dominique Paul</h4>
+<h4 class="date">2022-05-25</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-05-25
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>GR-PROTAC-analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220515code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220515)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220515code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220515)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong59004f1"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 59004f1 </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong59004f1" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 59004f1. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    data/EOS_files/
+
+Untracked files:
+    Untracked:  analysis/01_download_files.Rmd
+    Untracked:  analysis/02_exploratory_analysis.Rmd
+    Untracked:  analysis/Q1-Gene-overlap.Rmd
+    Untracked:  analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Untracked:  analysis/admin.Rmd
+    Untracked:  code/helper_functions.R
+    Untracked:  data/reddy_rna_DEX12h.tsv
+    Untracked:  data/reddy_rna_DEX12h_r1.tsv
+    Untracked:  data/reddy_rna_DEX12h_r2.tsv
+    Untracked:  data/reddy_rna_DEX12h_r3.tsv
+    Untracked:  data/reddy_rna_DEX12h_r4.tsv
+    Untracked:  data/reddy_rna_DEX12h_transcript.tsv
+    Untracked:  data/reddy_rna_control.tsv
+    Untracked:  data/reddy_rna_control_r1.tsv
+    Untracked:  data/reddy_rna_control_r2.tsv
+    Untracked:  data/reddy_rna_control_r3.tsv
+    Untracked:  data/reddy_rna_control_r4.tsv
+    Untracked:  data/results/
+    Untracked:  figures/
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   _workflowr.yml
+    Modified:   analysis/about.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="question-1-similarity-of-our-rna-data-with-the-reddy-data" class="section level1">
+<h1>Question 1: Similarity of our RNA data with the Reddy data</h1>
+<p>Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data?</p>
+<p><em>Planned approach:</em> Check which genes are differentially expressed in their data and create a Venn-diagram for comparable experiments with the differentially expressed genes from our analysis.</p>
+<p><em>Steps:</em></p>
+<ol style="list-style-type: decimal">
+<li>Decide which data we need to make the comparison -&gt; Control vs. 12h DEX treatment is closest</li>
+<li>Download the Reddy data (on <code>01_download_files.Rmd</code>)</li>
+<li>Bring the data into one SummarisedExperiment</li>
+<li>Run a differential expression analysis on the Reddy data</li>
+<li>Load DE genes from our analysis and the DE genes from the Reddy data</li>
+<li>Create a Venn diagram of the overlap</li>
+</ol>
+<p>In our experiments we compared samples from a control experiment with samples that were treated for 18 hours with DEX. Besides a control, the Reddy lab performed a similar experiment where they treated cells with DEX for 12 hours. This is the closest comparison to our data.</p>
+<div id="load-reddy-data" class="section level3">
+<h3>Load Reddy data</h3>
+<pre class="r"><code>control_r1 &lt;- read.csv(&quot;../data/reddy_rna_control_r1.tsv&quot;, sep=&quot;\t&quot;)
+control_r2 &lt;- read.csv(&quot;../data/reddy_rna_control_r2.tsv&quot;, sep=&quot;\t&quot;)
+control_r3 &lt;- read.csv(&quot;../data/reddy_rna_control_r3.tsv&quot;, sep=&quot;\t&quot;)
+control_r4 &lt;- read.csv(&quot;../data/reddy_rna_control_r4.tsv&quot;, sep=&quot;\t&quot;)
+
+treatment_r1 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r1.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r2 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r2.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r3 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r3.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r4 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r4.tsv&quot;, sep=&quot;\t&quot;)
+
+replace_ensg_by_hgnc &lt;- function(entrez_ids){
+  # pass a list of ensembl genes and get a table with corresponding hgnc gene names
+  # Very useful reference: 
+  # https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+  ensembl &lt;- useEnsembl(biomart = &quot;genes&quot;, dataset = &quot;hsapiens_gene_ensembl&quot;)
+  bm_results &lt;- getBM(attributes = c(&#39;ensembl_gene_id&#39;, &#39;hgnc_symbol&#39;, &#39;chromosome_name&#39;),
+      filters = &#39;ensembl_gene_id&#39;, 
+      values = entrez_ids, 
+      mart = ensembl)
+  dups &lt;- duplicated(bm_results$ensembl_gene_id)
+  bm_results &lt;- bm_results[!dups,]
+  cat(paste0(&quot;Removed &quot;, sum(dups), &quot; duplicates.&quot;))
+  rownames(bm_results) &lt;- bm_results$ensembl_gene_id
+  bm_results
+}
+
+prefiltering &lt;- function(dataset){
+  # We filter for ensemble genes
+  dataset &lt;- dataset[grep(&quot;ENSG&quot;, dataset$gene_id),]
+  # we remove transcripts marked as pseudoautosomal regions
+  dataset &lt;- dataset[-grep(&quot;PAR_Y&quot;, dataset$gene_id),]
+  # we short the ensembl name to exclude the version number of the gene id
+  dataset$gene_id_short = sapply(strsplit(dataset$gene_id, &quot;.&quot;, fixed=T), function(x) x[1])
+  
+  dataset
+}
+
+# Apply preprocessing to all RNA datasets
+control_r1 &lt;- prefiltering(control_r1)
+control_r2 &lt;- prefiltering(control_r2)
+control_r3 &lt;- prefiltering(control_r3)
+control_r4 &lt;- prefiltering(control_r4)
+
+treatment_r1 &lt;- prefiltering(treatment_r1)
+treatment_r2 &lt;- prefiltering(treatment_r2)
+treatment_r3 &lt;- prefiltering(treatment_r3)
+treatment_r4 &lt;- prefiltering(treatment_r4)
+
+# build a list of the dataframes
+data_list &lt;- list(&quot;c1&quot;=control_r1, &quot;c2&quot;=control_r2, &quot;c3&quot;=control_r3, &quot;c4&quot;=control_r4,
+  &quot;t1&quot;=treatment_r1, &quot;t2&quot;=treatment_r2, &quot;t3&quot;=treatment_r3, &quot;t4&quot;=treatment_r4)
+
+# get union of all gene names with non-zero transcripts
+gene_names &lt;- lapply(data_list, function(dataset){
+  dataset[dataset$TPM &gt; 0, &quot;gene_id_short&quot;]
+}) %&gt;% purrr::reduce(c)
+unique_gene_names &lt;- unique(gene_names)</code></pre>
+</div>
+<div id="configure-summarised-experiment-for-de-analysis" class="section level3">
+<h3>Configure summarised experiment for DE analysis</h3>
+<pre class="r"><code># construct a SE from all experiments
+expected_counts &lt;- lapply(data_list, function(dataset){
+  rownames(dataset) &lt;- dataset$gene_id_short
+  dataset &lt;- dataset[unique_gene_names,&quot;expected_count&quot;]
+}) %&gt;% purrr::reduce(cbind)
+
+tpm_counts &lt;- lapply(data_list, function(dataset){
+  rownames(dataset) &lt;- dataset$gene_id_short
+  dataset &lt;- dataset[unique_gene_names,&quot;TPM&quot;]
+}) %&gt;% purrr::reduce(cbind)
+
+colnames(expected_counts) &lt;- colnames(tpm_counts) &lt;- c(&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;, &quot;C4&quot;, &quot;T1&quot;, &quot;T2&quot;, &quot;T3&quot;, &quot;T4&quot;)
+SE &lt;- SummarizedExperiment(assays=list(&quot;counts&quot;=expected_counts, &quot;TPM&quot;=tpm_counts))
+
+# Add row data
+rownames(SE) &lt;- unique_gene_names
+rowData(SE)$gene_id &lt;- unique_gene_names
+
+# Fetch HGNC names for the genes by their ENSG names
+hgnc_table &lt;- replace_ensg_by_hgnc(unique_gene_names)</code></pre>
+<pre><code>Removed 1 duplicates.</code></pre>
+<pre class="r"><code>overlapping_genes &lt;- unique_gene_names[unique_gene_names %in% rownames(hgnc_table)]
+# set the ENSG name per default and then replace by HGNC where possible
+rowData(SE)$gene_name &lt;- unique_gene_names
+rowData(SE)[overlapping_genes, &quot;gene_name&quot;] &lt;- hgnc_table[overlapping_genes,&quot;hgnc_symbol&quot;]
+# set rownames to combination of ENSG and HGNC name.
+rownames(SE) &lt;- paste0(rowData(SE)$gene_name, &quot;.&quot;, rowData(SE)$gene_id)
+
+# Add coldata
+colData(SE)$Replicate &lt;- factor(c(1,2,3,4,1,2,3,4))
+colData(SE)$Treatment &lt;- c(rep(&quot;Control&quot;,4), rep(&quot;Dex12h&quot;, 4))</code></pre>
+</div>
+<div id="run-de-analysis-on-reddy-data" class="section level3">
+<h3>Run DE analysis on Reddy data</h3>
+<pre class="r"><code># normalise expression values by library size
+dds &lt;- calcNormFactors(DGEList(assay(SE)))
+assays(SE)$logcpm &lt;- log1p(cpm(dds)) # TODO: Check this
+# Filter rows which do not have more than 20 counts for a given condition
+dds &lt;- dds[filterByExpr(dds, model.matrix(~SE$Treatment), min.count=20),]
+# Only keep rows with sufficient reads
+SE &lt;- SE[row.names(dds),]
+# take rows with highest total rna expression values across all samples
+tmp &lt;- assays(SE)$TPM[order(-rowSums(assays(SE)$TPM))[1:2000],]
+# We use singular value decomposition as a dimension reduction
+rd &lt;- BiocSingular::runExactSVD(tmp, center=FALSE, scale=FALSE)$v
+colnames(rd) &lt;- paste0(&quot;C&quot;, seq_len(ncol(rd)))
+d &lt;- cbind(as.data.frame(colData(SE)), rd[,1:5])
+ggplot(d, aes(C1, C2, colour=Treatment)) + geom_point()</code></pre>
+<p><img src="figure/Q1-Gene-overlap.Rmd/Prepare%20for%20DE-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Adds top two columns from surrogate variable analysis to column data. We use these for our DE experiment below as nuisance variables
+SE &lt;- svacor(SE, ~Treatment, n.sv=2)</code></pre>
+<pre><code>Using variance-stabilizing transformation</code></pre>
+<pre><code>converting counts to integer mode</code></pre>
+<pre><code>Warning in DESeqDataSet(se, design = design, ignoreRank): some variables in
+design formula are characters, converting to factors</code></pre>
+<pre><code>Number of significant surrogate variables is:  2 
+Iteration (out of 5 ):1  2  3  4  5  </code></pre>
+<pre class="r"><code># Rename some of the variables in the colummn data
+SE$Treatment &lt;- relevel(factor(SE$Treatment), &quot;Control&quot;) # reorder factors
+# SE$condition2 &lt;- SE$Treatment
+# levels(SE$condition2) &lt;- gsub(&quot;^18h DMSO$|18h untreated&quot;,&quot;control&quot;,levels(SE$condition2))
+# SE$isInhibited &lt;- grepl(&quot;Cort113|KH-103|MIF&quot;, SE$condition2)
+# SE$isDEX &lt;- grepl(&quot;DEX&quot;, SE$condition2)
+# Column that combines treatment info about control/DEX/inhibited/DEX+inhibited
+# SE$condType &lt;- factor(paste0(as.integer(SE$isDEX), as.integer(SE$isInhibited)))
+# levels(SE$condType) &lt;- c(&quot;control&quot;, &quot;inhibited&quot;, &quot;DEX&quot;, &quot;DEX+inhibited&quot;)
+metadata(SE)$default_view &lt;- list( assay=&quot;scaledLFC&quot;, groupvar=&quot;Treatment&quot;, colvar=&quot;condition&quot;,
+                                   top_annotation=c(&quot;condType&quot;) )
+
+mm &lt;- model.matrix(~SV1+SV2+Treatment, data=as.data.frame(colData(SE)))
+dds &lt;- estimateDisp(dds, mm)
+conds &lt;- grep(&quot;Treatment&quot;, colnames(mm), value=TRUE)
+names(conds) &lt;- gsub(&quot;Treatment&quot;,&quot;&quot;,conds)
+fit &lt;- glmFit(dds,mm)
+res &lt;- lapply(conds, FUN=function(x){
+  y &lt;- as.data.frame(topTags(glmLRT(fit,x), Inf))
+  attr(y, &quot;description&quot;) &lt;- paste0(gsub(&quot;Treatment&quot;,&quot;&quot;,x), &quot;  vs.  Control&quot;)
+  y
+})
+
+for(f in names(res)){
+  rowData(SE)[[paste0(&quot;DEA.&quot;,f)]] &lt;-
+    dround(res[[f]][row.names(SE),c(1,2,4,5)], 2, TRUE)
+}
+
+x &lt;- res$Dex12h
+topDegs &lt;- head(row.names(x)[x$FDR&lt;0.01],15)
+
+# levels(SE$Treatment) &lt;- gsub(&quot;&gt; &quot;,&quot;&gt;\n&quot;, levels(SE$Treatment))
+# SE$Treatment &lt;- factor(SE$Treatment, 
+                       # unique(c(&quot;18h untreated&quot;,&quot;18h DMSO&quot;,levels(SE$Treatment))))
+SE &lt;- log2FC(SE, &quot;logcpm&quot;, SE$Treatment==&quot;Control&quot;)</code></pre>
+<pre class="r"><code>sechm::sechm(SE, topDegs, assay=&quot;scaledLFC&quot;, gaps_at=&quot;Treatment&quot;, breaks=TRUE,
+      top_annotation=&quot;Replicate&quot;, row_title=&quot;Union of top DEGs&quot;, show_rownames=TRUE,
+      row_names_gp=gpar(fontsize=9), column_title_gp=gpar(fontsize=10),
+      column_title_rot=90)</code></pre>
+<p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<div id="compare-de-genes-between-reddy-and-our-data" class="section level3">
+<h3>Compare DE genes between Reddy and our data</h3>
+<p>First, we use a simple Venn diagram to compare how many of our significant DE genes are also significantly DE in the Reddy lab’s. The Venn diagram also shows us whether there are any genes that are DE in opposing directions.</p>
+<pre class="r"><code>res_int_all &lt;- readRDS(file=&quot;../data/results/DE_our_data.rds&quot;)
+names(res_int_all)</code></pre>
+<pre><code> [1] &quot;16h Cort113 &gt; 2h DEX+Cort113&quot; &quot;16h DMSO &gt; 2h DEX+DMSO&quot;      
+ [3] &quot;16h KH-103 &gt; 2h DEX+KH-103&quot;   &quot;16h MIF  &gt; 2h DEX+MIF&quot;       
+ [5] &quot;18h Cort113&quot;                  &quot;18h KH-103&quot;                  
+ [7] &quot;18h MIF&quot;                      &quot;2h DEX &gt; 16h DEX+Cort113&quot;    
+ [9] &quot;2h DEX &gt; 16h DEX+DMSO&quot;        &quot;2h DEX &gt; 16h DEX+KH-103&quot;     
+[11] &quot;2h DEX &gt; 16h DEX+MIF&quot;        </code></pre>
+<pre class="r"><code>res_int &lt;- res_int_all$`2h DEX &gt; 16h DEX+DMSO`
+res_int_significant &lt;- res_int[res_int$FDR &lt; 0.05,]
+
+res_ext &lt;- res$Dex12h
+# change rownames in dataframe
+rnames &lt;- rowData(SE)[rownames(res_ext), &quot;gene_name&quot;]
+rnames[rnames==&quot;&quot;] &lt;- rownames(res_ext)[rnames==&quot;&quot;]
+# some HGNCs occur twice
+idx &lt;- which(duplicated(rnames) | duplicated(rnames, fromLast=TRUE))
+rnames[idx] &lt;- rownames(res_ext)[idx]
+# change rownames
+rownames(res_ext) &lt;- rnames
+# get significant genes
+res_ext_significant &lt;- res_ext[res_ext$FDR &lt; 0.05,]
+
+
+# get overlap
+ours_up &lt;- rownames(res_int_significant[res_int_significant$logFC &gt; 0,])
+ours_down &lt;- rownames(res_int_significant[res_int_significant$logFC &lt; 0,])
+reddy_up &lt;- rownames(res_ext_significant[res_ext_significant$logFC &gt; 0,])
+reddy_down &lt;- rownames(res_ext_significant[res_ext_significant$logFC &lt; 0,])
+
+# Print genes with opposing effect
+up_mahshid_down_reddy &lt;- intersect(ours_up, reddy_down)
+cat(paste0(&quot;Up in our data, down in reddy data (n=&quot;, length(up_mahshid_down_reddy), &quot;)&quot;))</code></pre>
+<pre><code>Up in our data, down in reddy data (n=15)</code></pre>
+<pre class="r"><code>print(up_mahshid_down_reddy)</code></pre>
+<pre><code> [1] &quot;EPHA2&quot;     &quot;MYBBP1A&quot;   &quot;NIP7&quot;      &quot;EPAS1&quot;     &quot;DDX6&quot;      &quot;KIAA1549L&quot;
+ [7] &quot;PODXL&quot;     &quot;PMS1&quot;      &quot;SINHCAF&quot;   &quot;HSPE1&quot;     &quot;NAA50&quot;     &quot;HERC4&quot;    
+[13] &quot;POLR1G&quot;    &quot;SNX6&quot;      &quot;ALDOA&quot;    </code></pre>
+<pre class="r"><code>down_mahshid_up_reddy &lt;- intersect(ours_down, reddy_up)
+cat(paste0(&quot;Down in our data, up in reddy data (n=&quot;, length(down_mahshid_up_reddy), &quot;)&quot;))</code></pre>
+<pre><code>Down in our data, up in reddy data (n=28)</code></pre>
+<pre class="r"><code>print(down_mahshid_up_reddy)</code></pre>
+<pre><code> [1] &quot;TEF&quot;         &quot;IQCJ-SCHIP1&quot; &quot;GTF2IRD2&quot;    &quot;RHOBTB1&quot;     &quot;RNASE4&quot;     
+ [6] &quot;CRY1&quot;        &quot;MLLT3&quot;       &quot;ANG&quot;         &quot;MAGED2&quot;      &quot;CAMKK1&quot;     
+[11] &quot;GTF2IP4&quot;     &quot;GTF2IP1&quot;     &quot;TP53INP2&quot;    &quot;GDPD5&quot;       &quot;BSDC1&quot;      
+[16] &quot;AKNA&quot;        &quot;HDAC6&quot;       &quot;BCL2L13&quot;     &quot;HERC6&quot;       &quot;H2BC21&quot;     
+[21] &quot;ZBED1&quot;       &quot;ALDH6A1&quot;     &quot;LLGL2&quot;       &quot;CCDC69&quot;      &quot;USPL1&quot;      
+[26] &quot;SPC24&quot;       &quot;MAPKAPK2&quot;    &quot;GMPPA&quot;      </code></pre>
+<pre class="r"><code># Create venn diagram
+myCol &lt;- RColorBrewer::brewer.pal(4, &quot;Pastel2&quot;)
+
+venn.diagram(
+  x = list(ours_up, ours_down, reddy_up, reddy_down),
+  category.names = c(&quot;Mahshid up&quot; , &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;),
+  filename = &#39;../figures/#1_venn_diagramm.png&#39;,
+  output=FALSE,
+  disable.logging=TRUE,
+  # Circles
+  lwd = 2,
+  lty = &#39;blank&#39;,
+  fill = myCol,
+  # Numbers
+  cex = .6,
+  fontface = &quot;bold&quot;,
+  fontfamily = &quot;sans&quot;,
+  
+  # Set names
+  cat.cex = 0.6,
+  cat.fontface = &quot;bold&quot;,
+  cat.default.pos = &quot;outer&quot;,
+  cat.fontfamily = &quot;sans&quot;,
+)</code></pre>
+<pre><code>INFO [2022-05-25 18:21:32] $x
+INFO [2022-05-25 18:21:32] list(ours_up, ours_down, reddy_up, reddy_down)
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $category.names
+INFO [2022-05-25 18:21:32] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $filename
+INFO [2022-05-25 18:21:32] [1] &quot;../figures/#1_venn_diagramm.png&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $output
+INFO [2022-05-25 18:21:32] [1] FALSE
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $disable.logging
+INFO [2022-05-25 18:21:32] [1] TRUE
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $lwd
+INFO [2022-05-25 18:21:32] [1] 2
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $lty
+INFO [2022-05-25 18:21:32] [1] &quot;blank&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $fill
+INFO [2022-05-25 18:21:32] myCol
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $cex
+INFO [2022-05-25 18:21:32] [1] 0.6
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $fontface
+INFO [2022-05-25 18:21:32] [1] &quot;bold&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $fontfamily
+INFO [2022-05-25 18:21:32] [1] &quot;sans&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $cat.cex
+INFO [2022-05-25 18:21:32] [1] 0.6
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $cat.fontface
+INFO [2022-05-25 18:21:32] [1] &quot;bold&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $cat.default.pos
+INFO [2022-05-25 18:21:32] [1] &quot;outer&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] $cat.fontfamily
+INFO [2022-05-25 18:21:32] [1] &quot;sans&quot;
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] [[16]]
+INFO [2022-05-25 18:21:32] 
+INFO [2022-05-25 18:21:32] </code></pre>
+<pre><code>[1] 1</code></pre>
+<div class="figure">
+<img src="../figures/#1_venn_diagramm.png" alt="" />
+<p class="caption">Venn diagramm</p>
+</div>
+</div>
+<div id="plot-logfcs-for-both-experiments-for-de-gene-union" class="section level3">
+<h3>Plot logFCs for both experiments for DE gene union</h3>
+<p>We next compare the log fold change in both datasets for all DE genes (union of the lists from both experiments)</p>
+<pre class="r"><code>union_DE_genes &lt;- unique(c(rownames(res_ext_significant), rownames(res_int_significant)))
+
+weird &lt;- intersect(union_DE_genes, rownames(res_ext))
+
+# in union_DE_genes but not in res_ext
+
+d_plot &lt;- data.frame(&quot;logFC_reddy&quot;=res_ext[union_DE_genes,&quot;logFC&quot;], 
+                     &quot;logFC_mahshid&quot;=res_int[union_DE_genes,&quot;logFC&quot;], 
+                     row.names=union_DE_genes)
+d_plot &lt;- d_plot[rowSums(is.na(d_plot)) == 0,]
+
+plot_lfc &lt;- ggplot(d_plot) +
+  geom_point(aes(x=logFC_mahshid, y=logFC_reddy), size=0.5) +
+  geom_abline(linetype=&quot;dashed&quot;, color=&quot;red&quot;) +
+  theme_ipsum_rc() +
+  labs(title=&quot;LogFC values for DE genes&quot;, subtitle=&quot;Union of DE genes from both experiments with FDR&lt;0.05 \nwhich also occurred in other dataset&quot;, 
+       x=&quot;logFC Mahshid&quot;, y=&quot;logFC Reddy&quot;)
+plot_lfc</code></pre>
+<p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file=&quot;../figures/#2_logFC_Mahshid_Reddy.png&quot;, plot_lfc)</code></pre>
+<pre><code>Saving 7 x 5 in image</code></pre>
+</div>
+</div>
+<div id="save-data" class="section level1">
+<h1>Save data</h1>
+<pre class="r"><code>saveRDS(list(&quot;Reddy_all&quot;=res_ext, &quot;Reddy_significant&quot;=res_ext_significant, &quot;Mahshid_all&quot;=res_int, &quot;Mahshid_significant&quot;=res_int_significant, &quot;union_DE_genes&quot;=union_DE_genes, &quot;logFC_plot_data&quot;=d_plot),
+        file=&quot;../data/EOS_files/Q1_EOS.rds&quot;)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] grid      stats4    stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] hrbrthemes_0.8.6            VennDiagram_1.7.3          
+ [3] futile.logger_1.4.3         SEtools_1.8.0              
+ [5] edgeR_3.36.0                limma_3.50.3               
+ [7] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+ [9] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
+[11] IRanges_2.28.0              S4Vectors_0.32.4           
+[13] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
+[15] matrixStats_0.62.0          dplyr_1.0.9                
+[17] biomaRt_2.50.3              ggplot2_3.3.6              
+
+loaded via a namespace (and not attached):
+  [1] circlize_0.4.15        workflowr_1.7.0        systemfonts_1.0.4     
+  [4] BiocFileCache_2.2.1    splines_4.1.0          BiocParallel_1.28.3   
+  [7] sva_3.42.0             digest_0.6.29          foreach_1.5.2         
+ [10] htmltools_0.5.2        magick_2.7.3           fansi_1.0.3           
+ [13] magrittr_2.0.3         memoise_2.0.1          ScaledMatrix_1.2.0    
+ [16] cluster_2.1.3          doParallel_1.0.17      openxlsx_4.2.5        
+ [19] ComplexHeatmap_2.10.0  Biostrings_2.62.0      annotate_1.72.0       
+ [22] extrafont_0.18         extrafontdb_1.0        prettyunits_1.1.1     
+ [25] colorspace_2.0-3       blob_1.2.3             rappdirs_0.3.3        
+ [28] textshaping_0.3.6      xfun_0.31              crayon_1.5.1          
+ [31] RCurl_1.98-1.6         jsonlite_1.8.0         genefilter_1.76.0     
+ [34] survival_3.3-1         iterators_1.0.14       glue_1.6.2            
+ [37] registry_0.5-1         gtable_0.3.0           zlibbioc_1.40.0       
+ [40] XVector_0.34.0         GetoptLong_1.0.5       DelayedArray_0.20.0   
+ [43] V8_4.1.0               BiocSingular_1.10.0    Rttf2pt1_1.3.10       
+ [46] shape_1.4.6            scales_1.2.0           futile.options_1.0.1  
+ [49] DBI_1.1.2              randomcoloR_1.1.0.1    Rcpp_1.0.8.3          
+ [52] xtable_1.8-4           progress_1.2.2         clue_0.3-60           
+ [55] rsvd_1.0.5             bit_4.0.4              httr_1.4.3            
+ [58] RColorBrewer_1.1-3     ellipsis_0.3.2         farver_2.1.0          
+ [61] pkgconfig_2.0.3        XML_3.99-0.9           sass_0.4.1            
+ [64] dbplyr_2.1.1           locfit_1.5-9.5         utf8_1.2.2            
+ [67] labeling_0.4.2         tidyselect_1.1.2       rlang_1.0.2           
+ [70] later_1.3.0            AnnotationDbi_1.56.2   munsell_0.5.0         
+ [73] tools_4.1.0            cachem_1.0.6           cli_3.3.0             
+ [76] generics_0.1.2         RSQLite_2.2.14         evaluate_0.15         
+ [79] stringr_1.4.0          fastmap_1.1.0          ragg_1.2.2            
+ [82] yaml_2.3.5             knitr_1.39             bit64_4.0.5           
+ [85] fs_1.5.2               zip_2.2.0              purrr_0.3.4           
+ [88] KEGGREST_1.34.0        nlme_3.1-157           formatR_1.12          
+ [91] xml2_1.3.3             compiler_4.1.0         rstudioapi_0.13       
+ [94] filelock_1.0.2         curl_4.3.2             png_0.1-7             
+ [97] tibble_3.1.7           geneplotter_1.72.0     bslib_0.3.1           
+[100] stringi_1.7.6          highr_0.9              gdtools_0.2.4         
+[103] lattice_0.20-45        sechm_1.2.0            Matrix_1.4-1          
+[106] vctrs_0.4.1            pillar_1.7.0           lifecycle_1.0.1       
+[109] jquerylib_0.1.4        GlobalOptions_0.1.2    irlba_2.3.5           
+[112] data.table_1.14.2      bitops_1.0-7           seriation_1.3.5       
+[115] httpuv_1.6.5           R6_2.5.1               promises_1.2.0.1      
+[118] TSP_1.2-0              codetools_0.2-18       lambda.r_1.2.4        
+[121] assertthat_0.2.1       DESeq2_1.34.0          rprojroot_2.0.3       
+[124] rjson_0.2.21           withr_2.5.0            GenomeInfoDbData_1.2.7
+[127] mgcv_1.8-40            parallel_4.1.0         hms_1.1.1             
+[130] beachmat_2.10.0        rmarkdown_2.14         Rtsne_0.16            
+[133] git2r_0.30.1          </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+---
+title: "Q2: TF Binding to DE genes"
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(epiwraps)
+  library(GenomicRanges)
+  library(rtracklayer)
+  library(AnnotationHub)
+  library(dplyr)
+  library(ggplot2)
+  library(hrbrthemes)
+  library(dplyr)
+})
+```
+
+### Question 2: Does the Reddy data show GR binding to DE genes from our analysis
+
+(Binding of GR-GC complex to DE genes from our analysis)
+
+Q: For the genes that our RNA-seq data shows to be DE after treatment with DEX as well as the inhibitors and control: do we see any direct TF binding to these sites? For which of these is there a difference compared to the control ChIP-seq experiment?
+
+
+*Planned approach:* We first identify which genes the GC-GR complex binds to and then whether these genes are in our list of DE genes.
+
+*Steps:*
+
+1. Choose data to download --> BED files for Reddy DEX12h experiment
+1. Do we need the control tracks? --> No, BED tracks have already been constructed
+1. Identify binding sites of TF
+1. Load Mahshid's DE genes
+
+# Load data
+
+```{r}
+peaks <- import.bed15("../data/reddy_bed_DEX12h_r123.bed", format="narrowPeak")
+```
+
+Peak annotation
+
+```{r peak annotation}
+ah <- AnnotationHub()
+
+ensdb <- ah[["AH98047"]] # AH89211
+peakAnno <- annotateRegions(peaks, ensdb)
+table(peakAnno$class)
+
+peakfreq <- as.data.frame(table(peakAnno$nearestTSS.gene_name)) %>% mutate_all(na_if,"")
+colnames(peakfreq) <- c("Gene", "Freq")
+
+saveRDS(file="../data/EOS_files/Q2_gene_peaks.rds", peakfreq)
+```
+
+# Load Mahshid's DE genes
+
+```{r}
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+# names(res_int_all)
+res_int <- res_int_all$`2h DEX > 16h DEX+DMSO`
+res_int_significant <- res_int[res_int$FDR < 0.05,]
+```
+
+```{r}
+# Merge the frequency count onto the DE table
+res_int <- left_join(res_int %>% mutate(Gene = rownames(res_int)), 
+          peakfreq[2:nrow(peakfreq),],
+          by="Gene") %>%
+  tidyr::replace_na(list(Freq=0)) %>%
+  mutate(gc_bound = Freq > 0) %>%
+  rename(chip_peaks=Freq) %>%
+  relocate(Gene)
+
+# add a binary tag for significance
+res_int$is_significant <- res_int$FDR < 0.05
+
+# What is the fraction of significant DE genes that have GC-GR bound to them?
+table(res_int$is_significant, res_int$gc_bound)
+
+# Of all the genes where GC-GR is bound, what is the distribution of (a) p.values and (b) logFC. How is this different for genes where GC-GR did not bind?
+
+plt_value <- ggplot(res_int, aes(x=logFC)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., fill=gc_bound), alpha=0.5) +
+  xlim(c(-3,3)) +
+  geom_vline(xintercept=0) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of logFC values", subtitle="DE genes from Mahshid's experiments; \nbinding from Reddy data",
+       y="Density")
+plt_value
+
+plt_logfc <- ggplot(res_int, aes(x=FDR)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., group=gc_bound, fill=gc_bound), alpha=0.5) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of p.values", subtitle="DE genes from Mahshid's experiments; \nbinding from Reddy data",
+       y="Density")
+plt_logfc
+```
+### Same plots for Reddy data
+
+Load Reddy DE genes
+
+```{r, fig.width=10, fig.height=8}
+EOS1 <- readRDS(file="../data/EOS_files/Q1_EOS.rds")
+res_reddy <- EOS1[["Reddy_all"]]
+# res_reddy_significant <- res_reddy[res_reddy$FDR < 0.05,]
+
+# Merge the frequency count onto the DE table and create binary variable
+res_reddy <- left_join(res_reddy %>% mutate(Gene = rownames(res_reddy)), 
+          peakfreq[2:nrow(peakfreq),],
+          by="Gene") %>%
+  tidyr::replace_na(list(Freq=0)) %>%
+  mutate(gc_bound = Freq > 0) %>%
+  rename(chip_peaks=Freq) %>% 
+  dplyr::select(-Gene)
+
+# add a binary tag for significance
+res_reddy$is_significant <- res_reddy$FDR < 0.05
+
+# What is the fraction significantly DE genes have GC-GR bound to them?
+table(res_reddy$is_significant, res_reddy$gc_bound)
+
+# Of all the genes where GC-GR is bound, what is the distribution of (a) p.values and (b) logFC. How is this different for genes where GC-GR did not bind?
+
+plt_value_reddy <- ggplot(res_reddy, aes(x=logFC)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., fill=gc_bound), alpha=0.5) +
+  xlim(c(-3,3)) +
+  geom_vline(xintercept=0) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of logFC values", subtitle="DE genes from Reddy experiments; \nbinding from Reddy data",
+       y="Density")
+
+plt_logfc_reddy <- ggplot(res_reddy, aes(x=FDR)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., group=gc_bound, fill=gc_bound), alpha=0.5) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of p.values", subtitle="DE genes from Reddy experiments; \nbinding from Reddy data",
+       y="Density")
+
+combined_plot <- ggpubr::ggarrange(plt_value, plt_logfc, plt_value_reddy, plt_logfc_reddy, ncol=2, nrow=2)
+combined_plot
+```
+
+# Comparison to control ChIP-seq experiment
+
+```{r control ChIP seq}
+
+```
+
+
+```{r}
+peaks <- import.bed15("../data/reddy_bed_DEX12h_r123.bed", format="narrowPeak")
+
+ensdb <- ah[["AH98047"]]
+peakAnno <- annotateRegions(peaks, ensdb)
+table(peakAnno$class)
+
+peakfreq <- as.data.frame(table(peakAnno$nearestTSS.gene_name)) %>% mutate_all(na_if,"")
+colnames(peakfreq) <- c("Gene", "Freq")
+
+saveRDS(file="../data/EOS_files/Q2_gene_peaks.rds", peakfreq)
+```
+
+Save plots and annotated dataframe
+
+```{r}
+ggsave(file="../docs/assets/Q2_1_pvalue_dist.png", plt_value)
+ggsave(file="../docs/assets/Q2_2_logfc_dist.png", plt_logfc)
+ggsave(file="../docs/assets/Q2_3_mahshid_reddy.png", combined_plot, width=12, height=8)
+
+openxlsx::write.xlsx(file="../output/Q2_GR_bound_DE_genes.xlsx", res_int)
+```

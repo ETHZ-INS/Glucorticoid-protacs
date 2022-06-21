@@ -1,0 +1,200 @@
+---
+title: 'Q3: PROTAC reversal'
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(dplyr)
+  library(openxlsx)
+  library(hrbrthemes)
+  library(ggplot2)
+})
+```
+
+# Question 3:
+
+Our RNA: are there any genes that treated by the PROTAC before/after DEX that could be reversed but which could not by the inhibitors or vice versa?
+
+We have performed experiments where we first exposed cells to either (1) DEX, (2) inhibitors, or (3) KH PROTAC for a substantial time and then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2) and (3). We would like to see whether the genes which were activated by DEX but then returned to a normal expression by the KH PROTAC, where a similar treatment by the inhibitors could not lead to such an effect and vice versa.
+
+In our RNAseq, are there any genes that Protac after dex or before dex could reverse or partially reverse that cort113 or mifepristone could not? do these gene show GR binding according to Reddy's chip data?
+
+```{r}
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+names(res_int_all)
+
+# The threshold we choose for which values count as DE or not
+fdr_thresh <- 0.05
+
+# Load the control data for the 2+16 experiment
+control216 <- res_int_all[["2h DEX > 16h DEX+DMSO"]]
+control162 <- res_int_all[["16h DMSO > 2h DEX+DMSO"]]
+```
+
+*Def. 1:*
+We consider "reversed by inhibitor" to mean: "Is DE in '2h DEX > 16h DEX+DMSO' but not in '2h DEX > 16h DEX+Cort113'". We look at both inhibitors and the PROTAC
+
+```{r}
+# Load inhibitors/Protac data
+cort216 <- res_int_all[["2h DEX > 16h DEX+Cort113"]]
+mif216 <- res_int_all[["2h DEX > 16h DEX+MIF"]]
+protac216 <- res_int_all[["2h DEX > 16h DEX+KH-103"]]
+
+# merge the respective FDRs onto DF
+merged216 <- control216 %>% 
+  tibble::rownames_to_column() %>% 
+  left_join(cort216 %>% 
+              tibble::rownames_to_column() %>%
+              select(rowname, logFC, FDR), suffix=c("","_cort"), by="rowname") %>%
+  left_join(mif216 %>% 
+              tibble::rownames_to_column() %>%
+              select(rowname, logFC, FDR), suffix=c("","_MIF"), by="rowname") %>%
+  left_join(protac216 %>% 
+              tibble::rownames_to_column() %>%
+              select(rowname, logFC, FDR), suffix=c("","_KH"), by="rowname")
+
+# Using a FDR of 0.05, how many clear reversals do we have?
+merged216$cort_reversed <- ifelse(merged216$FDR < 0.05 & merged216$FDR_cort >= 0.05, TRUE, FALSE)
+merged216$MIF_reversed <- ifelse(merged216$FDR < 0.05 & merged216$FDR_MIF >= 0.05, TRUE, FALSE)
+merged216$KH_reversed <- ifelse(merged216$FDR < 0.05 & merged216$FDR_KH >= 0.05, TRUE, FALSE)
+
+# transform from wide to long
+merged216_long <- reshape2::melt(merged216, 
+                id.vars="rowname",
+                  measure.vars=c("logFC", "logFC_cort", "logFC_MIF", "logFC_KH")) %>%
+  mutate(Group=factor(variable))
+levels(merged216_long$Group) <- c("Control", "Cort", "MIF", "KH")
+
+# sort rownames in descending order of control logFCs
+rnames <- merged216_long[merged216_long$Group == "Control",] %>% arrange(desc(value)) %>% pull(rowname)
+merged216_long$rowname <- factor(merged216_long$rowname, levels=rnames)
+
+# unique protac reversals
+merged216 <- merged216 %>% arrange(logFC)
+rnames_kh_reversal <- merged216[merged216$KH_reversed == TRUE & 
+                                  merged216$cort_reversed == F & 
+                                  merged216$MIF_reversed == F,"rowname"]
+
+merged216[merged216$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
+```
+
+
+```{r, fig.width=7, fig.height=5}
+plt1 <- ggplot(merged216_long[merged216_long$rowname %in% rnames_kh_reversal,]) +
+  geom_point(aes(x=rowname, y=value, color=Group)) +
+  theme_ipsum_rc() +
+  labs(title="Genes reversed by Protac but not by inhibitors",
+       subtitle="2h DEX > 16h DEX + Inhibitor/Protac",
+       x="", y="") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values=c(Control="Black", Cort="#7ef2b4", MIF="#dda6ff", KH="#ff000d"))
+plt1
+
+ggsave(file="../docs/assets/Q3_1_reversal216.png", plt1, width=12, height=7)
+```
+
+*Def. 2:*
+
+"Is DE from 2h DEX > 16h DEX+DMSO but is not DE in 2h DEX > 16h DEX+Cort113 experiment"
+
+
+```{r}
+# Load inhibitors/Protac data
+cort162 <- res_int_all[["16h Cort113 > 2h DEX+Cort113"]]
+mif162 <- res_int_all[[ "2h DEX > 16h DEX+MIF"]]
+protac162 <- res_int_all[["16h KH-103 > 2h DEX+KH-103"]]
+
+# merge the respective FDRs onto DF
+merged162 <- control162 %>% 
+  tibble::rownames_to_column() %>% 
+  left_join(cort162 %>% 
+              tibble::rownames_to_column() %>%
+              select(rowname, logFC, FDR), suffix=c("","_cort"), by="rowname") %>%
+  left_join(mif162 %>% 
+              tibble::rownames_to_column() %>%
+              select(rowname, logFC, FDR), suffix=c("","_MIF"), by="rowname") %>%
+  left_join(protac162 %>% 
+              tibble::rownames_to_column() %>%
+              select(rowname, logFC, FDR), suffix=c("","_KH"), by="rowname")
+
+# Using a FDR of 0.05, how many clear reversals do we have?
+merged162$cort_reversed <- ifelse(merged162$FDR < 0.05 & merged162$FDR_cort >= 0.05, TRUE, FALSE)
+merged162$MIF_reversed <- ifelse(merged162$FDR < 0.05 & merged162$FDR_MIF >= 0.05, TRUE, FALSE)
+merged162$KH_reversed <- ifelse(merged162$FDR < 0.05 & merged162$FDR_KH >= 0.05, TRUE, FALSE)
+
+# transform from wide to long
+merged162_long <- reshape2::melt(merged162,
+                id.vars="rowname",
+                  measure.vars=c("logFC", "logFC_cort", "logFC_MIF", "logFC_KH")) %>%
+  mutate(Group=factor(variable))
+levels(merged162_long$Group) <- c("Control", "Cort", "MIF", "KH")
+
+# sort rownames in descending order of control logFCs
+rnames <- merged162_long[merged162_long$Group == "Control",] %>% arrange(desc(value)) %>% pull(rowname)
+merged162_long$rowname <- factor(merged162_long$rowname, levels=rnames)
+
+# unique protac reversals
+merged162 <- merged162 %>% arrange(logFC)
+rnames_kh_reversal <- merged216[merged162$KH_reversed == TRUE & 
+                                  merged162$cort_reversed == F & 
+                                  merged162$MIF_reversed == F,"rowname"]
+
+merged162[merged162$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
+``` 
+
+Because we have a lot of genes to show in one plot for the 16h > 2h experiment, we split them into two groups. One plot shows the genes for which the control logFC is >0 and the other <0.
+
+```{r, fig.width=12, fig.height=5}
+# split the long formatted dataset into two groups
+data_plt <- merged162_long[merged162_long$rowname %in% rnames_kh_reversal,]
+data <- data_plt[data_plt$Group == "Control",]
+rnames_plt1 <- data[data$value > 0,"rowname"]
+rnames_plt2 <- data[data$value <= 0,"rowname"]
+data_plt1 <- data_plt[data_plt$rowname %in% rnames_plt1,]
+data_plt2 <- data_plt[data_plt$rowname %in% rnames_plt2,]
+
+plt2_1 <- ggplot(data_plt1) +
+  geom_point(aes(x=rowname, y=value, color=Group)) +
+  theme_ipsum_rc() +
+  labs(title="Genes reversed by Protac but not by inhibitors",
+       subtitle="16h Inhibitor/Protac > 2h Inhibitor/Protac + DEX",
+       x="", y="") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values=c(Control="Black", Cort="#7ef2b4", MIF="#dda6ff", KH="#ff000d"))
+
+plt2_2 <- ggplot(data_plt2) +
+  geom_point(aes(x=rowname, y=value, color=Group)) +
+  theme_ipsum_rc() +
+  labs(title="Genes reversed by Protac but not by inhibitors",
+       subtitle="16h Inhibitor/Protac > 2h Inhibitor/Protac + DEX",
+       x="", y="") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values=c(Control="Black", Cort="#7ef2b4", MIF="#dda6ff", KH="#ff000d"))
+
+# show the plots
+plt2_1
+plt2_2
+
+ggsave(file="../docs/assets/Q3_2_reversal162_p1.png", plt2_1, width=24, height=8)
+ggsave(file="../docs/assets/Q3_3_reversal162_p2.png", plt2_2, width=24, height=8)
+```
+
+
+Save file to excel
+
+```{r}
+# setup excel file
+wb <- createWorkbook()
+# add worksheets and add data
+addWorksheet(wb, sheetName = "2h>16h")
+addWorksheet(wb, sheetName = "16h>2h")
+writeData(wb, "2h>16h", merged216)
+writeData(wb, "16h>2h", merged162)
+# write final excel to disk
+saveWorkbook(wb, "../docs/assets/protact_flipped_DE.xlsx")
+```

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Dominique Paul" />
+
+<meta name="date" content="2022-06-21" />
+
+<title>Analysis</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GR-PROTAC-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Analysis</h1>
+<h4 class="author">Dominique Paul</h4>
+<h4 class="date">2022-06-21</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-06-21
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>GR-PROTAC-analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220515code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220515)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220515code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220515)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong59004f1"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 59004f1 </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong59004f1" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version 59004f1. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    analysis/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    data/EOS_files/
+
+Untracked files:
+    Untracked:  analysis/01_download_files.Rmd
+    Untracked:  analysis/02_exploratory_analysis.Rmd
+    Untracked:  analysis/Q1-Gene-overlap.Rmd
+    Untracked:  analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Untracked:  analysis/Q3-PROTAC-reversal.Rmd
+    Untracked:  analysis/Q4-GR-binding-PROTAC-genes.Rmd
+    Untracked:  analysis/Q6-JUNB-GR-overlap.Rmd
+    Untracked:  analysis/Q7-PRX-sequences.Rmd
+    Untracked:  analysis/admin.Rmd
+    Untracked:  analysis/docs/
+    Untracked:  code/helper_functions.R
+    Untracked:  data/reddy_bed_DEX12h_r123.bed
+    Untracked:  data/reddy_bed_JUNB_DEX12h_r123.bed
+    Untracked:  data/reddy_bigwig_DEX12h_r123.bw
+    Untracked:  data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
+    Untracked:  data/reddy_rna_DEX12h.tsv
+    Untracked:  data/reddy_rna_DEX12h_r1.tsv
+    Untracked:  data/reddy_rna_DEX12h_r2.tsv
+    Untracked:  data/reddy_rna_DEX12h_r3.tsv
+    Untracked:  data/reddy_rna_DEX12h_r4.tsv
+    Untracked:  data/reddy_rna_DEX12h_transcript.tsv
+    Untracked:  data/reddy_rna_control.tsv
+    Untracked:  data/reddy_rna_control_r1.tsv
+    Untracked:  data/reddy_rna_control_r2.tsv
+    Untracked:  data/reddy_rna_control_r3.tsv
+    Untracked:  data/reddy_rna_control_r4.tsv
+    Untracked:  data/results/
+    Untracked:  output/Q2_GR_bound_DE_genes.xlsx
+    Untracked:  output/Q4_KH_DE_GR_bound.xlsx
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   _workflowr.yml
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="question-1-similarity-of-our-rna-data-with-the-reddy-data" class="section level1">
+<h1>Question 1: Similarity of our RNA data with the Reddy data</h1>
+<p><strong>Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data?</strong></p>
+<p>In our experiments we compared samples from a control experiment with samples that were treated for 18 hours with DEX. Besides a control, the Reddy lab performed a similar experiment where they treated cells with DEX for 12 hours. This is the closest comparison to our data.</p>
+<p><em>Planned approach:</em> Check which genes are differentially expressed in their data and create a Venn-diagram for comparable experiments with the differentially expressed genes from our analysis.</p>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<pre class="r"><code>q1_data &lt;- readRDS(file=&quot;../data/EOS_files/Q1_EOS.rds&quot;)
+names(q1_data)</code></pre>
+<pre><code>[1] &quot;Reddy_all&quot;           &quot;Reddy_significant&quot;   &quot;Mahshid_all&quot;        
+[4] &quot;Mahshid_significant&quot; &quot;union_DE_genes&quot;      &quot;logFC_plot_data&quot;    </code></pre>
+<pre class="r"><code>n_genes_plot &lt;- dim(q1_data[[&quot;logFC_plot_data&quot;]])[1]
+n_genes_union &lt;- length(q1_data[[&quot;union_DE_genes&quot;]])</code></pre>
+<p>We first inspect a Venn diagram to understand the overlap of differentially expressed genes from both datasets. We see that a large part of the genes do overlap, while there are also many genes that are specific to the respective analyses.</p>
+<p><img src="assets/1_venn_diagram.png" /></p>
+<p>Second, we compare the log fold changes for the union of all genes identified as significantly differentially expressed. The union of all DE genes counts 8121 genes of which 7342 genes (0.9%) were also in the intersection of both datasets and could be plotted.</p>
+<div class="figure">
+<img src="assets/2_logFC_Mahshid_Reddy.png" alt="" />
+<p class="caption">image missing</p>
+</div>
+</div>
+</div>
+<div id="question-2-binding-of-gr-gc-complex-to-de-genes-from-our-analysis" class="section level1">
+<h1>Question 2: Binding of GR-GC complex to DE genes from our analysis</h1>
+<p><strong>Q: For the genes that our RNA-seq data shows to be DE after treatment with DEX as well as the inhibitors and control: do we see any direct TF binding to these sites? For which of these is there a difference compared to the control ChIP-seq experiment?</strong></p>
+<p>We see a significant change in terms of both the p-value and the logFC for genes that are bound by the GC-GR complex.</p>
+<p>Plot: we select all genes that are differentially expressed - both for Mahshid’s data and for the DE analysis on the Reddy data. We then split the data into two groups based on whether the Reddy data showed that the glucorticoid receptor was found to bind near the gene or not. We plot the distributions of (a) the log fold changes in the DE analysis and (b) the p-value of the DE analysis.</p>
+<p><strong>Idea for next step:</strong> Does it make sense to look at pathways of associated genes?</p>
+<div class="figure">
+<img src="assets/Q2_3_mahshid_reddy.png" alt="" />
+<p class="caption">image missing</p>
+</div>
+</div>
+<div id="question-3-inhibition-unique-to-protac-compared-to-inhibitors" class="section level1 tabset">
+<h1 class="tabset">Question 3: Inhibition unique to protac compared to inhibitors</h1>
+<p>Are there any genes that treated by the Protac before/after DEX that could be reversed but which could not by the inhibitors or vice versa?</p>
+<div id="h-dex-16h-dex-inhibitorprotac" class="section level2">
+<h2>2h DEX &gt; 16h DEX + Inhibitor/PROTAC</h2>
+<div class="figure">
+<img src="assets/Q3_1_reversal216.png" alt="" />
+<p class="caption">img_reversal_1</p>
+</div>
+</div>
+<div id="h-inhibitorprotac-16h-inhibitorprotac-dex-logfc-0" class="section level2">
+<h2>2h Inhibitor/PROTAC &gt; 16h Inhibitor/PROTAC + DEX (logFC &gt; 0)</h2>
+<div class="figure">
+<img src="assets/Q3_2_reversal162_p1.png" alt="" />
+<p class="caption">img_reversal_2</p>
+</div>
+</div>
+<div id="h-inhibitorprotac-16h-inhibitorprotac-dex-logfc-0-1" class="section level2">
+<h2>2h Inhibitor/PROTAC &gt; 16h Inhibitor/PROTAC + DEX (logFC &lt; 0)</h2>
+<div class="figure">
+<img src="assets/Q3_3_reversal162_p2.png" alt="" />
+<p class="caption">img_reversal_3</p>
+</div>
+<p>Download excel file with data <a href="%22../docs/assets/protact_flipped_DE.xlsx%22">here</a></p>
+</div>
+</div>
+<div id="question-4-does-the-gr-bind-close-to-any-of-the-13-de-genes-from-the-12h-kh-protac-treatment" class="section level1">
+<h1>Question 4: Does the GR bind close to any of the 13 DE genes from the 12h KH-PROTAC treatment?</h1>
+<p>We have 13 genes that are differentially expressed at an &lt;0.05 FDR level. The Reddy lab has collected data on where the glucorticoid receptor (NR3C1) binds to after treatment with dexamethasone for 12h. We find that the GR is found to bind close to five out of the 13 differentially expressed genes.</p>
+<pre class="r"><code>kh.protac &lt;- read.xlsx(&quot;../output/Q4_KH_DE_GR_bound.xlsx&quot;)
+
+# only keep the significant genes
+kh.protac.sig &lt;- kh.protac[kh.protac$FDR&lt;0.05,]
+kh.protac.sig[,c(&quot;Gene&quot;, &quot;logFC&quot;, &quot;FDR&quot;, &quot;chip_peaks&quot;, &quot;gc_bound&quot;)] %&gt;%
+  kableExtra::kable() %&gt;%
+  kableExtra::kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Gene
+</th>
+<th style="text-align:right;">
+logFC
+</th>
+<th style="text-align:right;">
+FDR
+</th>
+<th style="text-align:right;">
+chip_peaks
+</th>
+<th style="text-align:left;">
+gc_bound
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+PER1
+</td>
+<td style="text-align:right;">
+1.1428657
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TGFBR1
+</td>
+<td style="text-align:right;">
+0.5510412
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FKBP5
+</td>
+<td style="text-align:right;">
+0.7301845
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NBEAL2
+</td>
+<td style="text-align:right;">
+0.3850139
+</td>
+<td style="text-align:right;">
+0.0001572
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CAVIN2
+</td>
+<td style="text-align:right;">
+0.3182665
+</td>
+<td style="text-align:right;">
+0.0006525
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SLC38A2
+</td>
+<td style="text-align:right;">
+0.2546515
+</td>
+<td style="text-align:right;">
+0.0007788
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TEF
+</td>
+<td style="text-align:right;">
+-0.9140413
+</td>
+<td style="text-align:right;">
+0.0010003
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CRY1
+</td>
+<td style="text-align:right;">
+-0.3858283
+</td>
+<td style="text-align:right;">
+0.0021419
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C5AR2
+</td>
+<td style="text-align:right;">
+0.6589461
+</td>
+<td style="text-align:right;">
+0.0039443
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ANGPTL4
+</td>
+<td style="text-align:right;">
+0.4185862
+</td>
+<td style="text-align:right;">
+0.0064158
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CRY2
+</td>
+<td style="text-align:right;">
+-0.4867045
+</td>
+<td style="text-align:right;">
+0.0097262
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CHML
+</td>
+<td style="text-align:right;">
+0.2746874
+</td>
+<td style="text-align:right;">
+0.0135275
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PER3
+</td>
+<td style="text-align:right;">
+-0.7575232
+</td>
+<td style="text-align:right;">
+0.0398908
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+FALSE
+</td>
+</tr>
+</tbody>
+</table>
+<div class="figure">
+<img src="assets/Q4_1_kh_gr_binding.png" alt="" />
+<p class="caption">image missing</p>
+</div>
+</div>
+<div id="question-8-binding-to-selected-genes" class="section level1">
+<h1>Question 8: Binding to selected genes</h1>
+<p>Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?</p>
+<p>–&gt; We see that there is one peak in the ChIP data close to the BRCA1 gene and two close to the HSD11B1 gene. There is no peak that is closest to the CH25H gene. However, the CD25H was also not found in the RNA seq data.</p>
+<pre class="r"><code>res_int &lt;- read.xlsx(&quot;../output/Q2_GR_bound_DE_genes.xlsx&quot;)
+plt_data &lt;- res_int[res_int$Gene %in% c(&quot;BRCA1&quot;, &quot;HSD11B1&quot;, &quot;CH25H&quot;),c(&quot;Gene&quot;, &quot;logFC&quot;, &quot;FDR&quot;, &quot;chip_peaks&quot;, &quot;gc_bound&quot;)]
+plt_data %&gt;%
+  ggplot() +
+  geom_point(aes(logFC, -log10(FDR), colour=gc_bound, size=chip_peaks)) +
+  labs(title=&quot;GR binding activity for diff. expressed PROTAC genes&quot;) +
+  ggrepel::geom_text_repel(data=plt_data, aes(logFC, -log10(FDR), label=Gene, size=2)) +
+  theme_ipsum_rc()</code></pre>
+<p><img src="figure/02_exploratory_analysis.Rmd/Q8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># CH25H was not found. Is it in the RNA-seq experiment?
+se &lt;- readRDS(&quot;../data/EOS_files/Q1_SummExp.rds&quot;)
+&quot;ENSG00000138135&quot; %in% rowData(se)$gene_id</code></pre>
+<pre><code>[1] FALSE</code></pre>
+<pre class="r"><code># We also have to check the other way around by looking at all the peaks.
+# If it was in the peaks then it could not be merged onto the RNA data
+peakfreq &lt;- readRDS(file=&quot;../data/EOS_files/Q2_gene_peaks.rds&quot;)
+peakfreq &lt;- peakfreq[2:dim(peakfreq)[1],]
+
+# we search for the closest match to be sure that its not due to capitalisation or a small typo
+peakfreq$Gene[amatch(&quot;CH25H&quot;, peakfreq$Gene, maxDist = Inf)]</code></pre>
+<pre><code>[1] C5
+2939 Levels:  AACS AADAC AADACL2-AS1 AADACP1 ABCA1 ABCA4 ABCA5 ABCC1 ... ZYG11B</code></pre>
+<pre class="r"><code># --&gt; No match for CH25h
+
+# show results
+# peakfreq[peakfreq$Gene %in% c(&quot;BRCA1&quot;, &quot;HSD11B1&quot;, &quot;CH25H&quot;),] %&gt;%
+#   kableExtra::kable() %&gt;%
+#   kableExtra::kable_styling()
+
+plt_data %&gt;%
+  kableExtra::kable() %&gt;%
+  kableExtra::kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+Gene
+</th>
+<th style="text-align:right;">
+logFC
+</th>
+<th style="text-align:right;">
+FDR
+</th>
+<th style="text-align:right;">
+chip_peaks
+</th>
+<th style="text-align:left;">
+gc_bound
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+118
+</td>
+<td style="text-align:left;">
+HSD11B1
+</td>
+<td style="text-align:right;">
+6.0333836
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+210
+</td>
+<td style="text-align:left;">
+BRCA1
+</td>
+<td style="text-align:right;">
+-0.9559991
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] grid      stats4    stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] stringdist_0.9.8            openxlsx_4.2.5             
+ [3] hrbrthemes_0.8.6            VennDiagram_1.7.3          
+ [5] futile.logger_1.4.3         SEtools_1.8.0              
+ [7] edgeR_3.36.0                limma_3.50.3               
+ [9] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+[11] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
+[13] IRanges_2.28.0              S4Vectors_0.32.4           
+[15] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
+[17] matrixStats_0.62.0          dplyr_1.0.9                
+[19] biomaRt_2.50.3              ggplot2_3.3.6              
+
+loaded via a namespace (and not attached):
+  [1] circlize_0.4.15        workflowr_1.7.0        systemfonts_1.0.4     
+  [4] BiocFileCache_2.2.1    splines_4.1.0          BiocParallel_1.28.3   
+  [7] sva_3.42.0             digest_0.6.29          foreach_1.5.2         
+ [10] htmltools_0.5.2        fansi_1.0.3            magrittr_2.0.3        
+ [13] memoise_2.0.1          cluster_2.1.3          doParallel_1.0.17     
+ [16] ComplexHeatmap_2.10.0  Biostrings_2.62.0      annotate_1.72.0       
+ [19] extrafont_0.18         svglite_2.1.0          extrafontdb_1.0       
+ [22] prettyunits_1.1.1      colorspace_2.0-3       ggrepel_0.9.1         
+ [25] rvest_1.0.2            blob_1.2.3             rappdirs_0.3.3        
+ [28] xfun_0.31              crayon_1.5.1           RCurl_1.98-1.6        
+ [31] jsonlite_1.8.0         genefilter_1.76.0      survival_3.3-1        
+ [34] iterators_1.0.14       glue_1.6.2             kableExtra_1.3.4      
+ [37] registry_0.5-1         gtable_0.3.0           zlibbioc_1.40.0       
+ [40] XVector_0.34.0         webshot_0.5.3          GetoptLong_1.0.5      
+ [43] DelayedArray_0.20.0    V8_4.1.0               Rttf2pt1_1.3.10       
+ [46] shape_1.4.6            scales_1.2.0           futile.options_1.0.1  
+ [49] DBI_1.1.2              randomcoloR_1.1.0.1    Rcpp_1.0.8.3          
+ [52] viridisLite_0.4.0      xtable_1.8-4           progress_1.2.2        
+ [55] clue_0.3-60            bit_4.0.4              httr_1.4.3            
+ [58] RColorBrewer_1.1-3     ellipsis_0.3.2         farver_2.1.0          
+ [61] pkgconfig_2.0.3        XML_3.99-0.9           sass_0.4.1            
+ [64] dbplyr_2.1.1           locfit_1.5-9.5         utf8_1.2.2            
+ [67] labeling_0.4.2         tidyselect_1.1.2       rlang_1.0.2           
+ [70] later_1.3.0            AnnotationDbi_1.56.2   munsell_0.5.0         
+ [73] tools_4.1.0            cachem_1.0.6           cli_3.3.0             
+ [76] generics_0.1.2         RSQLite_2.2.14         evaluate_0.15         
+ [79] stringr_1.4.0          fastmap_1.1.0          yaml_2.3.5            
+ [82] knitr_1.39             bit64_4.0.5            fs_1.5.2              
+ [85] zip_2.2.0              purrr_0.3.4            KEGGREST_1.34.0       
+ [88] nlme_3.1-157           formatR_1.12           xml2_1.3.3            
+ [91] compiler_4.1.0         rstudioapi_0.13        filelock_1.0.2        
+ [94] curl_4.3.2             png_0.1-7              tibble_3.1.7          
+ [97] geneplotter_1.72.0     bslib_0.3.1            stringi_1.7.6         
+[100] highr_0.9              gdtools_0.2.4          lattice_0.20-45       
+[103] Matrix_1.4-1           vctrs_0.4.1            pillar_1.7.0          
+[106] lifecycle_1.0.1        jquerylib_0.1.4        GlobalOptions_0.1.2   
+[109] data.table_1.14.2      bitops_1.0-7           seriation_1.3.5       
+[112] httpuv_1.6.5           R6_2.5.1               promises_1.2.0.1      
+[115] TSP_1.2-0              codetools_0.2-18       lambda.r_1.2.4        
+[118] assertthat_0.2.1       DESeq2_1.34.0          rprojroot_2.0.3       
+[121] rjson_0.2.21           withr_2.5.0            GenomeInfoDbData_1.2.7
+[124] mgcv_1.8-40            parallel_4.1.0         hms_1.1.1             
+[127] rmarkdown_2.14         Rtsne_0.16             git2r_0.30.1          </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

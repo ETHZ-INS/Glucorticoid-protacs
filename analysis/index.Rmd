@@ -8,4 +8,44 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+```{r, include=FALSE}
+library(magrittr)
+
+all_files_analysis <- list.files(here::here("docs"))
+all_files_output <- list.files(here::here("docs/output"))
+
+mod_times <- data.frame(filename = c(all_files_analysis,all_files_output),
+           date = c(file.info(here::here("docs", all_files_analysis))$mtime,file.info(here::here("docs/output",all_files_output))$mtime) %>% 
+             as.Date(format = "%m/%d/%y"))
+
+give_date <- function(filename, dataframe = mod_times){
+  tmpout <- dataframe$date[dataframe$filename == filename]
+  if (length(tmpout) == 0){
+    tmpout <- "never"
+  }
+  paste0("  *<font size=\"1\">(Last modified: ",tmpout," )</font>*")
+}
+```
+
+# Project overview
+
+Please read the [About Page](./about.html) for an overview of the project
+
+# Results
+
+A summary of the results can be found here: [Results overview](02_exploratory_analysis.html)
+
+Last updated: `r give_date("02_exploratory_analysis.html")`
+
+# Analysis
+
+The rmarkdown files for the individual research questions can be found here:
+
+1. Q1: [Do the Reddy RNA-seq experiments show the same DE pattern as our experiments?](./Q1-Gene-overlap.html) `r give_date("Q1-Gene-overlap.html")`
+1. Q2: [Does the Reddy data show GR binding to DE genes from our analysis?](./Q2-TF-Binding-to-DE-genes.html) `r give_date("Q2-TF-Binding-to-DE-genes.html")`
+1. Q4: [Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?](./Q4-GR-binding-PROTAC-genes.html) `r give_date("Q4-GR-binding-PROTAC-genes.html")`
+1. Q7: [Does GC-GR bind to PRX sequences?](./Q7-PRX-sequences.html) `r give_date("Q7-PRX-sequences.html")`
+
+
+# File downloads
+

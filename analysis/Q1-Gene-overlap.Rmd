@@ -1,0 +1,311 @@
+---
+title: 'Q1: DE Gene overlap'
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(biomaRt)
+  library(dplyr)
+  library(SummarizedExperiment)
+  library(edgeR)
+  library(SEtools)
+  library(grid)
+  library(VennDiagram)
+  library(hrbrthemes)
+})
+
+source("../code/helper_functions.R")
+```
+
+
+# Question 1: Similarity of our RNA data with the Reddy data
+
+Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data? 
+
+*Planned approach:* Check which genes are differentially expressed in their data and create a Venn-diagram for comparable experiments with the differentially expressed genes from our analysis.
+
+*Steps:*
+
+1. Decide which data we need to make the comparison -> Control vs. 12h DEX treatment is closest
+1. Download the Reddy data (on `01_download_files.Rmd`)
+1. Bring the data into one SummarisedExperiment
+1. Run a differential expression analysis on the Reddy data
+1. Load DE genes from our analysis and the DE genes from the Reddy data
+1. Create a Venn diagram of the overlap
+
+In our experiments we compared samples from a control experiment with samples that were treated for 18 hours with DEX. Besides a control, the Reddy lab performed a similar experiment where they treated cells with DEX for 12 hours. This is the closest comparison to our data.
+
+### Load Reddy data
+
+```{r}
+control_r1 <- read.csv("../data/reddy_rna_control_r1.tsv", sep="\t")
+control_r2 <- read.csv("../data/reddy_rna_control_r2.tsv", sep="\t")
+control_r3 <- read.csv("../data/reddy_rna_control_r3.tsv", sep="\t")
+control_r4 <- read.csv("../data/reddy_rna_control_r4.tsv", sep="\t")
+
+treatment_r1 <- read.csv("../data/reddy_rna_DEX12h_r1.tsv", sep="\t")
+treatment_r2 <- read.csv("../data/reddy_rna_DEX12h_r2.tsv", sep="\t")
+treatment_r3 <- read.csv("../data/reddy_rna_DEX12h_r3.tsv", sep="\t")
+treatment_r4 <- read.csv("../data/reddy_rna_DEX12h_r4.tsv", sep="\t")
+
+replace_ensg_by_hgnc <- function(entrez_ids){
+  # pass a list of ensembl genes and get a table with corresponding hgnc gene names
+  # Very useful reference: 
+  # https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
+  ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
+  bm_results <- getBM(attributes = c('ensembl_gene_id', 'hgnc_symbol', 'chromosome_name'),
+      filters = 'ensembl_gene_id', 
+      values = entrez_ids, 
+      mart = ensembl)
+  dups <- duplicated(bm_results$ensembl_gene_id)
+  bm_results <- bm_results[!dups,]
+  cat(paste0("Removed ", sum(dups), " duplicates."))
+  rownames(bm_results) <- bm_results$ensembl_gene_id
+  bm_results
+}
+
+prefiltering <- function(dataset){
+  # We filter for ensemble genes
+  dataset <- dataset[grep("ENSG", dataset$gene_id),]
+  # we remove transcripts marked as pseudoautosomal regions
+  dataset <- dataset[-grep("PAR_Y", dataset$gene_id),]
+  # we short the ensembl name to exclude the version number of the gene id
+  dataset$gene_id_short = sapply(strsplit(dataset$gene_id, ".", fixed=T), function(x) x[1])
+  
+  dataset
+}
+
+# Apply preprocessing to all RNA datasets
+control_r1 <- prefiltering(control_r1)
+control_r2 <- prefiltering(control_r2)
+control_r3 <- prefiltering(control_r3)
+control_r4 <- prefiltering(control_r4)
+
+treatment_r1 <- prefiltering(treatment_r1)
+treatment_r2 <- prefiltering(treatment_r2)
+treatment_r3 <- prefiltering(treatment_r3)
+treatment_r4 <- prefiltering(treatment_r4)
+
+# build a list of the dataframes
+data_list <- list("c1"=control_r1, "c2"=control_r2, "c3"=control_r3, "c4"=control_r4,
+  "t1"=treatment_r1, "t2"=treatment_r2, "t3"=treatment_r3, "t4"=treatment_r4)
+
+# get union of all gene names with non-zero transcripts
+gene_names <- lapply(data_list, function(dataset){
+  dataset[dataset$TPM > 0, "gene_id_short"]
+}) %>% purrr::reduce(c)
+unique_gene_names <- unique(gene_names)
+```
+
+
+### Configure summarised experiment for DE analysis
+
+```{r configure summarised experiment}
+# construct a SE from all experiments
+expected_counts <- lapply(data_list, function(dataset){
+  rownames(dataset) <- dataset$gene_id_short
+  dataset <- dataset[unique_gene_names,"expected_count"]
+}) %>% purrr::reduce(cbind)
+
+tpm_counts <- lapply(data_list, function(dataset){
+  rownames(dataset) <- dataset$gene_id_short
+  dataset <- dataset[unique_gene_names,"TPM"]
+}) %>% purrr::reduce(cbind)
+
+colnames(expected_counts) <- colnames(tpm_counts) <- c("C1", "C2", "C3", "C4", "T1", "T2", "T3", "T4")
+SE <- SummarizedExperiment(assays=list("counts"=expected_counts, "TPM"=tpm_counts))
+
+# Add row data
+rownames(SE) <- unique_gene_names
+rowData(SE)$gene_id <- unique_gene_names
+
+# Fetch HGNC names for the genes by their ENSG names
+hgnc_table <- replace_ensg_by_hgnc(unique_gene_names)
+overlapping_genes <- unique_gene_names[unique_gene_names %in% rownames(hgnc_table)]
+# set the ENSG name per default and then replace by HGNC where possible
+rowData(SE)$gene_name <- unique_gene_names
+rowData(SE)[overlapping_genes, "gene_name"] <- hgnc_table[overlapping_genes,"hgnc_symbol"]
+# set rownames to combination of ENSG and HGNC name.
+rownames(SE) <- paste0(rowData(SE)$gene_name, ".", rowData(SE)$gene_id)
+
+# Add coldata
+colData(SE)$Replicate <- factor(c(1,2,3,4,1,2,3,4))
+colData(SE)$Treatment <- c(rep("Control",4), rep("Dex12h", 4))
+```
+
+### Run DE analysis on Reddy data
+
+```{r Prepare for DE, fig.width=8, fig.height=6}
+# normalise expression values by library size
+dds <- calcNormFactors(DGEList(assay(SE)))
+assays(SE)$logcpm <- log1p(cpm(dds)) # TODO: Check this
+# Filter rows which do not have more than 20 counts for a given condition
+dds <- dds[filterByExpr(dds, model.matrix(~SE$Treatment), min.count=20),]
+# Only keep rows with sufficient reads
+SE <- SE[row.names(dds),]
+# take rows with highest total rna expression values across all samples
+tmp <- assays(SE)$TPM[order(-rowSums(assays(SE)$TPM))[1:2000],]
+# We use singular value decomposition as a dimension reduction
+rd <- BiocSingular::runExactSVD(tmp, center=FALSE, scale=FALSE)$v
+colnames(rd) <- paste0("C", seq_len(ncol(rd)))
+d <- cbind(as.data.frame(colData(SE)), rd[,1:5])
+ggplot(d, aes(C1, C2, colour=Treatment)) + geom_point()
+```
+
+
+```{r}
+# Adds top two columns from surrogate variable analysis to column data. We use these for our DE experiment below as nuisance variables
+SE <- svacor(SE, ~Treatment, n.sv=2)
+# Rename some of the variables in the colummn data
+SE$Treatment <- relevel(factor(SE$Treatment), "Control") # reorder factors
+# SE$condition2 <- SE$Treatment
+# levels(SE$condition2) <- gsub("^18h DMSO$|18h untreated","control",levels(SE$condition2))
+# SE$isInhibited <- grepl("Cort113|KH-103|MIF", SE$condition2)
+# SE$isDEX <- grepl("DEX", SE$condition2)
+# Column that combines treatment info about control/DEX/inhibited/DEX+inhibited
+# SE$condType <- factor(paste0(as.integer(SE$isDEX), as.integer(SE$isInhibited)))
+# levels(SE$condType) <- c("control", "inhibited", "DEX", "DEX+inhibited")
+metadata(SE)$default_view <- list( assay="scaledLFC", groupvar="Treatment", colvar="condition",
+                                   top_annotation=c("condType") )
+
+mm <- model.matrix(~SV1+SV2+Treatment, data=as.data.frame(colData(SE)))
+dds <- estimateDisp(dds, mm)
+conds <- grep("Treatment", colnames(mm), value=TRUE)
+names(conds) <- gsub("Treatment","",conds)
+fit <- glmFit(dds,mm)
+res <- lapply(conds, FUN=function(x){
+  y <- as.data.frame(topTags(glmLRT(fit,x), Inf))
+  attr(y, "description") <- paste0(gsub("Treatment","",x), "  vs.  Control")
+  y
+})
+
+for(f in names(res)){
+  rowData(SE)[[paste0("DEA.",f)]] <-
+    dround(res[[f]][row.names(SE),c(1,2,4,5)], 2, TRUE)
+}
+
+x <- res$Dex12h
+topDegs <- head(row.names(x)[x$FDR<0.01],15)
+
+# levels(SE$Treatment) <- gsub("> ",">\n", levels(SE$Treatment))
+# SE$Treatment <- factor(SE$Treatment, 
+                       # unique(c("18h untreated","18h DMSO",levels(SE$Treatment))))
+SE <- log2FC(SE, "logcpm", SE$Treatment=="Control")
+
+saveRDS(file="../data/EOS_files/Q1_SummExp.rds", SE)
+```
+
+```{r, fig.width=8, fig.height=8}
+sechm::sechm(SE, topDegs, assay="scaledLFC", gaps_at="Treatment", breaks=TRUE,
+      top_annotation="Replicate", row_title="Union of top DEGs", show_rownames=TRUE,
+      row_names_gp=gpar(fontsize=9), column_title_gp=gpar(fontsize=10),
+      column_title_rot=90)
+```
+
+### Compare DE genes between Reddy and our data
+
+First, we use a simple Venn diagram to compare how many of our significant DE genes are also significantly DE in the Reddy lab's. The Venn diagram also shows us whether there are any genes that are DE in opposing directions.
+
+```{r extract top DE genes}
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+names(res_int_all)
+res_int <- res_int_all$`2h DEX > 16h DEX+DMSO`
+res_int_significant <- res_int[res_int$FDR < 0.05,]
+
+res_ext <- res$Dex12h
+# change rownames in dataframe
+rnames <- rowData(SE)[rownames(res_ext), "gene_name"]
+rnames[rnames==""] <- rownames(res_ext)[rnames==""]
+# some HGNCs occur twice
+idx <- which(duplicated(rnames) | duplicated(rnames, fromLast=TRUE))
+rnames[idx] <- rownames(res_ext)[idx]
+# change rownames
+rownames(res_ext) <- rnames
+# get significant genes
+res_ext_significant <- res_ext[res_ext$FDR < 0.05,]
+
+
+# get overlap
+ours_up <- rownames(res_int_significant[res_int_significant$logFC > 0,])
+ours_down <- rownames(res_int_significant[res_int_significant$logFC < 0,])
+reddy_up <- rownames(res_ext_significant[res_ext_significant$logFC > 0,])
+reddy_down <- rownames(res_ext_significant[res_ext_significant$logFC < 0,])
+
+# Print genes with opposing effect
+up_mahshid_down_reddy <- intersect(ours_up, reddy_down)
+cat(paste0("Up in our data, down in reddy data (n=", length(up_mahshid_down_reddy), ")"))
+print(up_mahshid_down_reddy)
+
+down_mahshid_up_reddy <- intersect(ours_down, reddy_up)
+cat(paste0("Down in our data, up in reddy data (n=", length(down_mahshid_up_reddy), ")"))
+print(down_mahshid_up_reddy)
+
+# Create venn diagram
+myCol <- RColorBrewer::brewer.pal(4, "Pastel2")
+
+venn.diagram(
+  x = list(ours_up, ours_down, reddy_up, reddy_down),
+  category.names = c("Mahshid up" , "Mahshid down", "Reddy up", "Reddy down"),
+  filename = '../docs/assets/1_venn_diagram.png',
+  imagetype="png",
+  output=FALSE,
+  disable.logging=TRUE,
+  # Circles
+  lwd = 2,
+  # lty = 'blank',
+  fill = myCol,
+  # Numbers
+  cex = .6,
+  fontface = "bold",
+  fontfamily = "sans",
+  
+  # Set names
+  cat.cex = 0.6,
+  cat.fontface = "bold",
+  cat.default.pos = "outer",
+  cat.fontfamily = "sans",
+)
+
+knitr::include_graphics("figures/1_venn_diagram.png")
+```
+
+
+### Plot logFCs for both experiments for DE gene union
+
+We next compare the log fold change in both datasets for all DE genes (union of the lists from both experiments)
+
+```{r}
+union_DE_genes <- unique(c(rownames(res_ext_significant), rownames(res_int_significant)))
+
+weird <- intersect(union_DE_genes, rownames(res_ext))
+
+# in union_DE_genes but not in res_ext
+
+d_plot <- data.frame("logFC_reddy"=res_ext[union_DE_genes,"logFC"], 
+                     "logFC_mahshid"=res_int[union_DE_genes,"logFC"], 
+                     row.names=union_DE_genes)
+d_plot <- d_plot[rowSums(is.na(d_plot)) == 0,]
+
+plot_lfc <- ggplot(d_plot) +
+  geom_point(aes(x=logFC_mahshid, y=logFC_reddy), size=0.5) +
+  geom_abline(linetype="dashed", color="red") +
+  theme_ipsum_rc() +
+  labs(title="LogFC values for DE genes", subtitle="Union of DE genes from both experiments with FDR<0.05 \nwhich also occurred in other dataset", 
+       x="logFC Mahshid", y="logFC Reddy")
+plot_lfc
+
+ggsave(file="../docs/assets/2_logFC_Mahshid_Reddy.png", plot_lfc)
+```
+
+# Save data
+
+```{r}
+saveRDS(list("Reddy_all"=res_ext, "Reddy_significant"=res_ext_significant, "Mahshid_all"=res_int, "Mahshid_significant"=res_int_significant, "union_DE_genes"=union_DE_genes, "logFC_plot_data"=d_plot),
+        file="../data/EOS_files/Q1_EOS.rds")
+```

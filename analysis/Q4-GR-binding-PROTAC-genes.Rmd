@@ -1,0 +1,70 @@
+---
+title: 'Q4: GR-binding to PROTAC genes'
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(openxlsx)
+  library(dplyr)
+})
+```
+
+### Question 4: Binding of GR to KH PROTAC treated DE genes?
+
+Q: Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?
+
+**Approach:** 
+
+1. What are the 13 PROTAC genes?
+1. Does GR bind to them?
+
+
+```{r}
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+names(res_int_all)
+
+# get the data for the 18h KH-PROTAC treatment
+kh.protac <- res_int_all[["18h KH-103"]]
+
+# load the results from the peak frequencies
+peakfreq <- readRDS(file="../data/EOS_files/Q2_gene_peaks.rds")
+
+# merge peak frequency onto table and add binary variable
+kh.protac <- left_join(kh.protac %>% mutate(Gene = rownames(kh.protac)), 
+          peakfreq,
+          by="Gene") %>%
+  tidyr::replace_na(list(Freq=0)) %>%
+  mutate(gc_bound = Freq > 0) %>%
+  rename(chip_peaks=Freq) %>% 
+  dplyr::select(Gene, everything())
+
+
+write.xlsx(file="../output/Q4_KH_DE_GR_bound.xlsx", kh.protac, rowNames=TRUE)
+```
+
+### Does GR-GC bind to a region closely associated with any of these 13 genes?
+
+We have 13 genes that are differentially expressed at an <0.05 FDR level. The Reddy lab has analysed where the glucorticoid receptor (NR3C1) binds to after treatment with dexamethasone for 12h. We find that the GR is found to bind close to 5 out of the 13 differentially expressed genes.
+
+```{r}
+# only keep the significant genes
+kh.protac.sig <- kh.protac[kh.protac$FDR<0.05,]
+kh.protac.sig[,c("Gene", "logFC", "FDR", "chip_peaks", "gc_bound")]
+```
+
+```{r}
+plt_gr_binding <- ggplot(kh.protac.sig) +
+  geom_point(aes(logFC, -log10(FDR), colour=gc_bound, size=chip_peaks)) +
+  labs(title="GR binding activity for diff. expressed PROTAC genes") +
+  ggrepel::geom_text_repel(data=kh.protac.sig, aes(logFC, -log10(FDR), label=Gene, size=1)) +
+  theme_ipsum_rc()
+
+plt_gr_binding
+
+ggsave(file="../docs/assets/Q4_1_kh_gr_binding.png", plt_gr_binding)
+```
