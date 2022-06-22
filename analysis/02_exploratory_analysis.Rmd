@@ -190,7 +190,7 @@ regionUpset(list_of_regions_v2)
 
 # Question 7: PXR Sequences
 
-Q: Does GC-GR bind to PXR sequences
+**Q: Does GC-GR bind to PXR sequences?**
 
 Other groups have observed that a GR inhibitor activates CYP genes. CYP genes are target genes of PXR TF that have PXR recognition sites. the hypothesis here is that GR might also bind to PXR sites directly or probably is regulating CYP genes via interaction with PXR TF on these genes. For example, based on our RNA-seq dex triggers many CYP genes and the inhibitors too, but protac doesn't.
 
@@ -203,10 +203,10 @@ The PXR motif looks like this (from Hocomoco):
 gr_peaks <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
 moi <- readRDS(file="../data/EOS_files/pxr_peaks.rds")
 
-cat(paste0("We have ", length(gr_peaks), " GR peaks, of which ", length(moi), " (", round(length(moi)/length(gr_peaks),4)*100, "%) contain a PRX motif"))
+cat(paste0("We have ", length(gr_peaks), " GR peaks, of which ", length(moi), " (", round(length(moi)/length(gr_peaks),4)*100, "%) contain a PXR motif"))
 ```
 
-### We have `r length(gr_peaks)` GR peaks, of which `r length(moi)` (`r round(length(moi)/length(gr_peaks),4)*100`%) contain a PRX motif
+### We have `r length(gr_peaks)` GR peaks, of which `r length(moi)` (`r round(length(moi)/length(gr_peaks),4)*100`%) contain a PXR motif
 
 We can also look at the signals around the PXR motifs found in the accessible chromatin (identified using the 12h ATAC seq data from the Reddy lab)
 
