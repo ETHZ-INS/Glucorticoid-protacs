@@ -271,10 +271,9 @@ venn.diagram(
   cat.default.pos = "outer",
   cat.fontfamily = "sans",
 )
-
-knitr::include_graphics("figures/1_venn_diagram.png")
 ```
 
+![](assets/1_venn_diagram.png)
 
 ### Plot logFCs for both experiments for DE gene union
 

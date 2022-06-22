@@ -119,6 +119,10 @@ The experiments from the Reddy lab include:
 
 (DONE) Q: Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?
 
+### Question 5: Binding to selected genes
+
+(DONE)Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?
+
 ### Question 6: Common binding sites of JUNB and GR
 
 Q: What are common binding sites between JUNB and GR? -> Generally not a priority though
@@ -129,9 +133,6 @@ Q: Does GC-GR bind to PXR sequences
 
 Scan for PXR sequences. See if GR binds there
 
-### Question 8: Binding to selected genes
-
-(DONE)Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?
 
 
 

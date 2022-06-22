@@ -24,7 +24,7 @@ We have performed experiments where we first exposed cells to either (1) DEX, (2
 
 In our RNAseq, are there any genes that Protac after dex or before dex could reverse or partially reverse that cort113 or mifepristone could not? do these gene show GR binding according to Reddy's chip data?
 
-```{r}
+```{r load data}
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 names(res_int_all)
 
@@ -39,7 +39,7 @@ control162 <- res_int_all[["16h DMSO > 2h DEX+DMSO"]]
 *Def. 1:*
 We consider "reversed by inhibitor" to mean: "Is DE in '2h DEX > 16h DEX+DMSO' but not in '2h DEX > 16h DEX+Cort113'". We look at both inhibitors and the PROTAC
 
-```{r}
+```{r def1}
 # Load inhibitors/Protac data
 cort216 <- res_int_all[["2h DEX > 16h DEX+Cort113"]]
 mif216 <- res_int_all[["2h DEX > 16h DEX+MIF"]]
@@ -103,7 +103,7 @@ ggsave(file="../docs/assets/Q3_1_reversal216.png", plt1, width=12, height=7)
 "Is DE from 2h DEX > 16h DEX+DMSO but is not DE in 2h DEX > 16h DEX+Cort113 experiment"
 
 
-```{r}
+```{r def2}
 # Load inhibitors/Protac data
 cort162 <- res_int_all[["16h Cort113 > 2h DEX+Cort113"]]
 mif162 <- res_int_all[[ "2h DEX > 16h DEX+MIF"]]
@@ -149,7 +149,7 @@ merged162[merged162$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
 
 Because we have a lot of genes to show in one plot for the 16h > 2h experiment, we split them into two groups. One plot shows the genes for which the control logFC is >0 and the other <0.
 
-```{r, fig.width=12, fig.height=5}
+```{r plots, fig.width=12, fig.height=5}
 # split the long formatted dataset into two groups
 data_plt <- merged162_long[merged162_long$rowname %in% rnames_kh_reversal,]
 data <- data_plt[data_plt$Group == "Control",]
@@ -187,7 +187,7 @@ ggsave(file="../docs/assets/Q3_3_reversal162_p2.png", plt2_2, width=24, height=8
 
 Save file to excel
 
-```{r}
+```{r save excel}
 # setup excel file
 wb <- createWorkbook()
 # add worksheets and add data
@@ -196,5 +196,5 @@ addWorksheet(wb, sheetName = "16h>2h")
 writeData(wb, "2h>16h", merged216)
 writeData(wb, "16h>2h", merged162)
 # write final excel to disk
-saveWorkbook(wb, "../docs/assets/protact_flipped_DE.xlsx")
+saveWorkbook(wb, "../docs/assets/protact_flipped_DE.xlsx", overwrite=TRUE)
 ```

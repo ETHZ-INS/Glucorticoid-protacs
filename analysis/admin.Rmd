@@ -9,18 +9,16 @@ wflow_publish("analysis/*", "Start my new project")
 
 
 workflowr::wflow_build(files=c("about.Rmd",
-                               "01_download_files.Rmd",
+                               # "01_download_files.Rmd",
                                "02_exploratory_analysis.Rmd",
                                "index.Rmd"))
 
 # Question files
 workflowr::wflow_build(files=c(
-  # "Q1-Gene-overlap",
-                               "Q2-TF-Binding-to-DE-genes.Rmd",
-                               # "Q3-PROTAC-reversal.Rmd",
-                               # "Q4-GR-binding-PROTAC-genes.Rmd",
-                               # "Q6-JUNB-GR-overlap.Rmd",
-                               # "Q7-PRX-sequences.Rmd",
-                               "index.Rmd"))
-
+  "Q1-Gene-overlap.Rmd",
+  "Q2-TF-Binding-to-DE-genes.Rmd",
+  "Q3-PROTAC-reversal.Rmd",
+  "Q4-GR-binding-PROTAC-genes.Rmd",
+  "Q7-PRX-sequences.Rmd",
+  "index.Rmd"))
 ```

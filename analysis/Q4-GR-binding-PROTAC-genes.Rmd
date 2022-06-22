@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 suppressPackageStartupMessages({
   library(openxlsx)
   library(dplyr)
+  library(ggplot2)
+  library(hrbrthemes)
 })
 ```
 
@@ -24,7 +26,7 @@ Q: Is there a direct binding of GR to the 13 genes shown to be affected by the K
 1. Does GR bind to them?
 
 
-```{r}
+```{r load data}
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 names(res_int_all)
 
@@ -51,13 +53,13 @@ write.xlsx(file="../output/Q4_KH_DE_GR_bound.xlsx", kh.protac, rowNames=TRUE)
 
 We have 13 genes that are differentially expressed at an <0.05 FDR level. The Reddy lab has analysed where the glucorticoid receptor (NR3C1) binds to after treatment with dexamethasone for 12h. We find that the GR is found to bind close to 5 out of the 13 differentially expressed genes.
 
-```{r}
+```{r keep significant genes}
 # only keep the significant genes
 kh.protac.sig <- kh.protac[kh.protac$FDR<0.05,]
 kh.protac.sig[,c("Gene", "logFC", "FDR", "chip_peaks", "gc_bound")]
 ```
 
-```{r}
+```{r plot}
 plt_gr_binding <- ggplot(kh.protac.sig) +
   geom_point(aes(logFC, -log10(FDR), colour=gc_bound, size=chip_peaks)) +
   labs(title="GR binding activity for diff. expressed PROTAC genes") +

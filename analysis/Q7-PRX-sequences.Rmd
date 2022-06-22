@@ -16,8 +16,10 @@ suppressPackageStartupMessages({
   library(Biostrings)
   library(AnnotationHub)
   library(MotifDb)
+  library(ggplot2)
   library(BSgenome)
   library(universalmotif)
+  library(hrbrthemes)
 })
 ```
 
@@ -31,41 +33,92 @@ Q7: Scan open areas (ATAC-seq) for PXR binding (NR1I2). How many of those are bo
 2. Is there an overlap between the peaks of GR and the PRX sequences?
 
 ```{r load peaks}
-peaks <- import.bed15("../data/reddy_bed_ATAC_control.bed.gz", format="narrowPeak")
+# ah <- AnnotationHub()
+# gr_peaks <- import.bed15("../data/reddy_bed_DEX12h_r123.bed", format="narrowPeak")
+# ensdb <- ah[["AH98047"]]
+# gr_peaks_annotated <- annotateRegions(gr_peaks, ensdb)
 
+gr_peaks <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
 # change from chr (ensembl format) to just numbers
 # seqlevels(peaks)<- sub('chr','',seqlevels(peaks))
 ```
 
 
 ```{r scan peaks for PXR sequence}
-peak_centers <- resize(peaks, fix="center", width=100)
+peak_centers <- resize(gr_peaks, fix="center", width=100)
 # we get the genome sequence from a download from the UCSC, human genome wasnt found in search in annotation hub
 genome <- BSgenome::getBSgenome("BSgenome.Hsapiens.UCSC.hg38", masked=FALSE, load.only=FALSE)
 # we get the sequences corresponding to the peak centers:
 peak_seqs <- memes::get_sequence(peak_centers, genome)
-peak_seqs[1:1000]
+peak_seqs
 ```
 
 
 ## Get the motif for PXR (NR1I2)
 
-```{r}
+```{r motif}
 # we search for "CTCF" in the motif database
 motifs <- query(MotifDb, "NR1I2")
 # there are several matching motifs:
 names(motifs)
 # we select one:
-motif1 <- motifs[["Hsapiens-HOCOMOCOv11-core-C-NR1I2_HUMAN.H11MO.0.C"]]
+motif <- motifs[["Hsapiens-HOCOMOCOv11-core-C-NR1I2_HUMAN.H11MO.0.C"]]
 # we visualize it:
-view_motifs(motif)
+plt_motif <- view_motifs(motif) +
+  labs(title="PXR motif (NR1I2)") +
+  theme_ipsum_rc()
+plt_motif
+
+ggsave(file="../docs/assets/Q7_1_motif.png", plt_motif)
 ```
 
 
-## Scanning a set of sequences using the Meme suite
+## How many of the GR peaks contain a PRX motif?
 
-```{r}
-moi <- memes::runFimo(peak_seqs[1:1000],  convert_motifs(motif))
+```{r percentage pxr}
 # you might eventually need to add the meme_path argument:
-moi <- memes::runFimo(peak_seqs,  convert_motifs(motif), meme_path = "/home/pierre-luc/bin/")
+moi <- memes::runFimo(peak_seqs,  convert_motifs(motif), meme_path = "/Users/dominiquepaul/.meme/bin")
+moi
+
+cat(paste0("We have ", length(peak_seqs), " GR peaks, of which ", length(moi), " (", round(length(moi)/length(peak_seqs),4)*100, "%) contain a PRX motif"))
+
+saveRDS(moi, file="../data/EOS_files/pxr_peaks.rds")
+```
+
+## What do the signal tracks look like around the PRX motifs found in the accessible DNA?
+
+```{r signal tracks, fig.width=7, fig.height=7}
+# Subset for open ATAC-seq data
+atac_peaks <- import.bed15("../data/reddy_bed_ATAC_control.bed.gz", format="narrowPeak")
+atac_centers <- resize(atac_peaks, fix="center", width=100)
+# we get the sequences corresponding to the peak centers:
+atac_peak_seqs <- memes::get_sequence(atac_centers, genome)
+ 
+# Subset for PXR motifs
+pxr_in_atac <- memes::runFimo(atac_peak_seqs,  convert_motifs(motif), meme_path = "/Users/dominiquepaul/.meme/bin")
+pxr_in_atac
+
+
+# Plot signal tracks
+## Load bigwig data
+tracks <-  list(#"2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
+                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
+motifs_plt <- pxr_in_atac[pxr_in_atac$score > 15]
+# configure the chromosome names to not include the "chr"
+# seqlevels(motifs_plt) <- stringr::str_replace(seqlevels(motifs_plt), "chr", "")
+# error occurs here
+signals <- signal2Matrix(tracks, motifs_plt, w=5, extend=500)
+plt_signal <- ggplotify::as.ggplot(grid::grid.grabExpr(ComplexHeatmap::draw(plotEnrichedHeatmaps(signals)))) +
+  theme_ipsum_rc() +
+  labs(title="Signal tracks for PXR motifs found in accessible DNA",
+       x="", y="") +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+plt_signal
+
+ggsave(file="../docs/assets/Q7_2_signal.png", plt_signal, width=8, height=8)
 ```

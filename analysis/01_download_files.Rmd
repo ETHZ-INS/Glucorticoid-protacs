@@ -47,6 +47,12 @@ R.utils::gunzip("../data/reddy_bed_DEX12h_r123.bed.gz")
 
 # BigWig file
 download.file("https://www.encodeproject.org/files/ENCFF638NRS/@@download/ENCFF638NRS.bigWig", "../data/reddy_bigwig_DEX12h_r123.bigWig")
+
+# Bed file for 2h DEX treatment
+download.file("https://www.encodeproject.org/files/ENCFF869DAZ/@@download/ENCFF869DAZ.bed.gz", "../data/reddy_bed_DEX2h_r123.bed.gz")
+
+# Bigwig for 2h DEX  treatment
+download.file("https://www.encodeproject.org/files/ENCFF910SEI/@@download/ENCFF910SEI.bigWig", "../data/reddy_bigwig_DEX2h_r123.bigWig")
 ```
 
 # Download bed files for JUNB

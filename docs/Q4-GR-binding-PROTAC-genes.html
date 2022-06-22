@@ -11,6 +11,7 @@
 
 <meta name="author" content="Dominique Paul" />
 
+<meta name="date" content="2022-06-22" />
 
 <title>Q4: GR-binding to PROTAC genes</title>
 
@@ -34,6 +35,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -233,6 +235,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -351,11 +356,19 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Q4: GR-binding to PROTAC genes</h1>
 <h4 class="author">Dominique Paul</h4>
-<h4 class="date">5/26/2022</h4>
+<h4 class="date">2022-06-22</h4>
 
 </div>
 
@@ -380,7 +393,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-05-27
+<strong>Last updated:</strong> 2022-06-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -404,7 +417,7 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -471,16 +484,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong59004f1"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 59004f1 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong59004f1" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 59004f1. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -489,23 +502,20 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    analysis/.DS_Store
+    Ignored:    analysis/docs/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
 
 Untracked files:
-    Untracked:  analysis/01_download_files.Rmd
-    Untracked:  analysis/02_exploratory_analysis.Rmd
-    Untracked:  analysis/Q1-Gene-overlap.Rmd
-    Untracked:  analysis/Q2-TF-Binding-to-DE-genes.Rmd
-    Untracked:  analysis/Q3-PROTAC-reversal.Rmd
-    Untracked:  analysis/Q4-GR-binding-PROTAC-genes.Rmd
-    Untracked:  analysis/Q6-JUNB-GR-overlap.Rmd
-    Untracked:  analysis/Q7-PRX-sequences.Rmd
-    Untracked:  analysis/admin.Rmd
-    Untracked:  analysis/docs/
     Untracked:  code/helper_functions.R
+    Untracked:  data/reddy_bed_ATAC_12h_DEX.bed.gz
+    Untracked:  data/reddy_bed_ATAC_control.bed.gz
     Untracked:  data/reddy_bed_DEX12h_r123.bed
-    Untracked:  data/reddy_bigwig_DEX12h_r123.bw
+    Untracked:  data/reddy_bed_DEX2h_r123.bed.gz
+    Untracked:  data/reddy_bed_JUNB_DEX12h_r123.bed
+    Untracked:  data/reddy_bigwig_DEX12h_r123.bigWig
+    Untracked:  data/reddy_bigwig_DEX2h_r123.bigWig
+    Untracked:  data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
     Untracked:  data/reddy_rna_DEX12h.tsv
     Untracked:  data/reddy_rna_DEX12h_r1.tsv
     Untracked:  data/reddy_rna_DEX12h_r2.tsv
@@ -524,8 +534,16 @@ Untracked files:
 Unstaged changes:
     Modified:   .gitignore
     Modified:   _workflowr.yml
+    Modified:   analysis/01_download_files.Rmd
+    Modified:   analysis/02_exploratory_analysis.Rmd
+    Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/Q3-PROTAC-reversal.Rmd
+    Modified:   analysis/Q4-GR-binding-PROTAC-genes.Rmd
+    Deleted:    analysis/Q6-JUNB-GR-overlap.Rmd
+    Modified:   analysis/Q7-PRX-sequences.Rmd
     Modified:   analysis/about.Rmd
-    Modified:   analysis/index.Rmd
+    Modified:   analysis/admin.Rmd
 
 </code></pre>
 <p>
@@ -538,9 +556,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Q4-GR-binding-PROTAC-genes.Rmd</code>) and HTML (<code>docs/Q4-GR-binding-PROTAC-genes.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/analysis/Q4-GR-binding-PROTAC-genes.Rmd" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/Q4-GR-binding-PROTAC-genes.html" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -574,7 +652,8 @@ kh.protac &lt;- left_join(kh.protac %&gt;% mutate(Gene = rownames(kh.protac)),
   tidyr::replace_na(list(Freq=0)) %&gt;%
   mutate(gc_bound = Freq &gt; 0) %&gt;%
   rename(chip_peaks=Freq) %&gt;% 
-  dplyr::select(-Gene)
+  dplyr::select(Gene, everything())
+
 
 write.xlsx(file=&quot;../output/Q4_KH_DE_GR_bound.xlsx&quot;, kh.protac, rowNames=TRUE)</code></pre>
 </div>
@@ -583,21 +662,31 @@ write.xlsx(file=&quot;../output/Q4_KH_DE_GR_bound.xlsx&quot;, kh.protac, rowName
 <p>We have 13 genes that are differentially expressed at an &lt;0.05 FDR level. The Reddy lab has analysed where the glucorticoid receptor (NR3C1) binds to after treatment with dexamethasone for 12h. We find that the GR is found to bind close to 5 out of the 13 differentially expressed genes.</p>
 <pre class="r"><code># only keep the significant genes
 kh.protac.sig &lt;- kh.protac[kh.protac$FDR&lt;0.05,]
-kh.protac.sig[,c(&quot;logFC&quot;, &quot;FDR&quot;, &quot;chip_peaks&quot;, &quot;gc_bound&quot;)]</code></pre>
-<pre><code>        logFC          FDR chip_peaks gc_bound
-1   1.1428657 1.723020e-23          3     TRUE
-2   0.5510412 9.540295e-13          1     TRUE
-3   0.7301845 2.624094e-10          7     TRUE
-4   0.3850139 1.572408e-04          0    FALSE
-5   0.3182665 6.525299e-04          1     TRUE
-6   0.2546515 7.788073e-04          0    FALSE
-7  -0.9140413 1.000325e-03          0    FALSE
-8  -0.3858283 2.141931e-03          0    FALSE
-9   0.6589461 3.944310e-03          0    FALSE
-10  0.4185862 6.415798e-03          3     TRUE
-11 -0.4867045 9.726164e-03          0    FALSE
-12  0.2746874 1.352747e-02          0    FALSE
-13 -0.7575232 3.989078e-02          0    FALSE</code></pre>
+kh.protac.sig[,c(&quot;Gene&quot;, &quot;logFC&quot;, &quot;FDR&quot;, &quot;chip_peaks&quot;, &quot;gc_bound&quot;)]</code></pre>
+<pre><code>      Gene      logFC          FDR chip_peaks gc_bound
+1     PER1  1.1428657 1.723020e-23          3     TRUE
+2   TGFBR1  0.5510412 9.540295e-13          1     TRUE
+3    FKBP5  0.7301845 2.624094e-10          7     TRUE
+4   NBEAL2  0.3850139 1.572408e-04          0    FALSE
+5   CAVIN2  0.3182665 6.525299e-04          1     TRUE
+6  SLC38A2  0.2546515 7.788073e-04          0    FALSE
+7      TEF -0.9140413 1.000325e-03          0    FALSE
+8     CRY1 -0.3858283 2.141931e-03          0    FALSE
+9    C5AR2  0.6589461 3.944310e-03          0    FALSE
+10 ANGPTL4  0.4185862 6.415798e-03          3     TRUE
+11    CRY2 -0.4867045 9.726164e-03          0    FALSE
+12    CHML  0.2746874 1.352747e-02          0    FALSE
+13    PER3 -0.7575232 3.989078e-02          0    FALSE</code></pre>
+<pre class="r"><code>plt_gr_binding &lt;- ggplot(kh.protac.sig) +
+  geom_point(aes(logFC, -log10(FDR), colour=gc_bound, size=chip_peaks)) +
+  labs(title=&quot;GR binding activity for diff. expressed PROTAC genes&quot;) +
+  ggrepel::geom_text_repel(data=kh.protac.sig, aes(logFC, -log10(FDR), label=Gene, size=1)) +
+  theme_ipsum_rc()
+
+plt_gr_binding</code></pre>
+<p><img src="figure/Q4-GR-binding-PROTAC-genes.Rmd/plot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q4_1_kh_gr_binding.png&quot;, plt_gr_binding)</code></pre>
+<pre><code>Saving 7 x 5 in image</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -621,21 +710,25 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dplyr_1.0.9    openxlsx_4.2.5
+[1] hrbrthemes_0.8.6 ggplot2_3.3.6    dplyr_1.0.9      openxlsx_4.2.5  
 
 loaded via a namespace (and not attached):
- [1] zip_2.2.0        Rcpp_1.0.8.3     pillar_1.7.0     compiler_4.1.0  
- [5] bslib_0.3.1      later_1.3.0      jquerylib_0.1.4  git2r_0.30.1    
- [9] workflowr_1.7.0  tools_4.1.0      digest_0.6.29    jsonlite_1.8.0  
-[13] evaluate_0.15    lifecycle_1.0.1  tibble_3.1.7     pkgconfig_2.0.3 
-[17] rlang_1.0.2      DBI_1.1.2        cli_3.3.0        rstudioapi_0.13 
-[21] yaml_2.3.5       xfun_0.31        fastmap_1.1.0    stringr_1.4.0   
-[25] knitr_1.39       generics_0.1.2   fs_1.5.2         vctrs_0.4.1     
-[29] sass_0.4.1       tidyselect_1.1.2 rprojroot_2.0.3  glue_1.6.2      
-[33] R6_2.5.1         fansi_1.0.3      rmarkdown_2.14   tidyr_1.2.0     
-[37] purrr_0.3.4      magrittr_2.0.3   promises_1.2.0.1 ellipsis_0.3.2  
-[41] htmltools_0.5.2  assertthat_0.2.1 httpuv_1.6.5     utf8_1.2.2      
-[45] stringi_1.7.6    crayon_1.5.1    </code></pre>
+ [1] tidyselect_1.1.2  xfun_0.31         bslib_0.3.1       purrr_0.3.4      
+ [5] colorspace_2.0-3  vctrs_0.4.1       generics_0.1.2    htmltools_0.5.2  
+ [9] yaml_2.3.5        utf8_1.2.2        rlang_1.0.2       jquerylib_0.1.4  
+[13] later_1.3.0       pillar_1.7.0      glue_1.6.2        withr_2.5.0      
+[17] DBI_1.1.2         gdtools_0.2.4     lifecycle_1.0.1   stringr_1.4.0    
+[21] munsell_0.5.0     gtable_0.3.0      workflowr_1.7.0   ragg_1.2.2       
+[25] zip_2.2.0         evaluate_0.15     labeling_0.4.2    knitr_1.39       
+[29] fastmap_1.1.0     extrafont_0.18    httpuv_1.6.5      fansi_1.0.3      
+[33] highr_0.9         Rttf2pt1_1.3.10   Rcpp_1.0.8.3      promises_1.2.0.1 
+[37] scales_1.2.0      jsonlite_1.8.0    farver_2.1.0      systemfonts_1.0.4
+[41] fs_1.5.2          textshaping_0.3.6 digest_0.6.29     stringi_1.7.6    
+[45] ggrepel_0.9.1     rprojroot_2.0.3   grid_4.1.0        cli_3.3.0        
+[49] tools_4.1.0       magrittr_2.0.3    sass_0.4.1        tibble_3.1.7     
+[53] tidyr_1.2.0       crayon_1.5.1      whisker_0.4       extrafontdb_1.0  
+[57] pkgconfig_2.0.3   ellipsis_0.3.2    assertthat_0.2.1  rmarkdown_2.14   
+[61] rstudioapi_0.13   R6_2.5.1          git2r_0.30.1      compiler_4.1.0   </code></pre>
 </div>
 </div>
 
@@ -688,6 +781,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

@@ -30,6 +30,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -229,6 +230,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -274,6 +278,14 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">About</h1>
@@ -301,7 +313,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-05-27
+<strong>Last updated:</strong> 2022-06-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -392,16 +404,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong59004f1"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 59004f1 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong59004f1" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 59004f1. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -410,23 +422,20 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    analysis/.DS_Store
+    Ignored:    analysis/docs/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
 
 Untracked files:
-    Untracked:  analysis/01_download_files.Rmd
-    Untracked:  analysis/02_exploratory_analysis.Rmd
-    Untracked:  analysis/Q1-Gene-overlap.Rmd
-    Untracked:  analysis/Q2-TF-Binding-to-DE-genes.Rmd
-    Untracked:  analysis/Q3-PROTAC-reversal.Rmd
-    Untracked:  analysis/Q4-GR-binding-PROTAC-genes.Rmd
-    Untracked:  analysis/Q6-JUNB-GR-overlap.Rmd
-    Untracked:  analysis/Q7-PRX-sequences.Rmd
-    Untracked:  analysis/admin.Rmd
-    Untracked:  analysis/docs/
     Untracked:  code/helper_functions.R
+    Untracked:  data/reddy_bed_ATAC_12h_DEX.bed.gz
+    Untracked:  data/reddy_bed_ATAC_control.bed.gz
     Untracked:  data/reddy_bed_DEX12h_r123.bed
-    Untracked:  data/reddy_bigwig_DEX12h_r123.bw
+    Untracked:  data/reddy_bed_DEX2h_r123.bed.gz
+    Untracked:  data/reddy_bed_JUNB_DEX12h_r123.bed
+    Untracked:  data/reddy_bigwig_DEX12h_r123.bigWig
+    Untracked:  data/reddy_bigwig_DEX2h_r123.bigWig
+    Untracked:  data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
     Untracked:  data/reddy_rna_DEX12h.tsv
     Untracked:  data/reddy_rna_DEX12h_r1.tsv
     Untracked:  data/reddy_rna_DEX12h_r2.tsv
@@ -445,7 +454,17 @@ Untracked files:
 Unstaged changes:
     Modified:   .gitignore
     Modified:   _workflowr.yml
+    Modified:   analysis/01_download_files.Rmd
+    Modified:   analysis/02_exploratory_analysis.Rmd
+    Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/Q3-PROTAC-reversal.Rmd
+    Modified:   analysis/Q4-GR-binding-PROTAC-genes.Rmd
+    Deleted:    analysis/Q6-JUNB-GR-overlap.Rmd
+    Modified:   analysis/Q7-PRX-sequences.Rmd
     Modified:   analysis/about.Rmd
+    Modified:   analysis/admin.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -489,7 +508,41 @@ Message
 Rmd
 </td>
 <td>
-59004f1
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/analysis/about.Rmd" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/about.html" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/59004f167341286081d621dc8a624e7fdc7ab182/analysis/about.Rmd" target="_blank">59004f1</a>
 </td>
 <td>
 dominique-paul-uzh
@@ -507,6 +560,13 @@ Start workflowr project.
 <hr>
 </div>
 </div>
+</div>
+<div id="todo-lecture-presentation" class="section level1">
+<h1>todo lecture presentation</h1>
+<p>Q7: Scan open areas (ATAC-seq) for PXR binding (NR1I2). How many of those are bound by GR?</p>
+<p>Create boxplots: x: number of peaks y: distribution of logFCs</p>
+<p>Plot signals for DE genes with BED data</p>
+<p>16 dmso + dex -&gt; could look at that</p>
 </div>
 <div id="analysing-the-use-of-protacs-to-target-glucorticoid-receptors" class="section level1">
 <h1>Analysing the use of PROTACs to target glucorticoid receptors</h1>
@@ -571,28 +631,33 @@ Start workflowr project.
 <p>The experiments from the Reddy lab include:</p>
 <ol style="list-style-type: decimal">
 <li><strong>RNA - DEX vs control:</strong> One RNA-seq experiment with a control group and dexamethasone treatment for multiple time intervals, up to 12 hours</li>
-<li><strong>ChIP - NR3C1 &amp; JUNB:</strong> Two ChIP-seq experiments. One is for NR3C1 - which is as I understand is the only relevant (?) GR in the cell. The second ChIP-seq experiment is for JUNB. JUNB appears to be a transcription factor subunit. I was not able to establish the link to GRs yet, but I am planning to check the paper on this.</li>
+<li><strong>ChIP - NR3C1 &amp; JUNB:</strong> Two ChIP-seq experiments. One is for NR3C1 - which is as I understand is the only relevant (?) GR in the cell. The second ChIP-seq experiment is for JUNB. JUNB appears to be a transcription factor subunit.</li>
 <li><strong>ATAC-seq - DEX exposure:</strong> experiment with a control as well as data for exposure of the cell culture to DEX for multiple intervals.</li>
 </ol>
 </div>
 </div>
 <div id="what-will-the-first-questions-be-that-i-will-be-analysing" class="section level2">
 <h2>What will the first questions be that I will be analysing?</h2>
-<p>(DONE) ### Question 1: Similarity of our RNA data with the Reddy data</p>
-<p>Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data?</p>
-<p><em>Planned approach:</em> Check which genes are differentially expressed in their data and create a Venn-diagram for comparable experiments with the differentially expressed genes from our analysis.</p>
+<div id="question-1-similarity-of-our-rna-data-with-the-reddy-data" class="section level3">
+<h3>Question 1: Similarity of our RNA data with the Reddy data</h3>
+<p>(DONE) Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data?</p>
+<p><em>Planned approach:</em> Check which genes are differentially expressed in the Reddy data and create a Venn-diagram for comparable experiments with the differentially expressed genes from our analysis. Also, create a plot</p>
+</div>
 <div id="question-2-binding-of-gr-gc-complex-to-de-genes-from-our-analysis" class="section level3">
 <h3>Question 2: Binding of GR-GC complex to DE genes from our analysis</h3>
-<p>Q: For the genes that our RNA-seq data shows to be DE after treatment with DEX as well as the inhibitors and control: do we see any direct TF binding to these sites? For which of these is there a difference compared to the control ChIP-seq experiment?</p>
+<p>(Discuss in call) Q: For the genes that our RNA-seq data shows to be DE after treatment with DEX as well as the inhibitors and control: do we see any direct TF binding to these sites? For which of these is there a difference compared to the control ChIP-seq experiment?</p>
 </div>
-<div id="question-3" class="section level3">
-<h3>Question 3:</h3>
-<p>Our RNA: are there any genes that treated by the PROTAC before/after DEX that could be reversed but which could not by the inhibitors or vice versa?</p>
-<p>We have performed experiments where we first exposed cells to either (1) DEX (2) inhibitors or (3) KH PROTAC for a substantial time and then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2) and (3). We would like to see whether the genes which were activated by DEX but the returned to a normal expression by the KH PROTAC, where a similar treatment by the inhibitors could not lead to such an effect and vice versa.</p>
+<div id="question-3-for-our-rna-are-there-any-genes-that-treated-by-the-protac-beforeafter-dex-that-could-be-reversed-but-which-could-not-by-the-inhibitors-or-vice-versa" class="section level3">
+<h3>Question 3: For our RNA: are there any genes that treated by the PROTAC before/after DEX that could be reversed but which could not by the inhibitors or vice versa?</h3>
+<p>(DONE) We have performed experiments where we first exposed cells to either (1) DEX (2) inhibitors or (3) KH PROTAC for a substantial time and then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2) and (3). We would like to see whether the genes which were activated by DEX but the returned to a normal expression by the KH PROTAC, where a similar treatment by the inhibitors could not lead to such an effect and vice versa.</p>
 </div>
 <div id="question-4-binding-of-gr-to-kh-protac-treated-de-genes" class="section level3">
 <h3>Question 4: Binding of GR to KH PROTAC treated DE genes?</h3>
 <p>(DONE) Q: Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?</p>
+</div>
+<div id="question-5-binding-to-selected-genes" class="section level3">
+<h3>Question 5: Binding to selected genes</h3>
+<p>(DONE)Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?</p>
 </div>
 <div id="question-6-common-binding-sites-of-junb-and-gr" class="section level3">
 <h3>Question 6: Common binding sites of JUNB and GR</h3>
@@ -602,8 +667,6 @@ Start workflowr project.
 <h3>Question 7: PXR Sequences</h3>
 <p>Q: Does GC-GR bind to PXR sequences</p>
 <p>Scan for PXR sequences. See if GR binds there</p>
-<p>(DONE) ### Question 8: Binding to selected genes</p>
-<p>Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?</p>
 </div>
 </div>
 <div id="abbreviations" class="section level2">
@@ -697,6 +760,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

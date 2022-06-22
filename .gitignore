@@ -9,3 +9,7 @@ analysis/*png
 analysis/*html
 analysis/*_cache
 analysis/site_libs
+# Files saved after scripts
+EOS_files
+*.bigWig
+*.bw

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dominique Paul" />
 
-<meta name="date" content="2022-05-25" />
+<meta name="date" content="2022-06-22" />
 
 <title>Q1: DE Gene overlap</title>
 
@@ -35,6 +35,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
@@ -234,6 +235,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -352,11 +356,19 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Q1: DE Gene overlap</h1>
 <h4 class="author">Dominique Paul</h4>
-<h4 class="date">2022-05-25</h4>
+<h4 class="date">2022-06-22</h4>
 
 </div>
 
@@ -381,7 +393,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-05-25
+<strong>Last updated:</strong> 2022-06-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -405,7 +417,7 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -472,16 +484,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong59004f1"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 59004f1 </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrong59004f1" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version 59004f1. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -489,16 +501,22 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/docs/.DS_Store
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
 
 Untracked files:
-    Untracked:  analysis/01_download_files.Rmd
-    Untracked:  analysis/02_exploratory_analysis.Rmd
-    Untracked:  analysis/Q1-Gene-overlap.Rmd
-    Untracked:  analysis/Q2-TF-Binding-to-DE-genes.Rmd
-    Untracked:  analysis/admin.Rmd
     Untracked:  code/helper_functions.R
+    Untracked:  data/reddy_bed_ATAC_12h_DEX.bed.gz
+    Untracked:  data/reddy_bed_ATAC_control.bed.gz
+    Untracked:  data/reddy_bed_DEX12h_r123.bed
+    Untracked:  data/reddy_bed_DEX2h_r123.bed.gz
+    Untracked:  data/reddy_bed_JUNB_DEX12h_r123.bed
+    Untracked:  data/reddy_bigwig_DEX12h_r123.bigWig
+    Untracked:  data/reddy_bigwig_DEX2h_r123.bigWig
+    Untracked:  data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
     Untracked:  data/reddy_rna_DEX12h.tsv
     Untracked:  data/reddy_rna_DEX12h_r1.tsv
     Untracked:  data/reddy_rna_DEX12h_r2.tsv
@@ -511,12 +529,20 @@ Untracked files:
     Untracked:  data/reddy_rna_control_r3.tsv
     Untracked:  data/reddy_rna_control_r4.tsv
     Untracked:  data/results/
-    Untracked:  figures/
+    Untracked:  output/Q2_GR_bound_DE_genes.xlsx
+    Untracked:  output/Q4_KH_DE_GR_bound.xlsx
 
 Unstaged changes:
     Modified:   .gitignore
     Modified:   _workflowr.yml
+    Modified:   analysis/01_download_files.Rmd
+    Modified:   analysis/02_exploratory_analysis.Rmd
+    Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Deleted:    analysis/Q6-JUNB-GR-overlap.Rmd
+    Modified:   analysis/Q7-PRX-sequences.Rmd
     Modified:   analysis/about.Rmd
+    Modified:   analysis/admin.Rmd
 
 </code></pre>
 <p>
@@ -529,9 +555,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Q1-Gene-overlap.Rmd</code>) and HTML (<code>docs/Q1-Gene-overlap.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/analysis/Q1-Gene-overlap.Rmd" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/Q1-Gene-overlap.html" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -632,6 +718,8 @@ rowData(SE)$gene_id &lt;- unique_gene_names
 
 # Fetch HGNC names for the genes by their ENSG names
 hgnc_table &lt;- replace_ensg_by_hgnc(unique_gene_names)</code></pre>
+<pre><code>Ensembl site unresponsive, trying useast mirror</code></pre>
+<pre><code>Ensembl site unresponsive, trying asia mirror</code></pre>
 <pre><code>Removed 1 duplicates.</code></pre>
 <pre class="r"><code>overlapping_genes &lt;- unique_gene_names[unique_gene_names %in% rownames(hgnc_table)]
 # set the ENSG name per default and then replace by HGNC where possible
@@ -661,6 +749,43 @@ colnames(rd) &lt;- paste0(&quot;C&quot;, seq_len(ncol(rd)))
 d &lt;- cbind(as.data.frame(colData(SE)), rd[,1:5])
 ggplot(d, aes(C1, C2, colour=Treatment)) + geom_point()</code></pre>
 <p><img src="figure/Q1-Gene-overlap.Rmd/Prepare%20for%20DE-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Prepare-for-DE-1">
+Past versions of “Prepare for DE-1.png”
+</button>
+</p>
+<div id="fig-no-spaces-Prepare-for-DE-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/figure/Q1-Gene-overlap.Rmd/Prepare for DE-1.png" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Adds top two columns from surrogate variable analysis to column data. We use these for our DE experiment below as nuisance variables
 SE &lt;- svacor(SE, ~Treatment, n.sv=2)</code></pre>
 <pre><code>Using variance-stabilizing transformation</code></pre>
@@ -703,12 +828,51 @@ topDegs &lt;- head(row.names(x)[x$FDR&lt;0.01],15)
 # levels(SE$Treatment) &lt;- gsub(&quot;&gt; &quot;,&quot;&gt;\n&quot;, levels(SE$Treatment))
 # SE$Treatment &lt;- factor(SE$Treatment, 
                        # unique(c(&quot;18h untreated&quot;,&quot;18h DMSO&quot;,levels(SE$Treatment))))
-SE &lt;- log2FC(SE, &quot;logcpm&quot;, SE$Treatment==&quot;Control&quot;)</code></pre>
+SE &lt;- log2FC(SE, &quot;logcpm&quot;, SE$Treatment==&quot;Control&quot;)
+
+saveRDS(file=&quot;../data/EOS_files/Q1_SummExp.rds&quot;, SE)</code></pre>
 <pre class="r"><code>sechm::sechm(SE, topDegs, assay=&quot;scaledLFC&quot;, gaps_at=&quot;Treatment&quot;, breaks=TRUE,
       top_annotation=&quot;Replicate&quot;, row_title=&quot;Union of top DEGs&quot;, show_rownames=TRUE,
       row_names_gp=gpar(fontsize=9), column_title_gp=gpar(fontsize=10),
       column_title_rot=90)</code></pre>
 <p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="compare-de-genes-between-reddy-and-our-data" class="section level3">
 <h3>Compare DE genes between Reddy and our data</h3>
@@ -767,12 +931,13 @@ myCol &lt;- RColorBrewer::brewer.pal(4, &quot;Pastel2&quot;)
 venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c(&quot;Mahshid up&quot; , &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;),
-  filename = &#39;../figures/#1_venn_diagramm.png&#39;,
+  filename = &#39;../docs/assets/1_venn_diagram.png&#39;,
+  imagetype=&quot;png&quot;,
   output=FALSE,
   disable.logging=TRUE,
   # Circles
   lwd = 2,
-  lty = &#39;blank&#39;,
+  # lty = &#39;blank&#39;,
   fill = myCol,
   # Numbers
   cex = .6,
@@ -785,59 +950,56 @@ venn.diagram(
   cat.default.pos = &quot;outer&quot;,
   cat.fontfamily = &quot;sans&quot;,
 )</code></pre>
-<pre><code>INFO [2022-05-25 18:21:32] $x
-INFO [2022-05-25 18:21:32] list(ours_up, ours_down, reddy_up, reddy_down)
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $category.names
-INFO [2022-05-25 18:21:32] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $filename
-INFO [2022-05-25 18:21:32] [1] &quot;../figures/#1_venn_diagramm.png&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $output
-INFO [2022-05-25 18:21:32] [1] FALSE
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $disable.logging
-INFO [2022-05-25 18:21:32] [1] TRUE
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $lwd
-INFO [2022-05-25 18:21:32] [1] 2
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $lty
-INFO [2022-05-25 18:21:32] [1] &quot;blank&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $fill
-INFO [2022-05-25 18:21:32] myCol
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $cex
-INFO [2022-05-25 18:21:32] [1] 0.6
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $fontface
-INFO [2022-05-25 18:21:32] [1] &quot;bold&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $fontfamily
-INFO [2022-05-25 18:21:32] [1] &quot;sans&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $cat.cex
-INFO [2022-05-25 18:21:32] [1] 0.6
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $cat.fontface
-INFO [2022-05-25 18:21:32] [1] &quot;bold&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $cat.default.pos
-INFO [2022-05-25 18:21:32] [1] &quot;outer&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] $cat.fontfamily
-INFO [2022-05-25 18:21:32] [1] &quot;sans&quot;
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] [[16]]
-INFO [2022-05-25 18:21:32] 
-INFO [2022-05-25 18:21:32] </code></pre>
+<pre><code>INFO [2022-06-22 11:30:16] $x
+INFO [2022-06-22 11:30:16] list(ours_up, ours_down, reddy_up, reddy_down)
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $category.names
+INFO [2022-06-22 11:30:16] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $filename
+INFO [2022-06-22 11:30:16] [1] &quot;../docs/assets/1_venn_diagram.png&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $imagetype
+INFO [2022-06-22 11:30:16] [1] &quot;png&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $output
+INFO [2022-06-22 11:30:16] [1] FALSE
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $disable.logging
+INFO [2022-06-22 11:30:16] [1] TRUE
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $lwd
+INFO [2022-06-22 11:30:16] [1] 2
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $fill
+INFO [2022-06-22 11:30:16] myCol
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $cex
+INFO [2022-06-22 11:30:16] [1] 0.6
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $fontface
+INFO [2022-06-22 11:30:16] [1] &quot;bold&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $fontfamily
+INFO [2022-06-22 11:30:16] [1] &quot;sans&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $cat.cex
+INFO [2022-06-22 11:30:16] [1] 0.6
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $cat.fontface
+INFO [2022-06-22 11:30:16] [1] &quot;bold&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $cat.default.pos
+INFO [2022-06-22 11:30:16] [1] &quot;outer&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] $cat.fontfamily
+INFO [2022-06-22 11:30:16] [1] &quot;sans&quot;
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] [[16]]
+INFO [2022-06-22 11:30:16] 
+INFO [2022-06-22 11:30:16] </code></pre>
 <pre><code>[1] 1</code></pre>
-<div class="figure">
-<img src="../figures/#1_venn_diagramm.png" alt="" />
-<p class="caption">Venn diagramm</p>
-</div>
+<p><img src="assets/1_venn_diagram.png" /></p>
 </div>
 <div id="plot-logfcs-for-both-experiments-for-de-gene-union" class="section level3">
 <h3>Plot logFCs for both experiments for DE gene union</h3>
@@ -861,7 +1023,44 @@ plot_lfc &lt;- ggplot(d_plot) +
        x=&quot;logFC Mahshid&quot;, y=&quot;logFC Reddy&quot;)
 plot_lfc</code></pre>
 <p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(file=&quot;../figures/#2_logFC_Mahshid_Reddy.png&quot;, plot_lfc)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-4-1.png" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggsave(file=&quot;../docs/assets/2_logFC_Mahshid_Reddy.png&quot;, plot_lfc)</code></pre>
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
 </div>
@@ -933,22 +1132,22 @@ loaded via a namespace (and not attached):
  [79] stringr_1.4.0          fastmap_1.1.0          ragg_1.2.2            
  [82] yaml_2.3.5             knitr_1.39             bit64_4.0.5           
  [85] fs_1.5.2               zip_2.2.0              purrr_0.3.4           
- [88] KEGGREST_1.34.0        nlme_3.1-157           formatR_1.12          
- [91] xml2_1.3.3             compiler_4.1.0         rstudioapi_0.13       
- [94] filelock_1.0.2         curl_4.3.2             png_0.1-7             
- [97] tibble_3.1.7           geneplotter_1.72.0     bslib_0.3.1           
-[100] stringi_1.7.6          highr_0.9              gdtools_0.2.4         
-[103] lattice_0.20-45        sechm_1.2.0            Matrix_1.4-1          
-[106] vctrs_0.4.1            pillar_1.7.0           lifecycle_1.0.1       
-[109] jquerylib_0.1.4        GlobalOptions_0.1.2    irlba_2.3.5           
-[112] data.table_1.14.2      bitops_1.0-7           seriation_1.3.5       
-[115] httpuv_1.6.5           R6_2.5.1               promises_1.2.0.1      
-[118] TSP_1.2-0              codetools_0.2-18       lambda.r_1.2.4        
-[121] assertthat_0.2.1       DESeq2_1.34.0          rprojroot_2.0.3       
-[124] rjson_0.2.21           withr_2.5.0            GenomeInfoDbData_1.2.7
-[127] mgcv_1.8-40            parallel_4.1.0         hms_1.1.1             
-[130] beachmat_2.10.0        rmarkdown_2.14         Rtsne_0.16            
-[133] git2r_0.30.1          </code></pre>
+ [88] KEGGREST_1.34.0        nlme_3.1-157           whisker_0.4           
+ [91] formatR_1.12           xml2_1.3.3             compiler_4.1.0        
+ [94] rstudioapi_0.13        filelock_1.0.2         curl_4.3.2            
+ [97] png_0.1-7              tibble_3.1.7           geneplotter_1.72.0    
+[100] bslib_0.3.1            stringi_1.7.6          highr_0.9             
+[103] gdtools_0.2.4          lattice_0.20-45        sechm_1.2.0           
+[106] Matrix_1.4-1           vctrs_0.4.1            pillar_1.7.0          
+[109] lifecycle_1.0.1        jquerylib_0.1.4        GlobalOptions_0.1.2   
+[112] irlba_2.3.5            data.table_1.14.2      bitops_1.0-7          
+[115] seriation_1.3.5        httpuv_1.6.5           R6_2.5.1              
+[118] promises_1.2.0.1       TSP_1.2-0              codetools_0.2-18      
+[121] lambda.r_1.2.4         assertthat_0.2.1       DESeq2_1.34.0         
+[124] rprojroot_2.0.3        rjson_0.2.21           withr_2.5.0           
+[127] GenomeInfoDbData_1.2.7 mgcv_1.8-40            parallel_4.1.0        
+[130] hms_1.1.1              beachmat_2.10.0        rmarkdown_2.14        
+[133] Rtsne_0.16             git2r_0.30.1          </code></pre>
 </div>
 </div>
 
@@ -1001,6 +1200,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

@@ -49,6 +49,7 @@ ah <- AnnotationHub()
 
 ensdb <- ah[["AH98047"]] # AH89211
 peakAnno <- annotateRegions(peaks, ensdb)
+saveRDS(peakAnno, "../data/EOS_files/Q2_annotated_peaks.rds")
 table(peakAnno$class)
 
 peakfreq <- as.data.frame(table(peakAnno$nearestTSS.gene_name)) %>% mutate_all(na_if,"")
@@ -146,12 +147,6 @@ plt_logfc_reddy <- ggplot(res_reddy, aes(x=FDR)) +
 
 combined_plot <- ggpubr::ggarrange(plt_value, plt_logfc, plt_value_reddy, plt_logfc_reddy, ncol=2, nrow=2)
 combined_plot
-```
-
-# Comparison to control ChIP-seq experiment
-
-```{r control ChIP seq}
-
 ```
 
 

@@ -43,6 +43,7 @@ The rmarkdown files for the individual research questions can be found here:
 
 1. Q1: [Do the Reddy RNA-seq experiments show the same DE pattern as our experiments?](./Q1-Gene-overlap.html) `r give_date("Q1-Gene-overlap.html")`
 1. Q2: [Does the Reddy data show GR binding to DE genes from our analysis?](./Q2-TF-Binding-to-DE-genes.html) `r give_date("Q2-TF-Binding-to-DE-genes.html")`
+1. Q3: [Is this the PROTAC able to reverse the effect of DEX on genes where inhibitors don't work?](./Q3-PROTAC-reversal.html) `r give_date("Q3-PROTAC-reversal.html")`
 1. Q4: [Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?](./Q4-GR-binding-PROTAC-genes.html) `r give_date("Q4-GR-binding-PROTAC-genes.html")`
 1. Q7: [Does GC-GR bind to PRX sequences?](./Q7-PRX-sequences.html) `r give_date("Q7-PRX-sequences.html")`
 

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Dominique Paul" />
+
+<meta name="date" content="2022-06-22" />
+
+<title>Q3: PROTAC reversal</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GR-PROTAC-analysis</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Q3: PROTAC reversal</h1>
+<h4 class="author">Dominique Paul</h4>
+<h4 class="date">2022-06-22</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-06-22
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>GR-PROTAC-analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220515code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220515)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220515code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220515)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree207afa653f1bc6b51cf5f07acfe8c498be77c57btargetblank207afa6a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/207afa653f1bc6b51cf5f07acfe8c498be77c57b" target="_blank">207afa6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    analysis/.DS_Store
+    Ignored:    analysis/docs/.DS_Store
+    Ignored:    data/.DS_Store
+    Ignored:    data/EOS_files/
+
+Untracked files:
+    Untracked:  code/helper_functions.R
+    Untracked:  data/reddy_bed_ATAC_12h_DEX.bed.gz
+    Untracked:  data/reddy_bed_ATAC_control.bed.gz
+    Untracked:  data/reddy_bed_DEX12h_r123.bed
+    Untracked:  data/reddy_bed_DEX2h_r123.bed.gz
+    Untracked:  data/reddy_bed_JUNB_DEX12h_r123.bed
+    Untracked:  data/reddy_bigwig_DEX12h_r123.bigWig
+    Untracked:  data/reddy_bigwig_DEX2h_r123.bigWig
+    Untracked:  data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
+    Untracked:  data/reddy_rna_DEX12h.tsv
+    Untracked:  data/reddy_rna_DEX12h_r1.tsv
+    Untracked:  data/reddy_rna_DEX12h_r2.tsv
+    Untracked:  data/reddy_rna_DEX12h_r3.tsv
+    Untracked:  data/reddy_rna_DEX12h_r4.tsv
+    Untracked:  data/reddy_rna_DEX12h_transcript.tsv
+    Untracked:  data/reddy_rna_control.tsv
+    Untracked:  data/reddy_rna_control_r1.tsv
+    Untracked:  data/reddy_rna_control_r2.tsv
+    Untracked:  data/reddy_rna_control_r3.tsv
+    Untracked:  data/reddy_rna_control_r4.tsv
+    Untracked:  data/results/
+    Untracked:  output/Q2_GR_bound_DE_genes.xlsx
+    Untracked:  output/Q4_KH_DE_GR_bound.xlsx
+
+Unstaged changes:
+    Modified:   .gitignore
+    Modified:   _workflowr.yml
+    Modified:   analysis/01_download_files.Rmd
+    Modified:   analysis/02_exploratory_analysis.Rmd
+    Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/Q3-PROTAC-reversal.Rmd
+    Deleted:    analysis/Q6-JUNB-GR-overlap.Rmd
+    Modified:   analysis/Q7-PRX-sequences.Rmd
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/admin.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Q3-PROTAC-reversal.Rmd</code>) and HTML (<code>docs/Q3-PROTAC-reversal.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/analysis/Q3-PROTAC-reversal.Rmd" target="_blank">207afa6</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-21
+</td>
+<td>
+added question 3
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div id="question-3" class="section level1">
+<h1>Question 3:</h1>
+<p>Our RNA: are there any genes that treated by the PROTAC before/after DEX that could be reversed but which could not by the inhibitors or vice versa?</p>
+<p>We have performed experiments where we first exposed cells to either (1) DEX, (2) inhibitors, or (3) KH PROTAC for a substantial time and then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2) and (3). We would like to see whether the genes which were activated by DEX but then returned to a normal expression by the KH PROTAC, where a similar treatment by the inhibitors could not lead to such an effect and vice versa.</p>
+<p>In our RNAseq, are there any genes that Protac after dex or before dex could reverse or partially reverse that cort113 or mifepristone could not? do these gene show GR binding according to Reddy’s chip data?</p>
+<pre class="r"><code>res_int_all &lt;- readRDS(file=&quot;../data/results/DE_our_data.rds&quot;)
+names(res_int_all)</code></pre>
+<pre><code> [1] &quot;16h Cort113 &gt; 2h DEX+Cort113&quot; &quot;16h DMSO &gt; 2h DEX+DMSO&quot;      
+ [3] &quot;16h KH-103 &gt; 2h DEX+KH-103&quot;   &quot;16h MIF  &gt; 2h DEX+MIF&quot;       
+ [5] &quot;18h Cort113&quot;                  &quot;18h KH-103&quot;                  
+ [7] &quot;18h MIF&quot;                      &quot;2h DEX &gt; 16h DEX+Cort113&quot;    
+ [9] &quot;2h DEX &gt; 16h DEX+DMSO&quot;        &quot;2h DEX &gt; 16h DEX+KH-103&quot;     
+[11] &quot;2h DEX &gt; 16h DEX+MIF&quot;        </code></pre>
+<pre class="r"><code># The threshold we choose for which values count as DE or not
+fdr_thresh &lt;- 0.05
+
+# Load the control data for the 2+16 experiment
+control216 &lt;- res_int_all[[&quot;2h DEX &gt; 16h DEX+DMSO&quot;]]
+control162 &lt;- res_int_all[[&quot;16h DMSO &gt; 2h DEX+DMSO&quot;]]</code></pre>
+<p><em>Def. 1:</em> We consider “reversed by inhibitor” to mean: “Is DE in ‘2h DEX &gt; 16h DEX+DMSO’ but not in ‘2h DEX &gt; 16h DEX+Cort113’”. We look at both inhibitors and the PROTAC</p>
+<pre class="r"><code># Load inhibitors/Protac data
+cort216 &lt;- res_int_all[[&quot;2h DEX &gt; 16h DEX+Cort113&quot;]]
+mif216 &lt;- res_int_all[[&quot;2h DEX &gt; 16h DEX+MIF&quot;]]
+protac216 &lt;- res_int_all[[&quot;2h DEX &gt; 16h DEX+KH-103&quot;]]
+
+# merge the respective FDRs onto DF
+merged216 &lt;- control216 %&gt;% 
+  tibble::rownames_to_column() %&gt;% 
+  left_join(cort216 %&gt;% 
+              tibble::rownames_to_column() %&gt;%
+              select(rowname, logFC, FDR), suffix=c(&quot;&quot;,&quot;_cort&quot;), by=&quot;rowname&quot;) %&gt;%
+  left_join(mif216 %&gt;% 
+              tibble::rownames_to_column() %&gt;%
+              select(rowname, logFC, FDR), suffix=c(&quot;&quot;,&quot;_MIF&quot;), by=&quot;rowname&quot;) %&gt;%
+  left_join(protac216 %&gt;% 
+              tibble::rownames_to_column() %&gt;%
+              select(rowname, logFC, FDR), suffix=c(&quot;&quot;,&quot;_KH&quot;), by=&quot;rowname&quot;)
+
+# Using a FDR of 0.05, how many clear reversals do we have?
+merged216$cort_reversed &lt;- ifelse(merged216$FDR &lt; 0.05 &amp; merged216$FDR_cort &gt;= 0.05, TRUE, FALSE)
+merged216$MIF_reversed &lt;- ifelse(merged216$FDR &lt; 0.05 &amp; merged216$FDR_MIF &gt;= 0.05, TRUE, FALSE)
+merged216$KH_reversed &lt;- ifelse(merged216$FDR &lt; 0.05 &amp; merged216$FDR_KH &gt;= 0.05, TRUE, FALSE)
+
+# transform from wide to long
+merged216_long &lt;- reshape2::melt(merged216, 
+                id.vars=&quot;rowname&quot;,
+                  measure.vars=c(&quot;logFC&quot;, &quot;logFC_cort&quot;, &quot;logFC_MIF&quot;, &quot;logFC_KH&quot;)) %&gt;%
+  mutate(Group=factor(variable))
+levels(merged216_long$Group) &lt;- c(&quot;Control&quot;, &quot;Cort&quot;, &quot;MIF&quot;, &quot;KH&quot;)
+
+# sort rownames in descending order of control logFCs
+rnames &lt;- merged216_long[merged216_long$Group == &quot;Control&quot;,] %&gt;% arrange(desc(value)) %&gt;% pull(rowname)
+merged216_long$rowname &lt;- factor(merged216_long$rowname, levels=rnames)
+
+# unique protac reversals
+merged216 &lt;- merged216 %&gt;% arrange(logFC)
+rnames_kh_reversal &lt;- merged216[merged216$KH_reversed == TRUE &amp; 
+                                  merged216$cort_reversed == F &amp; 
+                                  merged216$MIF_reversed == F,&quot;rowname&quot;]
+
+merged216[merged216$rowname %in% rnames_kh_reversal,&quot;KH_reversed&quot;] &lt;- TRUE</code></pre>
+<pre class="r"><code>plt1 &lt;- ggplot(merged216_long[merged216_long$rowname %in% rnames_kh_reversal,]) +
+  geom_point(aes(x=rowname, y=value, color=Group)) +
+  theme_ipsum_rc() +
+  labs(title=&quot;Genes reversed by Protac but not by inhibitors&quot;,
+       subtitle=&quot;2h DEX &gt; 16h DEX + Inhibitor/Protac&quot;,
+       x=&quot;&quot;, y=&quot;&quot;) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values=c(Control=&quot;Black&quot;, Cort=&quot;#7ef2b4&quot;, MIF=&quot;#dda6ff&quot;, KH=&quot;#ff000d&quot;))
+plt1</code></pre>
+<p><img src="figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_reversal216.png&quot;, plt1, width=12, height=7)</code></pre>
+<p><em>Def. 2:</em></p>
+<p>“Is DE from 2h DEX &gt; 16h DEX+DMSO but is not DE in 2h DEX &gt; 16h DEX+Cort113 experiment”</p>
+<pre class="r"><code># Load inhibitors/Protac data
+cort162 &lt;- res_int_all[[&quot;16h Cort113 &gt; 2h DEX+Cort113&quot;]]
+mif162 &lt;- res_int_all[[ &quot;2h DEX &gt; 16h DEX+MIF&quot;]]
+protac162 &lt;- res_int_all[[&quot;16h KH-103 &gt; 2h DEX+KH-103&quot;]]
+
+# merge the respective FDRs onto DF
+merged162 &lt;- control162 %&gt;% 
+  tibble::rownames_to_column() %&gt;% 
+  left_join(cort162 %&gt;% 
+              tibble::rownames_to_column() %&gt;%
+              select(rowname, logFC, FDR), suffix=c(&quot;&quot;,&quot;_cort&quot;), by=&quot;rowname&quot;) %&gt;%
+  left_join(mif162 %&gt;% 
+              tibble::rownames_to_column() %&gt;%
+              select(rowname, logFC, FDR), suffix=c(&quot;&quot;,&quot;_MIF&quot;), by=&quot;rowname&quot;) %&gt;%
+  left_join(protac162 %&gt;% 
+              tibble::rownames_to_column() %&gt;%
+              select(rowname, logFC, FDR), suffix=c(&quot;&quot;,&quot;_KH&quot;), by=&quot;rowname&quot;)
+
+# Using a FDR of 0.05, how many clear reversals do we have?
+merged162$cort_reversed &lt;- ifelse(merged162$FDR &lt; 0.05 &amp; merged162$FDR_cort &gt;= 0.05, TRUE, FALSE)
+merged162$MIF_reversed &lt;- ifelse(merged162$FDR &lt; 0.05 &amp; merged162$FDR_MIF &gt;= 0.05, TRUE, FALSE)
+merged162$KH_reversed &lt;- ifelse(merged162$FDR &lt; 0.05 &amp; merged162$FDR_KH &gt;= 0.05, TRUE, FALSE)
+
+# transform from wide to long
+merged162_long &lt;- reshape2::melt(merged162,
+                id.vars=&quot;rowname&quot;,
+                  measure.vars=c(&quot;logFC&quot;, &quot;logFC_cort&quot;, &quot;logFC_MIF&quot;, &quot;logFC_KH&quot;)) %&gt;%
+  mutate(Group=factor(variable))
+levels(merged162_long$Group) &lt;- c(&quot;Control&quot;, &quot;Cort&quot;, &quot;MIF&quot;, &quot;KH&quot;)
+
+# sort rownames in descending order of control logFCs
+rnames &lt;- merged162_long[merged162_long$Group == &quot;Control&quot;,] %&gt;% arrange(desc(value)) %&gt;% pull(rowname)
+merged162_long$rowname &lt;- factor(merged162_long$rowname, levels=rnames)
+
+# unique protac reversals
+merged162 &lt;- merged162 %&gt;% arrange(logFC)
+rnames_kh_reversal &lt;- merged216[merged162$KH_reversed == TRUE &amp; 
+                                  merged162$cort_reversed == F &amp; 
+                                  merged162$MIF_reversed == F,&quot;rowname&quot;]
+
+merged162[merged162$rowname %in% rnames_kh_reversal,&quot;KH_reversed&quot;] &lt;- TRUE</code></pre>
+<p>Because we have a lot of genes to show in one plot for the 16h &gt; 2h experiment, we split them into two groups. One plot shows the genes for which the control logFC is &gt;0 and the other &lt;0.</p>
+<pre class="r"><code># split the long formatted dataset into two groups
+data_plt &lt;- merged162_long[merged162_long$rowname %in% rnames_kh_reversal,]
+data &lt;- data_plt[data_plt$Group == &quot;Control&quot;,]
+rnames_plt1 &lt;- data[data$value &gt; 0,&quot;rowname&quot;]
+rnames_plt2 &lt;- data[data$value &lt;= 0,&quot;rowname&quot;]
+data_plt1 &lt;- data_plt[data_plt$rowname %in% rnames_plt1,]
+data_plt2 &lt;- data_plt[data_plt$rowname %in% rnames_plt2,]
+
+plt2_1 &lt;- ggplot(data_plt1) +
+  geom_point(aes(x=rowname, y=value, color=Group)) +
+  theme_ipsum_rc() +
+  labs(title=&quot;Genes reversed by Protac but not by inhibitors&quot;,
+       subtitle=&quot;16h Inhibitor/Protac &gt; 2h Inhibitor/Protac + DEX&quot;,
+       x=&quot;&quot;, y=&quot;&quot;) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values=c(Control=&quot;Black&quot;, Cort=&quot;#7ef2b4&quot;, MIF=&quot;#dda6ff&quot;, KH=&quot;#ff000d&quot;))
+
+plt2_2 &lt;- ggplot(data_plt2) +
+  geom_point(aes(x=rowname, y=value, color=Group)) +
+  theme_ipsum_rc() +
+  labs(title=&quot;Genes reversed by Protac but not by inhibitors&quot;,
+       subtitle=&quot;16h Inhibitor/Protac &gt; 2h Inhibitor/Protac + DEX&quot;,
+       x=&quot;&quot;, y=&quot;&quot;) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+    scale_color_manual(values=c(Control=&quot;Black&quot;, Cort=&quot;#7ef2b4&quot;, MIF=&quot;#dda6ff&quot;, KH=&quot;#ff000d&quot;))
+
+# show the plots
+plt2_1</code></pre>
+<p><img src="figure/Q3-PROTAC-reversal.Rmd/plots-1.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>plt2_2</code></pre>
+<p><img src="figure/Q3-PROTAC-reversal.Rmd/plots-2.png" width="1152" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_2_reversal162_p1.png&quot;, plt2_1, width=24, height=8)
+ggsave(file=&quot;../docs/assets/Q3_3_reversal162_p2.png&quot;, plt2_2, width=24, height=8)</code></pre>
+<p>Save file to excel</p>
+<pre class="r"><code># setup excel file
+wb &lt;- createWorkbook()
+# add worksheets and add data
+addWorksheet(wb, sheetName = &quot;2h&gt;16h&quot;)
+addWorksheet(wb, sheetName = &quot;16h&gt;2h&quot;)
+writeData(wb, &quot;2h&gt;16h&quot;, merged216)
+writeData(wb, &quot;16h&gt;2h&quot;, merged162)
+# write final excel to disk
+saveWorkbook(wb, &quot;../docs/assets/protact_flipped_DE.xlsx&quot;, overwrite=TRUE)</code></pre>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.3.6    hrbrthemes_0.8.6 openxlsx_4.2.5   dplyr_1.0.9     
+
+loaded via a namespace (and not attached):
+ [1] tidyselect_1.1.2  xfun_0.31         bslib_0.3.1       reshape2_1.4.4   
+ [5] purrr_0.3.4       colorspace_2.0-3  vctrs_0.4.1       generics_0.1.2   
+ [9] htmltools_0.5.2   yaml_2.3.5        utf8_1.2.2        rlang_1.0.2      
+[13] jquerylib_0.1.4   later_1.3.0       pillar_1.7.0      withr_2.5.0      
+[17] glue_1.6.2        DBI_1.1.2         gdtools_0.2.4     plyr_1.8.7       
+[21] lifecycle_1.0.1   stringr_1.4.0     munsell_0.5.0     gtable_0.3.0     
+[25] workflowr_1.7.0   ragg_1.2.2        zip_2.2.0         evaluate_0.15    
+[29] labeling_0.4.2    knitr_1.39        fastmap_1.1.0     extrafont_0.18   
+[33] httpuv_1.6.5      fansi_1.0.3       highr_0.9         Rttf2pt1_1.3.10  
+[37] Rcpp_1.0.8.3      promises_1.2.0.1  scales_1.2.0      jsonlite_1.8.0   
+[41] farver_2.1.0      systemfonts_1.0.4 fs_1.5.2          textshaping_0.3.6
+[45] digest_0.6.29     stringi_1.7.6     rprojroot_2.0.3   grid_4.1.0       
+[49] cli_3.3.0         tools_4.1.0       magrittr_2.0.3    sass_0.4.1       
+[53] tibble_3.1.7      crayon_1.5.1      whisker_0.4       extrafontdb_1.0  
+[57] pkgconfig_2.0.3   ellipsis_0.3.2    assertthat_0.2.1  rmarkdown_2.14   
+[61] rstudioapi_0.13   R6_2.5.1          git2r_0.30.1      compiler_4.1.0   </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -20,6 +20,8 @@ suppressPackageStartupMessages({
   library(hrbrthemes)
   library(openxlsx)
   library(stringdist)
+  library(rtracklayer)
+  library(epiwraps)
 })
 
 source("../code/helper_functions.R")
@@ -57,7 +59,7 @@ Second, we compare the log fold changes for the union of all genes identified as
 
 We see a significant change in terms of both the p-value and the logFC for genes that are bound by the GC-GR complex.
 
-Plot: we select all genes that are differentially expressed - both for Mahshid's data and for the DE analysis on the Reddy data. We then split the data into two groups based on whether the Reddy data showed that the glucorticoid receptor was found to bind near the gene or not. We plot the distributions of (a) the log fold changes in the DE analysis and (b) the p-value of the DE analysis. 
+Plot: we select all genes that are differentially expressed - both for M = shid's data and for the DE analysis on the Reddy data. We then split the data into two groups based on whether the Reddy data showed that the glucorticoid receptor was found to bind near the gene or not. We plot the distributions of (a) the log fold changes in the DE analysis and (b) the p-value of the DE analysis. 
 
 **Idea for next step:** Does it make sense to look at pathways of associated genes?
 
@@ -99,19 +101,9 @@ kh.protac.sig[,c("Gene", "logFC", "FDR", "chip_peaks", "gc_bound")] %>%
 
 ![](assets/Q4_1_kh_gr_binding.png)
 
-# Question 6: Common binding sites of JUNB and GR
+# Question 5: Binding to selected genes
 
-Q: What are common binding sites between JUNB and GR? -> Generally not a priority though
-
-# Question 7: PXR Sequences
-
-Q: Does GC-GR bind to PXR sequences
-
-Scan for PXR sequences. See if GR binds there
-
-# Question 8: Binding to selected genes
-
-Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?
+**Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?**
 
 --> We see that there is one peak in the ChIP data close to the BRCA1 gene and two close to the HSD11B1 gene. There is no peak that is closest to the CH25H gene. However, the CD25H was also not found in the RNA seq data. 
 
@@ -152,9 +144,73 @@ plt_data %>%
 
 
 
+# Question 6: Common binding sites of JUNB and GR
+
+**Q: What are common binding sites between JUNB and GR?** -> Generally not a priority though
+
+**Take-aways:**
+
+- Interestingly there are more peaks after 2h treatment with DEX than 12h of treatment with DEX
+- Most of the 12h GR peaks are shared with the JUNB peaks, only a small fraction is unique to the 12h GR ChIP seq data
+- The 2h GR data has more peaks that are unique and not shared with the 12h GR or 12h JUNB data
+
+```{r q6}
+# Load GR
+peaks_gr_12h <- import.bed15("../data/reddy_bed_DEX12h_r123.bed", format="narrowPeak")
+peaks_gr_2h <- import.bed15("../data/reddy_bed_DEX2h_r123.bed.gz", format="narrowPeak")
+# load JUNB
+peaks_junb_12h <- import.bed15("../data/reddy_bed_JUNB_DEX12h_r123.bed", format="narrowPeak")
+
+# Show tile diagram
+list_of_regions <- list(GR_2h=peaks_gr_2h, GR_12h=peaks_gr_12h, JUNB_12h=peaks_junb_12h) # Does not work with only two
+regionOverlaps(list_of_regions)
+
+# Show upset plot
+regionUpset(list_of_regions)
+```
+
+### What if we filter the peaks by their score?
+
+There is no significant change in the results/plots if we filter for a minimum peak score of 900 (max value is 1000).
+
+```{r q6 filtered}
+# Does it make a difference if we only choose peaks with high scores?
+## What is the range of scores
+# qplot(peaks_gr_2h$score, geom="histogram")
+
+# Show tile diagram
+list_of_regions_v2 <- list(GR_2h=peaks_gr_2h[peaks_gr_2h$score>900], 
+                           GR_12h=peaks_gr_12h[peaks_gr_12h$score>900], 
+                           JUNB_12h=peaks_junb_12h[peaks_junb_12h$score>900]) # Does not work with only two 
+regionOverlaps(list_of_regions_v2)
+
+# Show upset plot
+regionUpset(list_of_regions_v2)
+```
+
+# Question 7: PXR Sequences
+
+Q: Does GC-GR bind to PXR sequences
+
+Other groups have observed that a GR inhibitor activates CYP genes. CYP genes are target genes of PXR TF that have PXR recognition sites. the hypothesis here is that GR might also bind to PXR sites directly or probably is regulating CYP genes via interaction with PXR TF on these genes. For example, based on our RNA-seq dex triggers many CYP genes and the inhibitors too, but protac doesn't.
+
+The PXR motif looks like this (from Hocomoco):
+
+![](assets/Q7_1_motif.png)
 
 
+```{r}
+gr_peaks <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
+moi <- readRDS(file="../data/EOS_files/pxr_peaks.rds")
 
+cat(paste0("We have ", length(gr_peaks), " GR peaks, of which ", length(moi), " (", round(length(moi)/length(gr_peaks),4)*100, "%) contain a PRX motif"))
+```
+
+### We have `r length(gr_peaks)` GR peaks, of which `r length(moi)` (`r round(length(moi)/length(gr_peaks),4)*100`%) contain a PRX motif
+
+We can also look at the signals around the PXR motifs found in the accessible chromatin (identified using the 12h ATAC seq data from the Reddy lab)
+
+![](assets/Q7_2_signal.png)
 
 
 
