@@ -438,7 +438,7 @@ merged_peaks <- readRDS(file="../data/results/merged_peaks.rds")
 
 `r sum(et$FDR < 0.05)` genes are significant at a 0.05 FDR level.
 
-A overview of the differential binding peaks is available in the downloads section.
+An overview of the differential binding peaks is available in the downloads section.
 
 ## Tabular overview:
 
@@ -446,6 +446,7 @@ A overview of the differential binding peaks is available in the downloads secti
 # print table
 et %>% 
   dplyr::select(nearestTSS.gene_name, nearestTSS, FDR,  everything()) %>% 
+  head(20) %>%
   kable() %>% 
   kable_styling()
 ```
@@ -599,7 +600,7 @@ addWorksheet(wb, sheet_name)
 writeData(wb, sheet = sheet_name, de_res)
 saveWorkbook(wb, "../docs/downloads/Q10_DE_genes_long_range_interactions.xlsx", overwrite = TRUE)
 
-de_res %>% kable() %>% kable_styling()
+de_res %>% head(20) %>% kable() %>% kable_styling()
 ```
 
 
