@@ -1,0 +1,118 @@
+---
+title: "File Downloads"
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# About
+
+This script just serves to download all relevant files for the analysis to ease reproducibility All data can also be found at the Encode entries listed here:
+
+* RNA: https://www.encodeproject.org/treatment-time-series/ENCSR897XFT/
+* GR ChIP: https://www.encodeproject.org/treatment-time-series/ENCSR210PYP/
+* JUNB ChIP: https://www.encodeproject.org/treatment-time-series/ENCSR483SDK/
+* ATAC: https://www.encodeproject.org/treatment-time-series/ENCSR385LRX/
+
+# Download RNA data
+
+```{r, eval=FALSE}
+# ENCODE4 v1.2.3 GRCh38 V29 (ENCAN887WHM) processed data
+
+# Control
+# https://www.encodeproject.org/experiments/ENCSR632DQP/
+download.file("https://www.encodeproject.org/files/ENCFF285BTU/@@download/ENCFF285BTU.tsv", "../data/reddy_rna_control_r1.tsv")
+download.file("https://www.encodeproject.org/files/ENCFF904PCS/@@download/ENCFF904PCS.tsv", "../data/reddy_rna_control_r2.tsv")
+download.file("https://www.encodeproject.org/files/ENCFF360GXF/@@download/ENCFF360GXF.tsv", "../data/reddy_rna_control_r3.tsv")
+download.file("https://www.encodeproject.org/files/ENCFF233CZT/@@download/ENCFF233CZT.tsv", "../data/reddy_rna_control_r4.tsv")
+
+# 12h DEX treatment
+# https://www.encodeproject.org/experiments/ENCSR154TDP
+download.file("https://www.encodeproject.org/files/ENCFF864UKR/@@download/ENCFF864UKR.tsv", "../data/reddy_rna_DEX12h_r1.tsv")
+download.file("https://www.encodeproject.org/files/ENCFF928EKJ/@@download/ENCFF928EKJ.tsv", "../data/reddy_rna_DEX12h_r2.tsv")
+download.file("https://www.encodeproject.org/files/ENCFF988JYH/@@download/ENCFF988JYH.tsv", "../data/reddy_rna_DEX12h_r3.tsv")
+download.file("https://www.encodeproject.org/files/ENCFF248HYY/@@download/ENCFF248HYY.tsv", "../data/reddy_rna_DEX12h_r4.tsv")
+```
+
+# Download bed and bigwig files for the GC receptor
+
+```{r, eval=FALSE}
+# Bed file for 2h DEX treatment
+download.file("https://www.encodeproject.org/files/ENCFF869DAZ/@@download/ENCFF869DAZ.bed.gz", "../data/reddy_bed_DEX2h_r123.bed.gz")
+# Bigwig for 2h DEX  treatment
+download.file("https://www.encodeproject.org/files/ENCFF910SEI/@@download/ENCFF910SEI.bigWig", "../data/reddy_bigwig_DEX2h_r123.bigWig")
+
+# Bed file for 6h DEX treatment
+download.file("https://www.encodeproject.org/files/ENCFF861UYA/@@download/ENCFF861UYA.bed.gz", "../data/reddy_bed_DEX6h_r123.bed.gz")
+# Bigwig for 6h DEX  treatment
+download.file("https://www.encodeproject.org/files/ENCFF927XAB/@@download/ENCFF927XAB.bigWig", "../data/reddy_bigwig_DEX6h_r123.bigWig")
+
+# Bed file for after 12h treatment
+download.file("https://www.encodeproject.org/files/ENCFF567KLR/@@download/ENCFF567KLR.bed.gz", "../data/reddy_bed_DEX12h_r123.bed.gz")
+# BigWig file for 12h DEX treatment
+download.file("https://www.encodeproject.org/files/ENCFF638NRS/@@download/ENCFF638NRS.bigWig", "../data/reddy_bigwig_DEX12h_r123.bigWig")
+```
+
+# Download bed files for JUNB
+
+```{r, eval=FALSE}
+# Bed file for 12h treatment
+download.file("https://www.encodeproject.org/files/ENCFF278BHW/@@download/ENCFF278BHW.bed.gz", "../data/reddy_bed_JUNB_DEX12h_r123.bed.gz")
+R.utils::gunzip("../data/reddy_bed_JUNB_DEX12h_r123.bed.gz")
+
+# BigWig file
+download.file("https://www.encodeproject.org/files/ENCFF091VQD/@@download/ENCFF091VQD.bigWig", "../data/reddy_bigwig_JUNB_DEX12h_r123.bigWig")
+```
+
+# Download ATAC-seq data
+
+```{r, eval=FALSE}
+download.file("https://www.encodeproject.org/files/ENCFF735UWS/@@download/ENCFF735UWS.bed.gz",
+              "../data/reddy_bed_ATAC_control.bed.gz")
+download.file("https://www.encodeproject.org/files/ENCFF139XJH/@@download/ENCFF139XJH.bed.gz",
+              "../data/reddy_bed_ATAC_12h_DEX.bed.gz")
+```
+
+
+# Download bigwig files for individual samples of the ChIP GR sequencing data
+
+We need the individual sample files for differential binding. We only have the bigwig files (no bed files) for the control experiments so we need to call the peaks from the bigwig files. To ensure that the peak calling method applied to the control and treatment files is the same we also call the peaks on the bigwig files for the treated samples.
+
+```{r download individual files for bigwig, eval=FALSE}
+mk.dir("../data/single_replicate_peaks")
+mk.dir("../data/single_replicate_peaks/control")
+mk.dir("../data/single_replicate_peaks/dex12h")
+
+# for the control (we only have two files)
+download.file("https://www.encodeproject.org/files/ENCFF627XPX/@@download/ENCFF627XPX.bigWig", "../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig")
+download.file("https://www.encodeproject.org/files/ENCFF260GUF/@@download/ENCFF260GUF.bigWig", "../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig")
+
+# for the 12h treatment
+download.file("https://www.encodeproject.org/files/ENCFF613BWE/@@download/ENCFF613BWE.bigWig", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig")
+download.file("https://www.encodeproject.org/files/ENCFF505SYX/@@download/ENCFF505SYX.bigWig", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig")
+download.file("https://www.encodeproject.org/files/ENCFF632TED/@@download/ENCFF632TED.bigWig", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig")
+```
+
+# Download bam files
+
+```{r, eval=FALSE}
+# for the control (we only have two files)
+download.file("https://www.encodeproject.org/files/ENCFF181HLP/@@download/ENCFF181HLP.bam", "../data/single_replicate_peaks/control/Chip_GR_control_s2.bam")
+download.file("https://www.encodeproject.org/files/ENCFF870WJP/@@download/ENCFF870WJP.bam", "../data/single_replicate_peaks/control/Chip_GR_control_s3.bam")
+
+download.file("https://www.encodeproject.org/files/ENCFF813FWF/@@download/ENCFF813FWF.bam", "../data/single_replicate_peaks/control/Chip_GR_control_s2_input.bam")
+download.file("https://www.encodeproject.org/files/ENCFF236QYF/@@download/ENCFF236QYF.bam", "../data/single_replicate_peaks/control/Chip_GR_control_s3_input.bam")
+
+# for the 12h treatment
+download.file("https://www.encodeproject.org/files/ENCFF221AJW/@@download/ENCFF221AJW.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bam")
+download.file("https://www.encodeproject.org/files/ENCFF236LTP/@@download/ENCFF236LTP.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bam")
+download.file("https://www.encodeproject.org/files/ENCFF888BBP/@@download/ENCFF888BBP.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bam")
+
+download.file("https://www.encodeproject.org/files/ENCFF374ZTE/@@download/ENCFF374ZTE.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1_input.bam")
+download.file("https://www.encodeproject.org/files/ENCFF333BTQ/@@download/ENCFF333BTQ.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2_input.bam")
+download.file("https://www.encodeproject.org/files/ENCFF690OST/@@download/ENCFF690OST.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3_input.bam")
+```

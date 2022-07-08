@@ -13,6 +13,8 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(ggplot2)
   library(hrbrthemes)
+  library(epiwraps)
+  library(AnnotationHub)
 })
 ```
 
@@ -27,8 +29,10 @@ Q: Is there a direct binding of GR to the 13 genes shown to be affected by the K
 
 
 ```{r load data}
+# load the peaks
+peakAnno <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
+# load our DE results
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
-names(res_int_all)
 
 # get the data for the 18h KH-PROTAC treatment
 kh.protac <- res_int_all[["18h KH-103"]]
@@ -37,16 +41,23 @@ kh.protac <- res_int_all[["18h KH-103"]]
 peakfreq <- readRDS(file="../data/EOS_files/Q2_gene_peaks.rds")
 
 # merge peak frequency onto table and add binary variable
+peakAnno_reduced <- as.data.frame(peakAnno) %>% 
+  dplyr::select("nearestTSS.gene_name", "distance2nearestTSS", "class") %>% 
+  dplyr::rename(Gene=nearestTSS.gene_name) %>%
+  dplyr::filter(Gene != "") %>%
+  group_by(Gene) %>%
+  dplyr::slice(which.min(abs(distance2nearestTSS)))
+
 kh.protac <- left_join(kh.protac %>% mutate(Gene = rownames(kh.protac)), 
           peakfreq,
           by="Gene") %>%
   tidyr::replace_na(list(Freq=0)) %>%
   mutate(gc_bound = Freq > 0) %>%
-  rename(chip_peaks=Freq) %>% 
-  dplyr::select(Gene, everything())
+  dplyr::rename(chip_peaks=Freq) %>% 
+  dplyr::select(Gene, everything()) %>%
+  dplyr::left_join(peakAnno_reduced, by="Gene")
 
-
-write.xlsx(file="../output/Q4_KH_DE_GR_bound.xlsx", kh.protac, rowNames=TRUE)
+write.xlsx(file="../docs/downloads/Q4_KH_DE_GR_bound.xlsx", kh.protac, rowNames=TRUE)
 ```
 
 ### Does GR-GC bind to a region closely associated with any of these 13 genes?
@@ -70,3 +81,65 @@ plt_gr_binding
 
 ggsave(file="../docs/assets/Q4_1_kh_gr_binding.png", plt_gr_binding)
 ```
+
+# Plot signal tracks 
+
+## Peaks found in bed file (not all 13 genes included)
+
+Visualisations are centred around peaks, but annotated by the closest gene. The visualised tracks are NOT centred around the respective genes' TSS.
+
+```{r plot signal tracks, fig.width=12, fig.height=7}
+peaks13g <- peakAnno[peakAnno$nearestTSS.gene_name %in% kh.protac.sig$Gene,]
+
+names(peaks13g) <- make.unique(peaks13g$nearestTSS.gene_name)
+
+tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
+                "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
+                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
+signals <- signal2Matrix(tracks, peaks13g, w=5, extend=500)
+
+png(file="../docs/assets/Q4_2_kh_peak_tracks.png", width=12,height=7,units="in",res=1200)
+h1 <- plotEnrichedHeatmaps(signals, show_row_names=TRUE, row_names_side="left", row_order=order(rownames(signals[["2h-DEX"]]))) #, left_annotation=peaks13g$nearestTSS.gene_name)#, width=unit(12, "cm"))
+h1
+dev.off()
+h1
+```
+
+## Plot the signal around the TSS of each of the 13 genes (all transcripts)
+
+± 10'000 bps from TSS
+
+```{r gene TSS all transcripts, fig.width=12, fig.height=7}
+ah <- AnnotationHub()
+ensdb <- ah[["AH98047"]] # AH89211
+
+mygenes.transcripts <-  subset(transcripts(ensdb, columns=c("tx_id", "tx_name","gene_id","gene_name")), gene_name %in% kh.protac.sig$Gene)
+mygenes.tss <-  resize(mygenes.transcripts, width=2000, fix='start')
+seqlevelsStyle(mygenes.tss) <- "UCSC"
+
+signals2 <- signal2Matrix(tracks, mygenes.tss, w=10, extend=10000)
+png(file="../docs/assets/Q4_3_kh_all_txs.png", width=12,height=7,units="in",res=1200)
+h2 <- plotEnrichedHeatmaps(signals2) #, left_annotation=peaks13g$nearestTSS.gene_name)#, width=unit(12, "cm"))
+h2
+dev.off()
+h2
+```
+
+
+## Plot the signal around the TSS of each of the 13 genes (one transcript per gene)
+
+± 10'000 bps from TSS
+
+```{r all genes unique TSS, fig.width=12, fig.height=7}
+mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
+
+names(mygenes_unique) <- mygenes_unique$gene_name
+signals3 <- signal2Matrix(tracks, mygenes_unique, w=10, extend=10000)
+
+png(file="../docs/assets/Q4_4_kh_unique_gene_tss.png", width=12,height=7,units="in",res=1200)
+h3 <- plotEnrichedHeatmaps(signals3, show_row_names=TRUE, row_names_side="left", row_order=order(rownames(signals3[["2h-DEX"]]))) 
+h3
+dev.off()
+h3
+```
+

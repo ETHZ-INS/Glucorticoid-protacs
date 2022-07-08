@@ -3,7 +3,9 @@ title: "Home"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
-    toc: false
+    toc: TRUE
+    toc_depth: 2
+    number_sections: true
 editor_options:
   chunk_output_type: console
 ---
@@ -27,26 +29,119 @@ give_date <- function(filename, dataframe = mod_times){
 }
 ```
 
-# Project overview
+# Overview
 
-Please read the [About Page](./about.html) for an overview of the project
+In this analysis I've combined previous work on glucocorticoids and PROTACs (RNA-seq) with external data (RNA-seq, ATAC-seq, ChIP-seq) to better understand the effects of glucocorticoids on DNA regulation. A short introduction is provided in the following.
 
-# Results
+The **results** are summarised in a separate markdown file [here](01_Results.html), which is also linked in the corresponding section [further below](#results).
 
-A summary of the results can be found here: [Results overview](02_exploratory_analysis.html)
+For some results only the relevant plots are shown. More verbose analyses were run in separate files. You can find these **methods / individual analyses**in the [methods section](#methods) below. 
 
-Last updated: `r give_date("02_exploratory_analysis.html")`
+Some resulting tables are accessible as **downloadable files** and can be found at the bottom of this page in the [downloads section](#downloads).
 
-# Analysis
+# Introduction
 
-The rmarkdown files for the individual research questions can be found here:
+## Background
+
+### Glucocorticoids
+
+Glucocorticoids (a portmanteau of glucose + cortex + steroids; abbreviated GC) are a form of steroids which play an important role as a feedback mechanism in the human immune system. They are generated in the adrenal cortex and are transported throughout the body where they diffuse through the cell membrane and bind to glucocorticoid receptors (GR) which reside in the cytosol. 
+
+These activated GC-GR complexes can either indirectly or directly influence gene expression. Direct regulation involves homo-dimerization of the receptor which then acts as a transcription factor (TF) in the nucleus to regulate gene expression (transactivation). 
+
+In the absence of the GC-GR complex other TFs are able to function normally, however, when GR is activated (in form of a GC-GR complex) it can interact with these TFs and hinder them from binding to DNA (transrepression). The GC-GR complex is particularly known for up-regulating the expression of anti-inflammatory proteins and repression of pro-inflammatory genes. 
+
+Cortisol, a stress hormone, is the best-known glucocorticoid and also the most important one. It is essential for many cardiovascular, metabolic, immunologic and homeostatic functions.
+
+### PROTACs
+
+Proteolysis targeting chimeras (PROTACs) are small molecules with two active domains bound together by a so-called linker domain. PROTAC catalyse the targeted degradation of proteins. One of the two active domains binds the protein of interest. While inhibitors block the functioning of proteins by binding to the active domain, PROTACs can instead bind to any part of the protein. Hence, there are less constraints on synthesising a PROTAC compared to an inhibitor: The active domain of the PROTAC can have many forms and need not fit the active domain of the target, but any part of the molecule. Inhibitors need to bind to the active domain of the target. The other active domain of the PROTAC binds to a protein (ER ubiquitin ligase) which is responsible for adding ubiquitin molecules to proteins, which are read by the cell as marks for destruction. Proteins marked for destruction eventually bind to the proteasome which subsequently destroys said proteins.
+
+Often, to block the functioning of proteins we use inhibitors in biology. However, inhibitors have to bind to the active site of a protein to work, while PROTACs only need to bind to the targeted protein with high selectivity rather than fully block the active domain, as mentioned above. Furthermore, a given inhibitor has to stay bound to the target protein to block its function. To fully block a certain protein in a cell, we would need at least as many inhibitors as there are proteins that we want to inhibit.  PROTACs on the other hand can direct the destruction of multiple proteins before the PROTACs themselves are degraded. PROTACs can thus be administered at lower doses compared to inhibitors to achieve similar effects.
+
+PROTACs are attractive drug candidates because they are administrable at a lower dose, can be more selective, and do not necessarily have to bind to the active domain of a target.
+
+
+## Overall research goal and contribution of this analysis
+
+The goal of the project is to understand (1) the contribution of GR to the transcriptional stress response in the hippocampus in vivo and (2) show that PROTACs can be used in-vivo as a tool in neuroscience to normalise stress response.
+
+The [Tim Reddy lab](http://reddylab.org/) has done related research and has performed RNA-seq, ChIP-seq, and ATAC-seq experiments on the same cell line and under similar conditions. While we only have RNA-seq data, the Reddy lab has ChIP-seq experiments for two proteins, one of which being the GR, and DNA accessibility data. 
+
+This analysis contributes to the project by analysing the Reddy data to complement and extend findings from our own experiments. Specifically, it aims to better understand the effect of glucocorticoids on the DNA regulation using the ChIP-seq data and relating it to the RNA-seq data from experiments already performed. Moreover, some components of the analysis answer questions only related to our own RNA-seq data that had not been investigated yet.
+
+## Prior work
+
+Katharina and Mahshid have performed experiments on mice where they treated mice with combinations of (1) a synthetic form of a GC called Dexamethasone (DEX) (2) a PROTAC inhibitor (KH-103) and (3) GR inhibitors. They have collected RNA-seq data to understand what the effects of treatment are - which was analysed by Pierre-Luc - and have determined differentially expressed genes.
+
+## Data used
+
+### Our data
+
+Mahshid and Katharina have collected RNA-seq data for the following treatment conditions of 
+
+**Control treatments: 18h treatment with inhibitor or PROTAC only**
+
+1. Inhibitor 1: "18h Cort113"
+1. Inhibitor 2: "18h MIF"
+1. PROTAC only: "18h KH-103""16h DMSO > 2h DEX+DMSO"
+
+**Switched treatments: 16h+2h** 
+
+We first treat with the inhibitor, PROTAC or DMSO as control and the add DEX for the last two hours
+
+1. Inhibitor 1: "16h Cort113 > 2h DEX+Cort113"
+1. Inhibitor 2: "16h MIF  > 2h DEX+MIF"
+1. PROTAC: "16h KH-103 > 2h DEX+KH-103"
+1. Control with DMSO: 16h DMSO > 2h DEX+DMSO"
+
+**Switched Treatment: 2h+16h**
+
+We first treat with DEX for 2 hours and then add the inhibitor PROTAC for another 16 hours
+
+1. Inhibitor 1 "2h DEX > 16h DEX+Cort113"
+1. Inhibitor 2: "2h DEX > 16h DEX+MIF"
+1. PROTAC: "2h DEX > 16h DEX+KH-103"
+1. DEX only: "2h DEX > 16h DEX+DMSO"
+
+
+### Reddy lab data
+
+The experiments from the Reddy lab include:
+
+1. **RNA - DEX vs control:** One RNA-seq experiment with a control group and dexamethasone treatment for multiple time intervals, up to 12 hours
+1. **ChIP - NR3C1 & JUNB:** Two ChIP-seq experiments. One is for NR3C1 - which is as I understand is the only relevant (?) GR in the cell. The second ChIP-seq experiment is for JUNB. JUNB appears to be a transcription factor subunit.
+1. **ATAC-seq - DEX exposure:** experiment with a control as well as data for exposure of the cell culture to DEX for multiple intervals.
+
+
+# Results {#results}
+
+A summary of the results can be found here: [Results overview](01_Results.html) `r give_date("01_Results.html")`
+
+
+# Methods / Individual analyses {#methods}
+
+For an overview of how the files were downloaded, please see this file:
+
+1. [Data download](./00_Download_files.html) `r give_date("00_Download_files.html")`
+
+The rendered markdown files for the individual research questions can be found here:
 
 1. Q1: [Do the Reddy RNA-seq experiments show the same DE pattern as our experiments?](./Q1-Gene-overlap.html) `r give_date("Q1-Gene-overlap.html")`
 1. Q2: [Does the Reddy data show GR binding to DE genes from our analysis?](./Q2-TF-Binding-to-DE-genes.html) `r give_date("Q2-TF-Binding-to-DE-genes.html")`
 1. Q3: [Is this the PROTAC able to reverse the effect of DEX on genes where inhibitors don't work?](./Q3-PROTAC-reversal.html) `r give_date("Q3-PROTAC-reversal.html")`
 1. Q4: [Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?](./Q4-GR-binding-PROTAC-genes.html) `r give_date("Q4-GR-binding-PROTAC-genes.html")`
 1. Q7: [Does GC-GR bind to PRX sequences?](./Q7-PRX-sequences.html) `r give_date("Q7-PRX-sequences.html")`
+1. Q9: [How does differential binding relate to RNA DE results?](./Q9-Differential_binding.html) `r give_date("Q9-PRX-Differential_binding.html")`
 
+# Files available to download {#downloads}
 
-# File downloads
+**Q2: Table of 18h DE results augmented with 12h DEX ChIP data:** <a href="./downloads/Q2_GR_bound_DE_genes.xlsx">download</a>
 
+**Q3: DE results of the 2h>16h and 16h>2h experiments on effect reversal**. It includes data on (1) DMSO control (2) Protac (3) MIF and (4) Cort treatment with columns indicating whether the inhibitor/protac as able to reverse the effect of DEX compared to the DMSO control. Tabs available for the 2h > 16h as well as 16h > 2h treatment <a href="./downloads/Q3_protac_flipped_DE.xlsx">download</a>
+
+**Q4: 18h KH-103 augmented with 12h GR ChIP data:** <a href="./downloads/Q4_KH_DE_GR_bound.xlsx">download</a>
+
+**Q9: Differential binding results:** <a href="./downloads/Q9_differential_binding.xlsx">download</a>
+
+**Q10: DE results from 18h DEX treatment augmented with long-range interactions:** <a href="./downloads/Q10_DE_genes_long_range_interactions.xlsx">download</a>

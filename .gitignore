@@ -13,3 +13,5 @@ analysis/site_libs
 EOS_files
 *.bigWig
 *.bw
+*.bam
+*.tsv

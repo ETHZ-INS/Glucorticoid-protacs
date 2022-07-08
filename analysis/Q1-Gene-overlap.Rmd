@@ -54,11 +54,12 @@ treatment_r2 <- read.csv("../data/reddy_rna_DEX12h_r2.tsv", sep="\t")
 treatment_r3 <- read.csv("../data/reddy_rna_DEX12h_r3.tsv", sep="\t")
 treatment_r4 <- read.csv("../data/reddy_rna_DEX12h_r4.tsv", sep="\t")
 
+ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
+
 replace_ensg_by_hgnc <- function(entrez_ids){
   # pass a list of ensembl genes and get a table with corresponding hgnc gene names
   # Very useful reference: 
   # https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html
-  ensembl <- useEnsembl(biomart = "genes", dataset = "hsapiens_gene_ensembl")
   bm_results <- getBM(attributes = c('ensembl_gene_id', 'hgnc_symbol', 'chromosome_name'),
       filters = 'ensembl_gene_id', 
       values = entrez_ids, 
@@ -130,6 +131,7 @@ hgnc_table <- replace_ensg_by_hgnc(unique_gene_names)
 overlapping_genes <- unique_gene_names[unique_gene_names %in% rownames(hgnc_table)]
 # set the ENSG name per default and then replace by HGNC where possible
 rowData(SE)$gene_name <- unique_gene_names
+
 rowData(SE)[overlapping_genes, "gene_name"] <- hgnc_table[overlapping_genes,"hgnc_symbol"]
 # set rownames to combination of ENSG and HGNC name.
 rownames(SE) <- paste0(rowData(SE)$gene_name, ".", rowData(SE)$gene_id)
@@ -308,3 +310,5 @@ ggsave(file="../docs/assets/2_logFC_Mahshid_Reddy.png", plot_lfc)
 saveRDS(list("Reddy_all"=res_ext, "Reddy_significant"=res_ext_significant, "Mahshid_all"=res_int, "Mahshid_significant"=res_int_significant, "union_DE_genes"=union_DE_genes, "logFC_plot_data"=d_plot),
         file="../data/EOS_files/Q1_EOS.rds")
 ```
+
+

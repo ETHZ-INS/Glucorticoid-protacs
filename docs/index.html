@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
@@ -236,6 +239,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -243,6 +309,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -295,7 +371,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -304,7 +380,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -313,10 +389,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-06-22
+<strong>Last updated:</strong> 2022-07-09
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>GR-PROTAC-analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -332,12 +408,12 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -404,16 +480,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstreedd2072ef1ad50bfe6745b0518bcdcdd9add31029targetblankdd2072ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/dd2072ef1ad50bfe6745b0518bcdcdd9add31029" target="_blank">dd2072e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree0f93e11d370afd43dc357e5febfaaf55f3c52c0ftargetblank0f93e11a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/0f93e11d370afd43dc357e5febfaaf55f3c52c0f" target="_blank">0f93e11</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstreedd2072ef1ad50bfe6745b0518bcdcdd9add31029targetblankdd2072ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree0f93e11d370afd43dc357e5febfaaf55f3c52c0ftargetblank0f93e11a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/dd2072ef1ad50bfe6745b0518bcdcdd9add31029" target="_blank">dd2072e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/0f93e11d370afd43dc357e5febfaaf55f3c52c0f" target="_blank">0f93e11</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -422,15 +498,52 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    analysis/.DS_Store
+    Ignored:    analysis/.Rhistory
     Ignored:    analysis/docs/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
     Ignored:    data/reddy_bigwig_DEX12h_r123.bigWig
     Ignored:    data/reddy_bigwig_DEX2h_r123.bigWig
+    Ignored:    data/reddy_bigwig_DEX6h_r123.bigWig
     Ignored:    data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
+    Ignored:    data/single_replicate_peaks/.DS_Store
+    Ignored:    data/single_replicate_peaks/control/.DS_Store
+    Ignored:    data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig
+    Ignored:    data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig
+    Ignored:    data/single_replicate_peaks/dex12h/.DS_Store
+    Ignored:    data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig
+    Ignored:    data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig
+    Ignored:    data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/00_Download_files.Rmd
+    Untracked:  analysis/01_Results.Rmd
+    Untracked:  analysis/Q9-Differential_binding.Rmd
+    Untracked:  data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv
+    Untracked:  data/results/dds.rds
+    Untracked:  data/results/differential_binding_results.rds
+    Untracked:  data/results/merged_peaks.rds
+    Untracked:  data/single_replicate_peaks/peaks/
 
 Unstaged changes:
-    Modified:   analysis/02_exploratory_analysis.Rmd
+    Deleted:    analysis/01_download_files.Rmd
+    Deleted:    analysis/02_exploratory_analysis.Rmd
+    Deleted:    analysis/08-Differential_binding.Rmd
+    Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/Q3-PROTAC-reversal.Rmd
+    Modified:   analysis/Q4-GR-binding-PROTAC-genes.Rmd
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/admin.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   data/results/SE.processed.rds
+    Deleted:    data/single_replicate_peaks/control/Chip_GR_control_s2.bam.bai
+    Deleted:    data/single_replicate_peaks/control/Chip_GR_control_s2_input.bam.bai
+    Deleted:    data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bam.bai
+    Deleted:    data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2_input.bam.bai
+    Deleted:    output/Q2_GR_bound_DE_genes.xlsx
+    Deleted:    output/Q4_KH_DE_GR_bound.xlsx
 
 </code></pre>
 <p>
@@ -469,6 +582,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/0f93e11d370afd43dc357e5febfaaf55f3c52c0f/docs/index.html" target="_blank">0f93e11</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-07-07
+</td>
+<td>
+added changes after last call
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/779ceb2b2c6179b9fdc05cc5d049e81ecdfb6bd1/docs/index.html" target="_blank">779ceb2</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-06-22
+</td>
+<td>
+added remaining questions
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -561,28 +708,107 @@ Start workflowr project.
 </div>
 </div>
 </div>
-<div id="project-overview" class="section level1">
-<h1>Project overview</h1>
-<p>Please read the <a href="./about.html">About Page</a> for an overview of the project</p>
+<div id="overview" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Overview</h1>
+<p>In this analysis I’ve combined previous work on glucocorticoids and PROTACs (RNA-seq) with external data (RNA-seq, ATAC-seq, ChIP-seq) to better understand the effects of glucocorticoids on DNA regulation. A short introduction is provided in the following.</p>
+<p>The <strong>results</strong> are summarised in a separate markdown file <a href="01_Results.html">here</a>, which is also linked in the corresponding section <a href="#results">further below</a>.</p>
+<p>For some results only the relevant plots are shown. More verbose analyses were run in separate files. You can find these <strong>methods / individual analyses</strong>in the <a href="#methods">methods section</a> below.</p>
+<p>Some resulting tables are accessible as <strong>downloadable files</strong> and can be found at the bottom of this page in the <a href="#downloads">downloads section</a>.</p>
 </div>
-<div id="results" class="section level1">
-<h1>Results</h1>
-<p>A summary of the results can be found here: <a href="02_exploratory_analysis.html">Results overview</a></p>
-<p>Last updated: <em><font size="1">(Last modified: 2022-06-22 )</font></em></p>
+<div id="introduction" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Introduction</h1>
+<div id="background" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Background</h2>
+<div id="glucocorticoids" class="section level3" number="2.1.1">
+<h3 number="2.1.1"><span class="header-section-number">2.1.1</span> Glucocorticoids</h3>
+<p>Glucocorticoids (a portmanteau of glucose + cortex + steroids; abbreviated GC) are a form of steroids which play an important role as a feedback mechanism in the human immune system. They are generated in the adrenal cortex and are transported throughout the body where they diffuse through the cell membrane and bind to glucocorticoid receptors (GR) which reside in the cytosol.</p>
+<p>These activated GC-GR complexes can either indirectly or directly influence gene expression. Direct regulation involves homo-dimerization of the receptor which then acts as a transcription factor (TF) in the nucleus to regulate gene expression (transactivation).</p>
+<p>In the absence of the GC-GR complex other TFs are able to function normally, however, when GR is activated (in form of a GC-GR complex) it can interact with these TFs and hinder them from binding to DNA (transrepression). The GC-GR complex is particularly known for up-regulating the expression of anti-inflammatory proteins and repression of pro-inflammatory genes.</p>
+<p>Cortisol, a stress hormone, is the best-known glucocorticoid and also the most important one. It is essential for many cardiovascular, metabolic, immunologic and homeostatic functions.</p>
 </div>
-<div id="analysis" class="section level1">
-<h1>Analysis</h1>
-<p>The rmarkdown files for the individual research questions can be found here:</p>
+<div id="protacs" class="section level3" number="2.1.2">
+<h3 number="2.1.2"><span class="header-section-number">2.1.2</span> PROTACs</h3>
+<p>Proteolysis targeting chimeras (PROTACs) are small molecules with two active domains bound together by a so-called linker domain. PROTAC catalyse the targeted degradation of proteins. One of the two active domains binds the protein of interest. While inhibitors block the functioning of proteins by binding to the active domain, PROTACs can instead bind to any part of the protein. Hence, there are less constraints on synthesising a PROTAC compared to an inhibitor: The active domain of the PROTAC can have many forms and need not fit the active domain of the target, but any part of the molecule. Inhibitors need to bind to the active domain of the target. The other active domain of the PROTAC binds to a protein (ER ubiquitin ligase) which is responsible for adding ubiquitin molecules to proteins, which are read by the cell as marks for destruction. Proteins marked for destruction eventually bind to the proteasome which subsequently destroys said proteins.</p>
+<p>Often, to block the functioning of proteins we use inhibitors in biology. However, inhibitors have to bind to the active site of a protein to work, while PROTACs only need to bind to the targeted protein with high selectivity rather than fully block the active domain, as mentioned above. Furthermore, a given inhibitor has to stay bound to the target protein to block its function. To fully block a certain protein in a cell, we would need at least as many inhibitors as there are proteins that we want to inhibit. PROTACs on the other hand can direct the destruction of multiple proteins before the PROTACs themselves are degraded. PROTACs can thus be administered at lower doses compared to inhibitors to achieve similar effects.</p>
+<p>PROTACs are attractive drug candidates because they are administrable at a lower dose, can be more selective, and do not necessarily have to bind to the active domain of a target.</p>
+</div>
+</div>
+<div id="overall-research-goal-and-contribution-of-this-analysis" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> Overall research goal and contribution of this analysis</h2>
+<p>The goal of the project is to understand (1) the contribution of GR to the transcriptional stress response in the hippocampus in vivo and (2) show that PROTACs can be used in-vivo as a tool in neuroscience to normalise stress response.</p>
+<p>The <a href="http://reddylab.org/">Tim Reddy lab</a> has done related research and has performed RNA-seq, ChIP-seq, and ATAC-seq experiments on the same cell line and under similar conditions. While we only have RNA-seq data, the Reddy lab has ChIP-seq experiments for two proteins, one of which being the GR, and DNA accessibility data.</p>
+<p>This analysis contributes to the project by analysing the Reddy data to complement and extend findings from our own experiments. Specifically, it aims to better understand the effect of glucocorticoids on the DNA regulation using the ChIP-seq data and relating it to the RNA-seq data from experiments already performed. Moreover, some components of the analysis answer questions only related to our own RNA-seq data that had not been investigated yet.</p>
+</div>
+<div id="prior-work" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Prior work</h2>
+<p>Katharina and Mahshid have performed experiments on mice where they treated mice with combinations of (1) a synthetic form of a GC called Dexamethasone (DEX) (2) a PROTAC inhibitor (KH-103) and (3) GR inhibitors. They have collected RNA-seq data to understand what the effects of treatment are - which was analysed by Pierre-Luc - and have determined differentially expressed genes.</p>
+</div>
+<div id="data-used" class="section level2" number="2.4">
+<h2 number="2.4"><span class="header-section-number">2.4</span> Data used</h2>
+<div id="our-data" class="section level3" number="2.4.1">
+<h3 number="2.4.1"><span class="header-section-number">2.4.1</span> Our data</h3>
+<p>Mahshid and Katharina have collected RNA-seq data for the following treatment conditions of</p>
+<p><strong>Control treatments: 18h treatment with inhibitor or PROTAC only</strong></p>
 <ol style="list-style-type: decimal">
-<li>Q1: <a href="./Q1-Gene-overlap.html">Do the Reddy RNA-seq experiments show the same DE pattern as our experiments?</a> <em><font size="1">(Last modified: 2022-06-22 )</font></em></li>
-<li>Q2: <a href="./Q2-TF-Binding-to-DE-genes.html">Does the Reddy data show GR binding to DE genes from our analysis?</a> <em><font size="1">(Last modified: 2022-06-22 )</font></em></li>
-<li>Q3: <a href="./Q3-PROTAC-reversal.html">Is this the PROTAC able to reverse the effect of DEX on genes where inhibitors don’t work?</a> <em><font size="1">(Last modified: 2022-06-22 )</font></em></li>
-<li>Q4: <a href="./Q4-GR-binding-PROTAC-genes.html">Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?</a> <em><font size="1">(Last modified: 2022-06-22 )</font></em></li>
-<li>Q7: <a href="./Q7-PRX-sequences.html">Does GC-GR bind to PRX sequences?</a> <em><font size="1">(Last modified: 2022-06-22 )</font></em></li>
+<li>Inhibitor 1: “18h Cort113”</li>
+<li>Inhibitor 2: “18h MIF”</li>
+<li>PROTAC only: “18h KH-103”“16h DMSO &gt; 2h DEX+DMSO”</li>
+</ol>
+<p><strong>Switched treatments: 16h+2h</strong></p>
+<p>We first treat with the inhibitor, PROTAC or DMSO as control and the add DEX for the last two hours</p>
+<ol style="list-style-type: decimal">
+<li>Inhibitor 1: “16h Cort113 &gt; 2h DEX+Cort113”</li>
+<li>Inhibitor 2: “16h MIF &gt; 2h DEX+MIF”</li>
+<li>PROTAC: “16h KH-103 &gt; 2h DEX+KH-103”</li>
+<li>Control with DMSO: 16h DMSO &gt; 2h DEX+DMSO"</li>
+</ol>
+<p><strong>Switched Treatment: 2h+16h</strong></p>
+<p>We first treat with DEX for 2 hours and then add the inhibitor PROTAC for another 16 hours</p>
+<ol style="list-style-type: decimal">
+<li>Inhibitor 1 “2h DEX &gt; 16h DEX+Cort113”</li>
+<li>Inhibitor 2: “2h DEX &gt; 16h DEX+MIF”</li>
+<li>PROTAC: “2h DEX &gt; 16h DEX+KH-103”</li>
+<li>DEX only: “2h DEX &gt; 16h DEX+DMSO”</li>
 </ol>
 </div>
-<div id="file-downloads" class="section level1">
-<h1>File downloads</h1>
+<div id="reddy-lab-data" class="section level3" number="2.4.2">
+<h3 number="2.4.2"><span class="header-section-number">2.4.2</span> Reddy lab data</h3>
+<p>The experiments from the Reddy lab include:</p>
+<ol style="list-style-type: decimal">
+<li><strong>RNA - DEX vs control:</strong> One RNA-seq experiment with a control group and dexamethasone treatment for multiple time intervals, up to 12 hours</li>
+<li><strong>ChIP - NR3C1 &amp; JUNB:</strong> Two ChIP-seq experiments. One is for NR3C1 - which is as I understand is the only relevant (?) GR in the cell. The second ChIP-seq experiment is for JUNB. JUNB appears to be a transcription factor subunit.</li>
+<li><strong>ATAC-seq - DEX exposure:</strong> experiment with a control as well as data for exposure of the cell culture to DEX for multiple intervals.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="results" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Results</h1>
+<p>A summary of the results can be found here: <a href="01_Results.html">Results overview</a> <em><font size="1">(Last modified: 2022-07-08 )</font></em></p>
+</div>
+<div id="methods" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Methods / Individual analyses</h1>
+<p>For an overview of how the files were downloaded, please see this file:</p>
+<ol style="list-style-type: decimal">
+<li><a href="./00_Download_files.html">Data download</a> <em><font size="1">(Last modified: 2022-07-08 )</font></em></li>
+</ol>
+<p>The rendered markdown files for the individual research questions can be found here:</p>
+<ol style="list-style-type: decimal">
+<li>Q1: <a href="./Q1-Gene-overlap.html">Do the Reddy RNA-seq experiments show the same DE pattern as our experiments?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
+<li>Q2: <a href="./Q2-TF-Binding-to-DE-genes.html">Does the Reddy data show GR binding to DE genes from our analysis?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
+<li>Q3: <a href="./Q3-PROTAC-reversal.html">Is this the PROTAC able to reverse the effect of DEX on genes where inhibitors don’t work?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
+<li>Q4: <a href="./Q4-GR-binding-PROTAC-genes.html">Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
+<li>Q7: <a href="./Q7-PRX-sequences.html">Does GC-GR bind to PRX sequences?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
+<li>Q9: <a href="./Q9-Differential_binding.html">How does differential binding relate to RNA DE results?</a> <em><font size="1">(Last modified: never )</font></em></li>
+</ol>
+</div>
+<div id="downloads" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Files available to download</h1>
+<p><strong>Q2: Table of 18h DE results augmented with 12h DEX ChIP data:</strong> <a href="./downloads/Q2_GR_bound_DE_genes.xlsx">download</a></p>
+<p><strong>Q3: DE results of the 2h&gt;16h and 16h&gt;2h experiments on effect reversal</strong>. It includes data on (1) DMSO control (2) Protac (3) MIF and (4) Cort treatment with columns indicating whether the inhibitor/protac as able to reverse the effect of DEX compared to the DMSO control. Tabs available for the 2h &gt; 16h as well as 16h &gt; 2h treatment <a href="./downloads/Q3_protac_flipped_DE.xlsx">download</a></p>
+<p><strong>Q4: 18h KH-103 augmented with 12h GR ChIP data:</strong> <a href="./downloads/Q4_KH_DE_GR_bound.xlsx">download</a></p>
+<p><strong>Q9: Differential binding results:</strong> <a href="./downloads/Q9_differential_binding.xlsx">download</a></p>
+<p><strong>Q10: DE results from 18h DEX treatment augmented with long-range interactions:</strong> <a href="./downloads/Q10_DE_genes_long_range_interactions.xlsx">download</a></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -610,7 +836,7 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8.3     rstudioapi_0.13  whisker_0.4      knitr_1.39      
- [5] workflowr_1.7.0  here_1.0.1       R6_2.5.1         rlang_1.0.2     
+ [5] workflowr_1.7.0  here_1.0.1       R6_2.5.1         rlang_1.0.3     
  [9] fastmap_1.1.0    fansi_1.0.3      stringr_1.4.0    tools_4.1.0     
 [13] xfun_0.31        utf8_1.2.2       cli_3.3.0        git2r_0.30.1    
 [17] jquerylib_0.1.4  htmltools_0.5.2  ellipsis_0.3.2   rprojroot_2.0.3 
@@ -638,6 +864,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -675,6 +903,35 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -1,0 +1,615 @@
+---
+title: "Analysis"
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(biomaRt)
+  library(dplyr)
+  library(SummarizedExperiment)
+  library(edgeR)
+  library(SEtools)
+  library(grid)
+  library(VennDiagram)
+  library(hrbrthemes)
+  library(openxlsx)
+  library(stringdist)
+  library(rtracklayer)
+  library(epiwraps)
+  library(kableExtra)
+})
+
+source("../code/helper_functions.R")
+
+extrafont::loadfonts()
+```
+
+# Overview
+
+The overall goal is to (1)understand the effect of activated glucocorticoid receptors on gene regulation and (2) relate the epigenetic data from the Reddy lab with our expression data. To this end Mahshid and developed seven initial questions which define the primary scope of the analysis. In a discussion on these results further questions arised which are answered further below. As some of these questions/answers relate to results obtained in other work by Katharina, Mahshid and Pierre-Luc the flow of questions may not be fully coherent in themselves.
+
+# Question 1: Similarity of our RNA data with the Reddy data
+
+**Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data?**
+
+In our experiments we compared samples from a control experiment with samples that were treated for 18 hours with DEX. Besides a control, the Reddy lab performed a similar experiment where they treated cells with DEX for 12 hours. This is the closest comparison to our data.
+
+As a first step we hence want to understand whether the results are similar/comparable.
+
+
+## Comparison via Venn diagram
+
+```{r extract r objects for Q1}
+q1_data <- readRDS(file="../data/EOS_files/Q1_EOS.rds")
+
+n_genes_plot <- dim(q1_data[["logFC_plot_data"]])[1]
+n_genes_union <- length(q1_data[["union_DE_genes"]])
+```
+
+We first inspect a Venn diagram to understand the overlap of differentially expressed genes from both datasets. **We see that a large part of the genes do overlap, while there are also many genes that are specific to the respective analyses.** However, this is only a binary comparison and so a we next take a look at how the exact log-fold changes compare.
+
+![](assets/1_venn_diagram.png)
+
+## Comparison via log-fold changes
+
+Second, we compare the log fold changes for the union of all genes identified as significantly differentially expressed. The union of all DE genes counts `r n_genes_union` genes of which `r n_genes_plot` genes (`r round(100*n_genes_plot/n_genes_union,2)`%) were also in the intersection of both datasets and could be plotted.
+
+**We see that the results of our differential expression (DE) analysis from the 18 DEX treatment compare well with the 12h DEX treatment DE results of the Reddy lab.**
+
+![](assets/2_logFC_Mahshid_Reddy.png)
+
+# Question 2: Binding of GR-GC complex to DE genes from our analysis {.tabset}
+
+**Q: For the genes that our RNA-seq data shows to be DE after treatment with DEX as well as the inhibitors and control: do we see any direct TF binding to these sites? For which of these is there a difference compared to the control ChIP-seq experiment?**
+
+
+**Take-away:** Genes which are differentially expressed at a significant level are associated with GR peaks close to them. Genes with GR binding close to them are also associated with lower p-values in the DE analysis. A higher number of GR peaks close to the TSS of a gene is associated with a higher absolute log-fold change in gene expression. Genes where GR binds close to or directly at the TSS are associated with the higher absolute log-fold changes.
+
+A table with the DE results from our 18h DEX treatment which is augmented by information on peaks identified nearby can be found in the downloads section.
+
+An analysis on peaks which are known to interact with distant genes (long-range interactions) can be found further below in this file.
+
+## Distribution of logFC and p.value
+
+**What does this plot show?**
+
+We select all genes that are differentially expressed - both for Mahshid's data and for the DE analysis on the Reddy data. We then split the data into two groups based on whether the Reddy data showed that the glucocorticoid receptor was found to bind near the gene or not. We plot the distributions of (a) the log fold changes in the DE analysis and (b) the p-value of the DE analysis. 
+
+
+![](assets/Q2_3_mahshid_reddy.png)
+
+## Boxplots by GR peaks number
+
+![](assets/Q2_4_boxplots.png)
+
+## Boxplots by type of closest GR peak
+
+_Note:_ NA means that there was no peak for which the gene's TSS was the TSS closest to the peak.
+
+![](assets/Q2_6_boxplots_class.png)
+
+## logFC vs. distance to closest peak
+
+![](assets/Q2_5_TSS_distances.png)
+
+# Question 3: Inhibition unique to protac compared to Cort and MIF {.tabset}
+
+**Q: Are there any genes that treated by the Protac before/after DEX that could be reversed but which could not by the inhibitors or vice versa?**
+
+We have performed experiments where we first exposed cells to either (1) DEX (2) inhibitors or (3) KH PROTAC for a substantial time and then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2) and (3). We would like to see which genes are normally activated by DEX but where the effect could be blocked by the PROTAC, but NOT the inhibitors.
+
+The plot for the 2h>16h treatment has been split into (1) genes with a positive log-fold change and (2) genes with a negative log-fold change to prevent the plots from becoming even more crowded.
+
+A file with the list of genes can be found in the downloads section.
+
+## 2h > 16h
+
+![](assets/Q3_1_reversal216.png)
+
+## 2h > 16h (logFC > 0)
+
+![](assets/Q3_2_reversal162_p1.png)
+
+## 2h > 16h (logFC < 0)
+
+![](assets/Q3_3_reversal162_p2.png)
+
+
+
+# Question 4: Does the GR bind close to any of the 13 DE genes from the 18h KH-PROTAC treatment? {.tabset}
+
+Cells that were exposed to KH-103 for 18h showed 13 genes to be differentially expressed at an <0.05 FDR level. We want to understand whether GR binds close to these genes in a case where such cells are treated with DEX.
+
+The Reddy lab has collected data on where the glucocorticoid receptor (NR3C1) binds to after treatment with dexamethasone for 12h. 
+
+**Take-away:** We find that the GR is found to bind close to five out of the 13 differentially expressed genes from our experiment. Interestingly, we also observe that some GR peaks are stronger after 2 hours of DEX treatment than 12 hours of continuous DEX treatment.
+
+## Table view
+
+```{r}
+kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
+
+# only keep the significant genes
+kh.protac.sig <- kh.protac[kh.protac$FDR<0.05,]
+kh.protac.sig[,c("Gene", "logFC", "FDR", "chip_peaks", "gc_bound")] %>%
+  kableExtra::kable() %>%
+  kableExtra::kable_styling()
+```
+
+![](assets/Q4_1_kh_gr_binding.png)
+## p-value vs. logFC
+
+## Signal tracks for peaks that could be matched with the 13 genes
+
+We plot peaks for which the closest TSS was found to be one of the 13 genes. The tracks of the peaks shown are _centered at these peaks_ and _not_ at the TSS of the respective gene.
+
+![](assets/Q4_2_kh_peak_tracks.png)
+
+## Tracks around the all TSSs of the 13 genes
+
+Here we first obtain all known transcripts of the 13 genes and plot the signals _centered around the respective TSS sites_. As a gene can have multiple TSSs this plot is a bit crowded.
+
+![](assets/Q4_3_kh_all_txs.png)
+
+## Tracks around main TSS for each of the 13 genes
+
+To simplify the previous plot (all TSSs) we just choose a single TSS per gene (the first one in the list) and plot the signal around this TSS.
+
+![](assets/Q4_4_kh_unique_gene_tss.png)
+
+# Question 5: Binding to selected genes
+
+**Q: Does GR bind to BRCA1, Hsd11b1 and CH25H?**
+
+These are specific genes requested to be examined by Mahshid. The background of the biological question is not known to me.
+
+**Take-away:** We see that there is one peak in the ChIP data close to the BRCA1 gene and two peaks close to the HSD11B1 gene. There is no peak that is closest to the CH25H gene. However, the CD25H was also not found in the RNA seq data. 
+
+```{r -1}
+res_int <- read.xlsx("../docs/downloads/Q2_GR_bound_DE_genes.xlsx")
+plt_data <- res_int[res_int$Gene %in% c("BRCA1", "HSD11B1", "CH25H"),c("Gene", "logFC", "FDR", "chip_peaks", "gc_bound")]
+plt_data %>%
+  ggplot() +
+  geom_point(aes(logFC, -log10(FDR), colour=gc_bound, size=chip_peaks)) +
+  labs(title="GR binding activity for diff. expressed PROTAC genes") +
+  ggrepel::geom_text_repel(data=plt_data, aes(logFC, -log10(FDR), label=Gene, size=2)) +
+  theme_ipsum_rc()
+```
+
+ CH25H was not found. Is it in the RNA-seq experiment?
+
+```{r -2}
+se <- readRDS("../data/EOS_files/Q1_SummExp.rds")
+"ENSG00000138135" %in% rowData(se)$gene_id
+```
+
+No, it is not in the RNA-seq experiment.
+
+We also check whether the gene is present in the table with the  peaks. If the gene were to be missing in our DE data then a given peak would not show up in the results above, as it could not have been merged onto the DE results.
+
+We search for the closest match to be sure that its not due to capitalisation or a small typo
+
+```{r -3}
+# We also have to check the other way around by looking at all the peaks.
+# If it was in the peaks then it could not be merged onto the RNA data
+peakfreq <- readRDS(file="../data/EOS_files/Q2_gene_peaks.rds")
+peakfreq <- peakfreq[2:dim(peakfreq)[1],] # first entry is empty
+
+# we search for the closest match to be sure that its not due to capitalisation or a small typo
+peakfreq$Gene[amatch("CH25H", peakfreq$Gene, maxDist = Inf)]
+
+```
+
+**Result:** there is no match for CH25h
+
+ Lastly, we show the information we have for the two genes found in the data:
+ 
+```{r}
+plt_data %>%
+  kableExtra::kable() %>%
+  kableExtra::kable_styling()
+```
+
+
+
+
+# Question 6: Common binding sites of JUNB and GR {.tabset}
+
+**Q: What are common binding sites between JUNB and GR?** -> Generally not a priority though
+
+**Take-aways:**
+
+- Interestingly there are more peaks after 2h treatment with DEX than 12h of treatment with DEX
+- Most of the 12h GR peaks are shared with the JUNB peaks, only a small fraction is unique to the 12h GR ChIP seq data
+- The 2h GR data has more peaks that are unique and not shared with the 12h GR or 12h JUNB data
+
+```{r q6, results="asis"}
+# Load GR
+peaks_gr_12h <- import.bed15("../data/reddy_bed_DEX12h_r123.bed", format="narrowPeak")
+peaks_gr_2h <- import.bed15("../data/reddy_bed_DEX2h_r123.bed.gz", format="narrowPeak")
+# load JUNB
+peaks_junb_12h <- import.bed15("../data/reddy_bed_JUNB_DEX12h_r123.bed", format="narrowPeak")
+
+# Show tile diagram
+list_of_regions <- list(GR_2h=peaks_gr_2h, GR_12h=peaks_gr_12h, JUNB_12h=peaks_junb_12h) # Does not work with only 
+cat("\n\n## Overlap \n\n")
+regionOverlaps(list_of_regions)
+
+# Show upset plot
+cat("\n\n## Upset plot \n\n")
+regionUpset(list_of_regions)
+```
+
+### What if we filter the peaks by their score? {.tabset}
+
+**Take-away:** There is no significant change in the results/plots if we filter for a minimum peak score of 900 (max value is 1000).
+
+```{r q6 filtered, results="asis"}
+# Does it make a difference if we only choose peaks with high scores?
+## What is the range of scores
+# qplot(peaks_gr_2h$score, geom="histogram")
+
+# Show tile diagram
+list_of_regions_v2 <- list(GR_2h=peaks_gr_2h[peaks_gr_2h$score>900], 
+                           GR_12h=peaks_gr_12h[peaks_gr_12h$score>900], 
+                           JUNB_12h=peaks_junb_12h[peaks_junb_12h$score>900]) # Does not work with only two 
+cat("\n\n## Overlap \n\n")
+regionOverlaps(list_of_regions_v2)
+
+# Show upset plot
+cat("\n\n## Upset plot \n\n")
+regionUpset(list_of_regions_v2)
+```
+
+# Question 7: PXR Sequences
+
+**Q: Does GC-GR bind to PXR sequences?**
+
+Other groups have observed that a GR inhibitor activates CYP genes. CYP genes are target genes of PXR TF that have PXR recognition sites. the hypothesis here is that GR might also bind to PXR sites directly or probably is regulating CYP genes via interaction with PXR TF on these genes. For example, based on our RNA-seq dex triggers many CYP genes and the inhibitors too, but protac doesn't.
+
+The PXR motif looks like this (from Hocomoco):
+
+![](assets/Q7_1_motif.png)
+
+
+```{r}
+gr_peaks <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
+moi <- readRDS(file="../data/EOS_files/pxr_peaks.rds")
+
+# cat(paste0("We have ", length(gr_peaks), " GR peaks, of which ", length(moi), " (", round(length(moi)/length(gr_peaks),4)*100, "%) contain a PXR motif"))
+```
+
+### We have `r length(gr_peaks)` GR peaks, of which `r length(moi)` (`r round(length(moi)/length(gr_peaks),4)*100`%) contain a PXR motif
+
+We can also look at the signals around the PXR motifs found in the accessible chromatin (identified using the 12h ATAC seq data from the Reddy lab)
+
+![](assets/Q7_2_signal.png)
+
+# Q8: How do our signals compare to our differential expression results?
+
+In the following we plot the signal for a subset of genes, IF these genes are associated with a peak the in the GR data for the 12h DEX ChIP data.
+
+### Signals and DE results for all genes with associated peaks
+
+We first plot the signal tracks for all genes for the sake of completeness
+
+```{r}
+# load summarised experiment
+se <- readRDS(file="../data/results/SE.processed.rds")
+# removes the row without name
+se <- se[2:dim(se)[1]]
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+```
+
+```{r, fig.width=22, fig.height=10}
+dds <- readRDS("../data/results/dds.rds")
+
+tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
+                "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
+                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
+
+plot_signals_and_sechm <- function(peaks, genes_subset=NULL){
+  # first subset for a given selection of genes
+  if (is.null(genes_subset) == FALSE) {
+    peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
+    if (length(peaks) == 0) return(paste0("No peaks found for the genes:", paste(genes_subset, collapse = ', ')))
+  }
+  # get rid of peaks that don't have an assigned gene that was quantified
+  peaks <- sort(peaks[peaks$nearestTSS.gene_name %in% row.names(se)])
+  # give unique names to the peaks
+  names(peaks) <- make.unique(peaks$nearestTSS.gene_name)
+  # select (and duplicate) the entries in R, and give them the names
+  se2 <- se[as.character(peaks$nearestTSS.gene_name),]
+  row.names(se2) <- names(peaks)
+  signals <- signal2Matrix(tracks, peaks, w=5, extend=500)
+  h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"))
+  set.seed(100) # for colours
+  h2 <- sechm::sechm(se2, genes=row.names(se2), assayName="log2FC", sortRowsOn=NULL, 
+                     cluster_rows=FALSE, width=unit(12, "cm"), top_annotation=c("condition","batch"), 
+                     gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90)
+  # (for this second one it's important that rows are in the input order)
+  h1 + h2
+}
+
+plt <- plot_signals_and_sechm(gr_peaks)
+plt
+```
+
+## Signaltracks + DE plot for Side effects of the inhibitors {.tabset}
+
+In the following we show the same plots, but for smaller subsets of genes. We choose at most the 200 most significantly differentially expressed genes from a given comparison named below.
+
+```{r, fig.width=22, fig.height=10, results="asis"}
+se.processed <- readRDS(file="../data/results/SE.processed.rds")
+
+cat("\n\n### Genes triggered by all inhibitors \n\n")
+# Genes triggered by all inhibitors
+w <- se$condition2 %in% c("control","18h Cort113","18h KH-103","18h MIF")
+dds2 <- dds[,w]
+mm <- model.matrix(~se$isInhibited[w])
+fit <- glmFit(dds2,mm)
+res <- as.data.frame(topTags(glmLRT(fit),Inf))
+rnames_all_inhibs <- head(row.names(res)[res$FDR<0.05],200)
+plt_all_inhibs <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhibs)
+plt_all_inhibs
+
+cat("\n\n### Genes specifically altered by KH-103 \n\n")
+## Genes specifically altered by KH-103
+isKh <- se$condition[w]=="18h KH-103"
+mm <- model.matrix(~isKh)
+fit <- glmFit(estimateDisp(dds2,mm),mm)
+res <- as.data.frame(topTags(glmLRT(fit, "isKhTRUE"),Inf))
+rnames_kh103 <- row.names(res)[res$FDR<0.05]
+plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103)
+plt_kh103
+
+cat("\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n")
+## Genes triggered by other inhibitors and not (or less) KH-103
+mm <- model.matrix(~se$isInhibited[w]+isKh)
+fit <- glmFit(estimateDisp(dds2,mm),mm)
+res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
+rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
+plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh)
+plt_inhibs_not_kh
+```
+
+## Signaltracks + DE plot for inhibition effects {.tabset}
+
+```{r inhibition effects, fig.width=22, fig.height=10, results="asis"}
+cat("\n\n### DEX-triggered genes that are inhibited (prior) \n\n")
+## DEX-triggered genes that are inhibited (prior)
+wPrior <- which(se$condition2 %in% c("control", "16h Cort113 > 2h DEX+Cort113", "16h DMSO > 2h DEX+DMSO", 
+"16h KH-103 > 2h DEX+KH-103", "16h MIF  > 2h DEX+MIF"))
+mm <- model.matrix(~droplevels(se$condition2[wPrior]))
+fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
+res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
+rnames_dex_triggered <-  head(row.names(res)[res$FDR<0.05],200)
+plt_dex_triggered  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_dex_triggered)
+plt_dex_triggered
+
+
+cat("\n\n### Significantly more inhibited by KH-103 than by other inhibitors \n\n")
+### Significantly more inhibited by KH-103 than by other inhibitors
+tmp <- grepl("KH-103|control",se$condition2)[wPrior]
+mm <- model.matrix(~tmp)
+fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
+res <- as.data.frame(topTags(glmLRT(fit), Inf))
+rnames_kh103_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
+plt_kh103_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_inhibited)
+plt_kh103_inhibited
+
+
+cat("\n\n### Significantly less inhibited by KH-103 than by other inhibitors \n\n")
+### Significantly less inhibited by KH-103 than by other inhibitors
+tmp <- grepl("KH-103|DEX\\+DMSO",se$condition2)[wPrior]
+mm <- model.matrix(~tmp)
+fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
+res <- as.data.frame(topTags(glmLRT(fit), Inf))
+rnames_kh103_less_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
+plt_kh103_less_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_less_inhibited)
+plt_kh103_less_inhibited
+
+cat("\n\n### DEX-triggered genes that are inhibited (after)\n\n")
+## DEX-triggered genes that are inhibited (after)
+wAfter <- which(se$condition2 %in% c("control", "2h DEX > 16h DEX+Cort113", "2h DEX > 16h DEX+DMSO", 
+"2h DEX > 16h DEX+KH-103", "2h DEX > 16h DEX+MIF"))
+mm <- model.matrix(~droplevels(se$condition2[wAfter]))
+fit <- glmFit(estimateDisp(dds[,wAfter],mm),mm)
+res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
+attr(res, "description") <- "Significantly-inhibited DEX-responsive genes by any all inhibitors, when administered after DEX"
+rnames_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
+plt_inhibited   <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibited)
+plt_inhibited 
+```
+
+
+# Q9: What is the relation of differential expression of genes and differential binding of nearby regions? {.tabset}
+
+```{r}
+et <- readRDS(file="../data/results/differential_binding_results.rds")
+merged_peaks <- readRDS(file="../data/results/merged_peaks.rds")
+```
+
+`r sum(et$FDR < 0.05)` genes are significant at a 0.05 FDR level.
+
+A overview of the differential binding peaks is available in the downloads section.
+
+## Tabular overview:
+
+```{r}
+# print table
+et %>% 
+  dplyr::select(nearestTSS.gene_name, nearestTSS, FDR,  everything()) %>% 
+  kable() %>% 
+  kable_styling()
+```
+
+## Volcano plot
+
+```{r}
+ggplot(et, aes(logFC, -log10(FDR))) + geom_point() + 
+  geom_hline(yintercept=-log10(0.05), linetype="dashed") +
+  theme_ipsum_rc() +
+  labs(title=paste0("Differential binding results for ", dim(et)[1], " genes")) +
+  ggrepel::geom_text_repel(data=et,
+                           aes(x=logFC, y=-log10(FDR), label=nearestTSS.gene_name, size=4),
+                           show.legend=F,
+                           max.overlaps = 30)
+```
+
+## Signal tracks
+
+```{r, fig.width=8, fig.height=4}
+tracks <- list("C2"="../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig",
+               "C3"="../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig",
+               "t12_1"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig",
+               "t12_2"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig",
+               "t12_3"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig")
+m <- signal2Matrix(tracks, merged_peaks)
+plotEnrichedHeatmaps(m)
+```
+
+## Average signal plots
+
+```{r fig.width=8, fig.height=6}
+d1 <- meltSignals(m)
+d1$condition <- gsub("[0-9]","",d1$sample)
+d1$condition <- ifelse(d1$condition=="C", "Control", "12hDEX")
+p1 <- ggplot(d1, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle("Average signal plots") + theme_ipsum_rc()
+p1
+# d2 <- meltSignals(m2)
+# d2$condition <- gsub("[0-9]","",d2$sample)
+# d2$condition <- ifelse(d2$condition=="C", "Control", "12hDEX")
+# p2 <- ggplot(d2, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle("Top peaks normalization") + theme_ipsum_rc()
+# ggpubr::ggarrange(p1, p2, ncol=2)
+```
+
+# Q10: Dataset of known enhancer - target gene interactions by Salviato et al.
+
+**Q: Are there some GR peaks which influence expression of genes despite not being close to these genes?**
+
+[Salviato et al.](https://academic.oup.com/nar/article/49/17/e97/6312759) have curated a dataset of genomic regions which are known to act with distal genes. By comparing these regions with our peaks we can identify potential long-distance relationships between GR peaks and genes.
+
+```{r ETG interactions}
+interactions <- read.csv("../data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv", sep="\t")
+interactions_gr <- makeGRangesFromDataFrame(interactions, keep.extra.columns=T)
+
+# find peaks from our data peak dataset that overlap with the known ETG interactions
+overlap_peaks <- findOverlaps(gr_peaks, interactions_gr)
+
+# get a granges object of all peaks which have an associated long-range interaction in the table
+new_peaks_lri <- gr_peaks[queryHits(overlap_peaks)]
+new_peaks_lri$long_range_interaction <- TRUE
+new_peaks_lri$long_range_gene <- interactions_gr[subjectHits(overlap_peaks)]$symbol
+new_peaks_lri$dist2lr_target <- interactions_gr[subjectHits(overlap_peaks)]$distance
+
+# get peaks from our dataset which have no know interactions with distal genes
+mask_peaks_with_no_lr_interactions <- !(1:length(gr_peaks) %in% unique(queryHits(overlap_peaks)))
+new_peaks_no_lri <- gr_peaks[mask_peaks_with_no_lr_interactions]
+new_peaks_no_lri$long_range_interaction <- FALSE
+new_peaks_no_lri$long_range_gene <- NA
+new_peaks_no_lri$dist2lr_target <- NA
+
+# merge the granges objects together. This object will contain duplicates
+peaks <- c(new_peaks_lri, new_peaks_no_lri)
+```
+
+
+### How many significant genes are there in our 18h DEX treatment depending on the type of peaks associated with the gene?
+
+TRUE/FALSE indicates whether the gene was found to be differentially expressed in our 18h DEX treatment at a 0.05 FDR level.
+
+```{r table overview LRI significant DE genes}
+### How many peaks have no TSS nearby but are known for long-range interactions?
+de_res <- read.xlsx("../docs/downloads/Q2_GR_bound_DE_genes.xlsx")
+de_res <- de_res %>% left_join(as.data.frame(peaks) %>% dplyr::select("long_range_gene", "long_range_interaction", "dist2lr_target") %>% dplyr::rename(Gene=long_range_gene),
+                               by="Gene") %>%
+  group_by(Gene) %>%
+  mutate(min_dist2lr_target=min(abs(dist2lr_target))) %>%
+  dplyr::select(-dist2lr_target) %>%
+  distinct() %>%
+  tidyr::replace_na(list(long_range_interaction=F))
+
+de_res$category <- NA
+de_res[(de_res$gc_bound == TRUE) & (de_res$long_range_interaction == FALSE), "category"] <- "Closest TSS only"
+de_res[(de_res$gc_bound == FALSE) & (de_res$long_range_interaction == TRUE), "category"] <- "LRI only"
+de_res[(de_res$gc_bound == FALSE) & (de_res$long_range_interaction == FALSE), "category"] <- "Neither"
+de_res[(de_res$gc_bound == TRUE) & (de_res$long_range_interaction == TRUE), "category"] <- "Closest TSS+LRI"
+de_res$category <- factor(de_res$category, levels=c("Neither", "LRI only", "Closest TSS only","Closest TSS+LRI"))
+
+kableExtra::kable(table(de_res$is_significant, de_res$category)) %>% kableExtra::kable_styling()
+```
+
+### Do we see different log-fold changes depending on the type of associated peaks?
+
+```{r boxplot LRI}
+# Idea: A table of our peaks with a the gene it is influencing and the distance to the gene
+### boxplot: no closeby peak, but known lr-interaction VS. no peak at all, closeby peak and long-range interaction, closeby peak only
+de_res %>%
+  filter(FDR < 0.05) %>%
+  ggplot(aes(x=category, y=abs(logFC))) + 
+  geom_boxplot() +
+  theme_ipsum_rc() +#
+  ylim(c(0,2)) +
+  labs(title="Absolute logFC differences based on types of associated peaks", subtitle="DE genes with FDR < 0.05 only", y="Absolute logFC")
+```
+
+```{r}
+###
+# Idea 2: A table of peaks with a column containing a string. This string is the comma-separated gene names
+peaks_short <- as.data.frame(peaks) %>% 
+  mutate(id=paste0(seqnames, ":", start, "-", end)) %>%
+  # select("id", everything()) %>%
+  group_by(id) %>% 
+  mutate(lr_genes = paste0(long_range_gene, collapse = ", "))  %>%
+  dplyr::select(-c("long_range_gene","dist2lr_target")) %>%
+  distinct() %>%
+  select("id", "score", "signalValue", "pValue", "distance2nearestTSS", "nearestTSS.gene_name", #"nearestTSS", 
+         "class","long_range_interaction", "lr_genes")
+
+```
+
+
+### Is the gene closest to a peak included in the list of genes acting at long-range, based on the Salviato dataset?
+
+```{r Same LRI gene as closest gene?}
+peaks_short$nearestTSS.in.LRI_genes <- mapply(grepl, peaks_short$nearestTSS.gene_name, peaks_short$lr_genes)
+peaks_short[peaks_short$nearestTSS.gene_name == "", "nearestTSS.in.LRI_genes"] <-  NA
+table(as.character(peaks_short$nearestTSS.in.LRI_genes), useNA="always") %>% 
+  as.data.frame() %>% 
+  dplyr::rename("Nearest TSS is one of the LRI genes"=Var1) %>% 
+  kable() %>% 
+  kable_styling()
+```
+
+A table of the genes as displayed below can be accessed as an excel file in the download section.
+
+It includes the DE results from Mahshid's 18h DEX experiment augmented by information on whether a peak in the ChIP data was found to be closest to this gene, as well as whether a peak was found to interact with the TSS of the gene based on the Salviato dataset.
+
+```{r peek table LRI}
+wb <- createWorkbook()
+sheet_name <- "Augmented_18h_DE"
+addWorksheet(wb, sheet_name)
+writeData(wb, sheet = sheet_name, de_res)
+saveWorkbook(wb, "../docs/downloads/Q10_DE_genes_long_range_interactions.xlsx", overwrite = TRUE)
+
+de_res %>% kable() %>% kable_styling()
+```
+
+
+
+
+
+
+
+
+
+
+
+#

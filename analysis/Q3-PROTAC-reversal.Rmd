@@ -184,8 +184,7 @@ ggsave(file="../docs/assets/Q3_2_reversal162_p1.png", plt2_1, width=24, height=8
 ggsave(file="../docs/assets/Q3_3_reversal162_p2.png", plt2_2, width=24, height=8)
 ```
 
-
-Save file to excel
+### Save file to excel
 
 ```{r save excel}
 # setup excel file
@@ -196,5 +195,5 @@ addWorksheet(wb, sheetName = "16h>2h")
 writeData(wb, "2h>16h", merged216)
 writeData(wb, "16h>2h", merged162)
 # write final excel to disk
-saveWorkbook(wb, "../docs/assets/protact_flipped_DE.xlsx", overwrite=TRUE)
+saveWorkbook(wb, "../docs/downloads/Q3_protac_flipped_DE.xlsx", overwrite=TRUE)
 ```
