@@ -506,7 +506,6 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/docs/.DS_Store
-    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
     Ignored:    data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv
@@ -1337,8 +1336,8 @@ dominique-paul-uzh
 </div>
 </div>
 </div>
-<div id="which-genes-have-a-gr-peak-and-a-junb-peak-within-2500bp-distance-to-the-tss" class="section level2">
-<h2>Which genes have a GR peak AND a JUNB peak within 2500bp distance to the TSS?</h2>
+<div id="which-genes-have-a-gr-peak-and-a-junb-peak-within-2500bp-distance-to-the-tss" class="section level2 tabset">
+<h2 class="tabset">Which genes have a GR peak AND a JUNB peak within 2500bp distance to the TSS?</h2>
 <p>Annotate GR 2h and 12h and JUNB 2h</p>
 <pre class="r"><code>library(AnnotationHub)</code></pre>
 <pre><code>Warning: package &#39;AnnotationHub&#39; was built under R version 4.1.2</code></pre>
@@ -1399,19 +1398,92 @@ list_of_regions_v3 &lt;- list(GR_2h=gr_2h_subset,
                            JUNB_2h=junb_2h_subset,
                            JUNB_12h=junb_12h_subset)
 
-cat(&quot;\n\n## Overlap \n\n&quot;)</code></pre>
-<pre><code>
-
-## Overlap </code></pre>
+cat(&quot;\n\n### Overlap \n\n&quot;)</code></pre>
+<div id="overlap-2" class="section level3">
+<h3>Overlap</h3>
 <pre class="r"><code>regionOverlaps(list_of_regions_v3)</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-3-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># Show upset plot
-cat(&quot;\n\n## Upset plot \n\n&quot;)</code></pre>
-<pre><code>
-
-## Upset plot </code></pre>
+cat(&quot;\n\n### Upset plot \n\n&quot;)</code></pre>
+</div>
+<div id="upset-plot-2" class="section level3">
+<h3>Upset plot</h3>
 <pre class="r"><code>regionUpset(list_of_regions_v3)</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-2">
+Past versions of unnamed-chunk-3-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-3-2.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="visualise-the-genes-that-have-both-a-junb-and-gr-peak-within-2500bp-of-their-tss" class="section level4">
 <h4>Visualise the genes that have both a JUNB and GR peak within 2500bp of their TSS</h4>
 <pre class="r"><code>gr_junb_2h_intersection_genes &lt;- intersect(gr_2h_subset$nearestTSS.gene_name.2500r, junb_2h_subset$nearestTSS.gene_name.2500r)
@@ -1421,6 +1493,7 @@ cat(&quot;\n\n## Upset plot \n\n&quot;)</code></pre>
 length(gr_junb_2h_intersection_genes)</code></pre>
 <pre><code>[1] 1139</code></pre>
 <p>There is an overlap of 1139 genes.</p>
+</div>
 </div>
 </div>
 </div>
@@ -1539,6 +1612,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-6-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/unnamed-chunk-6-1.png" target="_blank">4a4e1e6</a>
 </td>
 <td>
@@ -1579,6 +1663,43 @@ GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
 <pre class="r"><code>plt_all_inhibs</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-7-1.png" width="2112" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-7-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>cat(&quot;\n\n### Genes specifically altered by KH-103 \n\n&quot;)</code></pre>
 </div>
 <div id="genes-specifically-altered-by-kh-103" class="section level3">
@@ -1611,6 +1732,43 @@ GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
 <pre class="r"><code>plt_inhibs_not_kh</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-7-2.png" width="2112" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-2">
+Past versions of unnamed-chunk-7-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-7-2.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="signaltracks-de-plot-for-inhibition-effects" class="section level2 tabset">
@@ -1658,6 +1816,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/inhibition effects-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/inhibition effects-1.png" target="_blank">4a4e1e6</a>
@@ -1717,6 +1886,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/inhibition effects-2.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/inhibition effects-2.png" target="_blank">4a4e1e6</a>
 </td>
 <td>
@@ -1772,6 +1952,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/inhibition effects-3.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/inhibition effects-3.png" target="_blank">4a4e1e6</a>
@@ -1831,6 +2022,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/inhibition effects-4.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/inhibition effects-4.png" target="_blank">4a4e1e6</a>
@@ -2447,6 +2649,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-10-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/unnamed-chunk-10-1.png" target="_blank">4a4e1e6</a>
 </td>
 <td>
@@ -2500,6 +2713,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-11-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/unnamed-chunk-11-1.png" target="_blank">4a4e1e6</a>
 </td>
 <td>
@@ -2522,6 +2746,43 @@ d1$condition &lt;- ifelse(d1$condition==&quot;C&quot;, &quot;Control&quot;, &quo
 p1 &lt;- ggplot(d1, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle(&quot;Average signal plots&quot;) + theme_ipsum_rc()
 p1</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-12-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/unnamed-chunk-12-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># d2 &lt;- meltSignals(m2)
 # d2$condition &lt;- gsub(&quot;[0-9]&quot;,&quot;&quot;,d2$sample)
 # d2$condition &lt;- ifelse(d2$condition==&quot;C&quot;, &quot;Control&quot;, &quot;12hDEX&quot;)
@@ -2672,6 +2933,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/01_Results.Rmd/boxplot LRI-1.png" target="_blank">fd8956d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/boxplot LRI-1.png" target="_blank">4a4e1e6</a>

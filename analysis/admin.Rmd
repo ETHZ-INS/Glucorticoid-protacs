@@ -1,9 +1,7 @@
 
-```{r}
-library(workflowr)
-```
 
 ```{r}
+library(workflowr)
 
 # Question files
 workflowr::wflow_build(files=c(
@@ -19,5 +17,5 @@ workflowr::wflow_build(files=c(
   verbose=TRUE)
 
 # Push changes to github
-wflow_publish(".", "Small changes to differential binding")
+# wflow_publish(".", "Small changes to differential binding")
 ```
