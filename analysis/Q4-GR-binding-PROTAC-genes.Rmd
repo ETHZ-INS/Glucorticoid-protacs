@@ -113,7 +113,7 @@ h1
 ah <- AnnotationHub()
 ensdb <- ah[["AH98047"]] # AH89211
 
-mygenes.transcripts <-  subset(transcripts(ensdb, columns=c("tx_id", "tx_name","gene_id","gene_name")), gene_name %in% kh.protac.sig$Gene)
+mygenes.transcripts <-  subset(transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype", "tx_support_level", "gene_id","gene_name")), gene_name %in% kh.protac.sig$Gene)
 mygenes.tss <-  resize(mygenes.transcripts, width=2000, fix='start')
 seqlevelsStyle(mygenes.tss) <- "UCSC"
 

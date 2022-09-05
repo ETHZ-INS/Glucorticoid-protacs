@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dominique Paul" />
 
-<meta name="date" content="2022-07-09" />
+<meta name="date" content="2022-09-05" />
 
 <title>Analysis</title>
 
@@ -370,7 +370,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Analysis</h1>
 <h4 class="author">Dominique Paul</h4>
-<h4 class="date">2022-07-09</h4>
+<h4 class="date">2022-09-05</h4>
 
 </div>
 
@@ -395,7 +395,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-07-09
+<strong>Last updated:</strong> 2022-09-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -486,16 +486,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree4a4e1e6dc540ada645ce8cc331f7608414ed569atargetblank4a4e1e6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/4a4e1e6dc540ada645ce8cc331f7608414ed569a" target="_blank">4a4e1e6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree54fa9d53fcf21807e7b992f7bc59e68f4f5173a7targetblank54fa9d5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/54fa9d53fcf21807e7b992f7bc59e68f4f5173a7" target="_blank">54fa9d5</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree4a4e1e6dc540ada645ce8cc331f7608414ed569atargetblank4a4e1e6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree54fa9d53fcf21807e7b992f7bc59e68f4f5173a7targetblank54fa9d5a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/4a4e1e6dc540ada645ce8cc331f7608414ed569a" target="_blank">4a4e1e6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/54fa9d53fcf21807e7b992f7bc59e68f4f5173a7" target="_blank">54fa9d5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -506,6 +506,7 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/docs/.DS_Store
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
     Ignored:    data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv
@@ -516,12 +517,22 @@ Ignored files:
     Ignored:    data/single_replicate_peaks/.DS_Store
     Ignored:    data/single_replicate_peaks/control/
     Ignored:    data/single_replicate_peaks/dex12h/
+    Ignored:    data/single_replicate_peaks/dex2h/
     Ignored:    data/single_replicate_peaks/peaks/.DS_Store
     Ignored:    output/.DS_Store
 
+Untracked files:
+    Untracked:  MR-paper.pdf
+    Untracked:  data/reddy_bed_JUNB_DEX2h_r23.bed.gz
+
 Unstaged changes:
     Modified:   analysis/01_Results.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/Q3-PROTAC-reversal.Rmd
+    Modified:   analysis/Q4-GR-binding-PROTAC-genes.Rmd
+    Modified:   analysis/Q9-Differential_binding.Rmd
     Modified:   analysis/admin.Rmd
+    Modified:   data/results/differential_binding_results.rds
 
 </code></pre>
 <p>
@@ -560,6 +571,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/54fa9d53fcf21807e7b992f7bc59e68f4f5173a7/analysis/01_Results.Rmd" target="_blank">54fa9d5</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-07-09
+</td>
+<td>
+final changes for submission in main files
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/54fa9d53fcf21807e7b992f7bc59e68f4f5173a7/docs/01_Results.html" target="_blank">54fa9d5</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-07-09
+</td>
+<td>
+final changes for submission in main files
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -662,12 +707,12 @@ n_genes_union &lt;- length(q1_data[[&quot;union_DE_genes&quot;]])</code></pre>
 <h2>2h &gt; 16h</h2>
 <p><img src="assets/Q3_1_reversal216.png" /></p>
 </div>
-<div id="h-16h-logfc-0" class="section level2">
-<h2>2h &gt; 16h (logFC &gt; 0)</h2>
+<div id="h-2h-logfc-0" class="section level2">
+<h2>16h &gt; 2h (logFC &gt; 0)</h2>
 <p><img src="assets/Q3_2_reversal162_p1.png" /></p>
 </div>
-<div id="h-16h-logfc-0-1" class="section level2">
-<h2>2h &gt; 16h (logFC &lt; 0)</h2>
+<div id="h-2h-logfc-0-1" class="section level2">
+<h2>16h &gt; 2h (logFC &lt; 0)</h2>
 <p><img src="assets/Q3_3_reversal162_p2.png" /></p>
 </div>
 </div>
@@ -1085,8 +1130,8 @@ TRUE
 </tbody>
 </table>
 </div>
-<div id="question-6-common-binding-sites-of-junb-and-gr" class="section level1 tabset">
-<h1 class="tabset">Question 6: Common binding sites of JUNB and GR</h1>
+<div id="question-6-common-binding-sites-of-junb-and-gr" class="section level1">
+<h1>Question 6: Common binding sites of JUNB and GR</h1>
 <p><strong>Q: What are common binding sites between JUNB and GR?</strong> -&gt; Generally not a priority though</p>
 <p><strong>Take-aways:</strong></p>
 <ul>
@@ -1094,17 +1139,20 @@ TRUE
 <li>Most of the 12h GR peaks are shared with the JUNB peaks, only a small fraction is unique to the 12h GR ChIP seq data</li>
 <li>The 2h GR data has more peaks that are unique and not shared with the 12h GR or 12h JUNB data</li>
 </ul>
+<div id="unfiltered" class="section level2 tabset">
+<h2 class="tabset">Unfiltered</h2>
 <pre class="r"><code># Load GR
 peaks_gr_12h &lt;- import.bed15(&quot;../data/reddy_bed_DEX12h_r123.bed&quot;, format=&quot;narrowPeak&quot;)
 peaks_gr_2h &lt;- import.bed15(&quot;../data/reddy_bed_DEX2h_r123.bed.gz&quot;, format=&quot;narrowPeak&quot;)
 # load JUNB
+peaks_junb_2h &lt;- import.bed15(&quot;../data/reddy_bed_JUNB_DEX2h_r23.bed.gz&quot;, format=&quot;narrowPeak&quot;)
 peaks_junb_12h &lt;- import.bed15(&quot;../data/reddy_bed_JUNB_DEX12h_r123.bed&quot;, format=&quot;narrowPeak&quot;)
 
 # Show tile diagram
 list_of_regions &lt;- list(GR_2h=peaks_gr_2h, GR_12h=peaks_gr_12h, JUNB_12h=peaks_junb_12h) # Does not work with only 
-cat(&quot;\n\n## Overlap \n\n&quot;)</code></pre>
-<div id="overlap" class="section level2">
-<h2>Overlap</h2>
+cat(&quot;\n\n### Overlap \n\n&quot;)</code></pre>
+<div id="overlap" class="section level3">
+<h3>Overlap</h3>
 <pre class="r"><code>regionOverlaps(list_of_regions)</code></pre>
 <p><img src="figure/01_Results.Rmd/q6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1145,10 +1193,10 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code># Show upset plot
-cat(&quot;\n\n## Upset plot \n\n&quot;)</code></pre>
+cat(&quot;\n\n### Upset plot \n\n&quot;)</code></pre>
 </div>
-<div id="upset-plot" class="section level2">
-<h2>Upset plot</h2>
+<div id="upset-plot" class="section level3">
+<h3>Upset plot</h3>
 <pre class="r"><code>regionUpset(list_of_regions)</code></pre>
 <p><img src="figure/01_Results.Rmd/q6-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1188,8 +1236,10 @@ dominique-paul-uzh
 </table>
 </div>
 </div>
-<div id="what-if-we-filter-the-peaks-by-their-score" class="section level3 tabset">
-<h3 class="tabset">What if we filter the peaks by their score?</h3>
+</div>
+</div>
+<div id="what-if-we-filter-the-peaks-by-their-score" class="section level2 tabset">
+<h2 class="tabset">What if we filter the peaks by their score?</h2>
 <p><strong>Take-away:</strong> There is no significant change in the results/plots if we filter for a minimum peak score of 900 (max value is 1000).</p>
 <pre class="r"><code># Does it make a difference if we only choose peaks with high scores?
 ## What is the range of scores
@@ -1199,11 +1249,9 @@ dominique-paul-uzh
 list_of_regions_v2 &lt;- list(GR_2h=peaks_gr_2h[peaks_gr_2h$score&gt;900], 
                            GR_12h=peaks_gr_12h[peaks_gr_12h$score&gt;900], 
                            JUNB_12h=peaks_junb_12h[peaks_junb_12h$score&gt;900]) # Does not work with only two 
-cat(&quot;\n\n## Overlap \n\n&quot;)</code></pre>
-</div>
-</div>
-<div id="overlap-1" class="section level2">
-<h2>Overlap</h2>
+cat(&quot;\n\n### Overlap \n\n&quot;)</code></pre>
+<div id="overlap-1" class="section level3">
+<h3>Overlap</h3>
 <pre class="r"><code>regionOverlaps(list_of_regions_v2)</code></pre>
 <p><img src="figure/01_Results.Rmd/q6%20filtered-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1244,10 +1292,10 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code># Show upset plot
-cat(&quot;\n\n## Upset plot \n\n&quot;)</code></pre>
+cat(&quot;\n\n### Upset plot \n\n&quot;)</code></pre>
 </div>
-<div id="upset-plot-1" class="section level2">
-<h2>Upset plot</h2>
+<div id="upset-plot-1" class="section level3">
+<h3>Upset plot</h3>
 <pre class="r"><code>regionUpset(list_of_regions_v2)</code></pre>
 <p><img src="figure/01_Results.Rmd/q6%20filtered-2.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -1289,6 +1337,93 @@ dominique-paul-uzh
 </div>
 </div>
 </div>
+<div id="which-genes-have-a-gr-peak-and-a-junb-peak-within-2500bp-distance-to-the-tss" class="section level2">
+<h2>Which genes have a GR peak AND a JUNB peak within 2500bp distance to the TSS?</h2>
+<p>Annotate GR 2h and 12h and JUNB 2h</p>
+<pre class="r"><code>library(AnnotationHub)</code></pre>
+<pre><code>Warning: package &#39;AnnotationHub&#39; was built under R version 4.1.2</code></pre>
+<pre><code>Loading required package: BiocFileCache</code></pre>
+<pre><code>Warning: package &#39;BiocFileCache&#39; was built under R version 4.1.2</code></pre>
+<pre><code>Loading required package: dbplyr</code></pre>
+<pre><code>Warning: package &#39;dbplyr&#39; was built under R version 4.1.2</code></pre>
+<pre><code>
+Attaching package: &#39;dbplyr&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:dplyr&#39;:
+
+    ident, sql</code></pre>
+<pre><code>
+Attaching package: &#39;AnnotationHub&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:rtracklayer&#39;:
+
+    hubUrl</code></pre>
+<pre><code>The following object is masked from &#39;package:Biobase&#39;:
+
+    cache</code></pre>
+<pre class="r"><code>ah &lt;- AnnotationHub()</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre class="r"><code>ensdb &lt;- ah[[&quot;AH98047&quot;]] # AH89211</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>require(&quot;ensembldb&quot;)</code></pre>
+<pre><code>Warning: package &#39;GenomicFeatures&#39; was built under R version 4.1.2</code></pre>
+<pre><code>Warning: package &#39;AnnotationDbi&#39; was built under R version 4.1.2</code></pre>
+<pre><code>Warning: package &#39;AnnotationFilter&#39; was built under R version 4.1.1</code></pre>
+<pre class="r"><code>gr_peaks_annotated_2h &lt;- annotateRegions(peaks_gr_2h, ensdb)</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
+<pre class="r"><code>gr_peaks_annotated_12h &lt;- readRDS(&quot;../data/EOS_files/Q2_annotated_peaks.rds&quot;)
+JUNB_peaks_annotated_2h &lt;- annotateRegions(peaks_junb_2h, ensdb)</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
+<pre class="r"><code>JUNB_peaks_annotated_12h &lt;- annotateRegions(peaks_junb_12h, ensdb)</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
+<pre class="r"><code>### filter for 2500 bp distance to gene TSS
+# GR 2h
+gr_peaks_annotated_2h$nearestTSS.gene_name.2500r &lt;- gr_peaks_annotated_2h$nearestTSS.gene_name
+gr_peaks_annotated_2h[abs(gr_peaks_annotated_2h$distance2nearestTSS) &gt;= 2500, ]$nearestTSS.gene_name.2500r &lt;- &quot;&quot;
+# JUNB 2h 
+JUNB_peaks_annotated_2h$nearestTSS.gene_name.2500r &lt;- JUNB_peaks_annotated_2h$nearestTSS.gene_name
+JUNB_peaks_annotated_2h[abs(JUNB_peaks_annotated_2h$distance2nearestTSS) &gt;= 2500, ]$nearestTSS.gene_name.2500r &lt;- &quot;&quot;
+# JUNB 12h 
+JUNB_peaks_annotated_12h$nearestTSS.gene_name.2500r &lt;- JUNB_peaks_annotated_12h$nearestTSS.gene_name
+JUNB_peaks_annotated_12h[abs(JUNB_peaks_annotated_12h$distance2nearestTSS) &gt;= 2500, ]$nearestTSS.gene_name.2500r &lt;- &quot;&quot;
+
+# subset
+gr_2h_subset &lt;- gr_peaks_annotated_2h[gr_peaks_annotated_2h$nearestTSS.gene_name.2500r != &quot;&quot;,]
+gr_12h_subset &lt;- gr_peaks_annotated_12h[gr_peaks_annotated_12h$nearestTSS.gene_name.2500r != &quot;&quot;,]
+junb_2h_subset &lt;- JUNB_peaks_annotated_2h[JUNB_peaks_annotated_2h$nearestTSS.gene_name.2500r != &quot;&quot;,]
+junb_12h_subset &lt;- JUNB_peaks_annotated_12h[JUNB_peaks_annotated_12h$nearestTSS.gene_name.2500r != &quot;&quot;,]
+
+list_of_regions_v3 &lt;- list(GR_2h=gr_2h_subset, 
+                           GR_12h=gr_12h_subset,
+                           JUNB_2h=junb_2h_subset,
+                           JUNB_12h=junb_12h_subset)
+
+cat(&quot;\n\n## Overlap \n\n&quot;)</code></pre>
+<pre><code>
+
+## Overlap </code></pre>
+<pre class="r"><code>regionOverlaps(list_of_regions_v3)</code></pre>
+<p><img src="figure/01_Results.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Show upset plot
+cat(&quot;\n\n## Upset plot \n\n&quot;)</code></pre>
+<pre><code>
+
+## Upset plot </code></pre>
+<pre class="r"><code>regionUpset(list_of_regions_v3)</code></pre>
+<p><img src="figure/01_Results.Rmd/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="visualise-the-genes-that-have-both-a-junb-and-gr-peak-within-2500bp-of-their-tss" class="section level4">
+<h4>Visualise the genes that have both a JUNB and GR peak within 2500bp of their TSS</h4>
+<pre class="r"><code>gr_junb_2h_intersection_genes &lt;- intersect(gr_2h_subset$nearestTSS.gene_name.2500r, junb_2h_subset$nearestTSS.gene_name.2500r)
+
+# cat(gr_junb_2h_intersection_genes)
+
+length(gr_junb_2h_intersection_genes)</code></pre>
+<pre><code>[1] 1139</code></pre>
+<p>There is an overlap of 1139 genes.</p>
+</div>
+</div>
+</div>
 <div id="question-7-pxr-sequences" class="section level1">
 <h1>Question 7: PXR Sequences</h1>
 <p><strong>Q: Does GC-GR bind to PXR sequences?</strong></p>
@@ -1310,7 +1445,7 @@ moi &lt;- readRDS(file=&quot;../data/EOS_files/pxr_peaks.rds&quot;)
 <p>In the following we plot the signal for a subset of genes, IF these genes are associated with a peak the in the GR data for the 12h DEX ChIP data.</p>
 <div id="signals-and-de-results-for-all-genes-with-associated-peaks" class="section level3">
 <h3>Signals and DE results for all genes with associated peaks</h3>
-<p>We first plot the signal tracks for all genes for the sake of completeness</p>
+<p>We first plot the signal tracks for all genes for the sake of completeness. We plot around the TSS of the gene, not around the centre of the peak. Reminder: The peaks are labelled with the gene name the TSS of which is closest to the peak.</p>
 <pre class="r"><code># load summarised experiment
 se &lt;- readRDS(file=&quot;../data/results/SE.processed.rds&quot;)
 # removes the row without name
@@ -1322,12 +1457,13 @@ tracks &lt;-  list(&quot;2h-DEX&quot;=&quot;../data/reddy_bigwig_DEX2h_r123.bigW
                 &quot;6h-DEX&quot;=&quot;../data/reddy_bigwig_DEX6h_r123.bigWig&quot;,
                 &quot;12h-DEX&quot;=&quot;../data/reddy_bigwig_DEX12h_r123.bigWig&quot;)
 
-plot_signals_and_sechm &lt;- function(peaks, genes_subset=NULL){
+plot_signals_and_sechm &lt;- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE){
   # first subset for a given selection of genes
   if (is.null(genes_subset) == FALSE) {
     peaks &lt;- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
     if (length(peaks) == 0) return(paste0(&quot;No peaks found for the genes:&quot;, paste(genes_subset, collapse = &#39;, &#39;)))
   }
+  
   # get rid of peaks that don&#39;t have an assigned gene that was quantified
   peaks &lt;- sort(peaks[peaks$nearestTSS.gene_name %in% row.names(se)])
   # give unique names to the peaks
@@ -1335,7 +1471,31 @@ plot_signals_and_sechm &lt;- function(peaks, genes_subset=NULL){
   # select (and duplicate) the entries in R, and give them the names
   se2 &lt;- se[as.character(peaks$nearestTSS.gene_name),]
   row.names(se2) &lt;- names(peaks)
-  signals &lt;- signal2Matrix(tracks, peaks, w=5, extend=500)
+  
+  if (plot_around_gene_tss == TRUE){
+    ah &lt;- AnnotationHub()
+    ensdb &lt;- ah[[&quot;AH98047&quot;]] # AH89211
+
+    mygenes.transcripts &lt;-  transcripts(ensdb, columns=c(&quot;tx_id&quot;, &quot;tx_name&quot;, &quot;tx_biotype&quot;,
+                                                                &quot;tx_support_level&quot;,
+                                                                &quot;gene_id&quot;,&quot;gene_name&quot;))
+    mygenes.transcripts &lt;- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
+    mygenes.tss &lt;-  resize(mygenes.transcripts, width=2000, fix=&#39;start&#39;)
+    seqlevelsStyle(mygenes.tss) &lt;- &quot;UCSC&quot;
+    mygenes_unique &lt;- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
+    
+    # adjust the se2 genes to only show the ones for which we have the TSS
+    genes &lt;- mygenes_unique$gene_name
+    se2 &lt;- se[genes,]
+    # get the signals
+    signals &lt;- signal2Matrix(tracks, mygenes_unique, w=5, extend=1000)
+  } 
+  else
+  {
+    signals &lt;- signal2Matrix(tracks, peaks, w=5, extend=500)  
+  }
+  
+  
   h1 &lt;- plotEnrichedHeatmaps(signals, width=unit(8, &quot;cm&quot;))
   set.seed(100) # for colours
   h2 &lt;- sechm::sechm(se2, genes=row.names(se2), assayName=&quot;log2FC&quot;, sortRowsOn=NULL, 
@@ -1345,79 +1505,15 @@ plot_signals_and_sechm &lt;- function(peaks, genes_subset=NULL){
   h1 + h2
 }
 
-plt &lt;- plot_signals_and_sechm(gr_peaks)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 1031 region(s) (30%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
+plt &lt;- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
-<pre><code>`use_raster` is automatically set to TRUE for a matrix with more than
-2000 rows. You can control `use_raster` argument by explicitly setting
-TRUE/FALSE to it.
-
-Set `ht_opt$message = FALSE` to turn off this message.</code></pre>
 <pre class="r"><code>plt</code></pre>
-<p><img src="figure/01_Results.Rmd/unnamed-chunk-5-1.png" width="2112" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
-Past versions of unnamed-chunk-5-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-5-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/unnamed-chunk-5-1.png" target="_blank">4a4e1e6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-07-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="signaltracks-de-plot-for-side-effects-of-the-inhibitors" class="section level2 tabset">
-<h2 class="tabset">Signaltracks + DE plot for Side effects of the inhibitors</h2>
-<p>In the following we show the same plots, but for smaller subsets of genes. We choose at most the 200 most significantly differentially expressed genes from a given comparison named below.</p>
-<pre class="r"><code>se.processed &lt;- readRDS(file=&quot;../data/results/SE.processed.rds&quot;)
-
-cat(&quot;\n\n### Genes triggered by all inhibitors \n\n&quot;)</code></pre>
-<div id="genes-triggered-by-all-inhibitors" class="section level3">
-<h3>Genes triggered by all inhibitors</h3>
-<pre class="r"><code># Genes triggered by all inhibitors
-w &lt;- se$condition2 %in% c(&quot;control&quot;,&quot;18h Cort113&quot;,&quot;18h KH-103&quot;,&quot;18h MIF&quot;)
-dds2 &lt;- dds[,w]
-mm &lt;- model.matrix(~se$isInhibited[w])
-fit &lt;- glmFit(dds2,mm)
-res &lt;- as.data.frame(topTags(glmLRT(fit),Inf))
-rnames_all_inhibs &lt;- head(row.names(res)[res$FDR&lt;0.05],200)
-plt_all_inhibs &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhibs)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 71 region(s) (32%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
-<pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
-<pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
-<pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
-<pre class="r"><code>plt_all_inhibs</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-6-1.png" width="2112" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -1456,6 +1552,33 @@ dominique-paul-uzh
 </table>
 </div>
 </div>
+</div>
+<div id="signaltracks-de-plot-for-side-effects-of-the-inhibitors" class="section level2 tabset">
+<h2 class="tabset">Signaltracks + DE plot for Side effects of the inhibitors</h2>
+<p>In the following we show the same plots, but for smaller subsets of genes. We choose at most the 200 most significantly differentially expressed genes from a given comparison named below.</p>
+<p>The signals are plotted around the gene TSS ± 1000bp.</p>
+<pre class="r"><code>se.processed &lt;- readRDS(file=&quot;../data/results/SE.processed.rds&quot;)
+
+cat(&quot;\n\n### Genes triggered by all inhibitors \n\n&quot;)</code></pre>
+<div id="genes-triggered-by-all-inhibitors" class="section level3">
+<h3>Genes triggered by all inhibitors</h3>
+<pre class="r"><code># Genes triggered by all inhibitors
+w &lt;- se$condition2 %in% c(&quot;control&quot;,&quot;18h Cort113&quot;,&quot;18h KH-103&quot;,&quot;18h MIF&quot;)
+dds2 &lt;- dds[,w]
+mm &lt;- model.matrix(~se$isInhibited[w])
+fit &lt;- glmFit(dds2,mm)
+res &lt;- as.data.frame(topTags(glmLRT(fit),Inf))
+rnames_all_inhibs &lt;- head(row.names(res)[res$FDR&lt;0.05],200)
+plt_all_inhibs &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhibs, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
+<pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
+<pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
+<pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
+<pre class="r"><code>plt_all_inhibs</code></pre>
+<p><img src="figure/01_Results.Rmd/unnamed-chunk-7-1.png" width="2112" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>cat(&quot;\n\n### Genes specifically altered by KH-103 \n\n&quot;)</code></pre>
 </div>
 <div id="genes-specifically-altered-by-kh-103" class="section level3">
@@ -1466,7 +1589,7 @@ mm &lt;- model.matrix(~isKh)
 fit &lt;- glmFit(estimateDisp(dds2,mm),mm)
 res &lt;- as.data.frame(topTags(glmLRT(fit, &quot;isKhTRUE&quot;),Inf))
 rnames_kh103 &lt;- row.names(res)[res$FDR&lt;0.05]
-plt_kh103  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103)
+plt_kh103  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103, plot_around_gene_tss=TRUE)
 plt_kh103</code></pre>
 <p>[1] “No peaks found for the genes:TEF, CRY2”</p>
 <pre class="r"><code>cat(&quot;\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n&quot;)</code></pre>
@@ -1478,55 +1601,21 @@ mm &lt;- model.matrix(~se$isInhibited[w]+isKh)
 fit &lt;- glmFit(estimateDisp(dds2,mm),mm)
 res &lt;- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
 rnames_inhibs_not_kh &lt;- head(row.names(res)[res$FDR&lt;0.05],200)
-plt_inhibs_not_kh  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 60 region(s) (34%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
+plt_inhibs_not_kh  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
 <pre class="r"><code>plt_inhibs_not_kh</code></pre>
-<p><img src="figure/01_Results.Rmd/unnamed-chunk-6-2.png" width="2112" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-2">
-Past versions of unnamed-chunk-6-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-6-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/unnamed-chunk-6-2.png" target="_blank">4a4e1e6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-07-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/01_Results.Rmd/unnamed-chunk-7-2.png" width="2112" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="signaltracks-de-plot-for-inhibition-effects" class="section level2 tabset">
 <h2 class="tabset">Signaltracks + DE plot for inhibition effects</h2>
+<p>The signals are plotted around the gene TSS ± 1000bp.</p>
 <pre class="r"><code>cat(&quot;\n\n### DEX-triggered genes that are inhibited (prior) \n\n&quot;)</code></pre>
 <div id="dex-triggered-genes-that-are-inhibited-prior" class="section level3">
 <h3>DEX-triggered genes that are inhibited (prior)</h3>
@@ -1537,9 +1626,11 @@ mm &lt;- model.matrix(~droplevels(se$condition2[wPrior]))
 fit &lt;- glmFit(estimateDisp(dds[,wPrior],mm),mm)
 res &lt;- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
 rnames_dex_triggered &lt;-  head(row.names(res)[res$FDR&lt;0.05],200)
-plt_dex_triggered  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_dex_triggered)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 64 region(s) (30%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
+plt_dex_triggered  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_dex_triggered, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
@@ -1592,9 +1683,11 @@ mm &lt;- model.matrix(~tmp)
 fit &lt;- glmFit(estimateDisp(dds[,wPrior],mm),mm)
 res &lt;- as.data.frame(topTags(glmLRT(fit), Inf))
 rnames_kh103_inhibited &lt;-  head(row.names(res)[res$FDR&lt;0.05],200)
-plt_kh103_inhibited  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_inhibited)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 66 region(s) (30%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
+plt_kh103_inhibited  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_inhibited, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
@@ -1647,9 +1740,11 @@ mm &lt;- model.matrix(~tmp)
 fit &lt;- glmFit(estimateDisp(dds[,wPrior],mm),mm)
 res &lt;- as.data.frame(topTags(glmLRT(fit), Inf))
 rnames_kh103_less_inhibited &lt;-  head(row.names(res)[res$FDR&lt;0.05],200)
-plt_kh103_less_inhibited  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_less_inhibited)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 40 region(s) (27%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
+plt_kh103_less_inhibited  &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_less_inhibited, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
@@ -1704,9 +1799,11 @@ fit &lt;- glmFit(estimateDisp(dds[,wAfter],mm),mm)
 res &lt;- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
 attr(res, &quot;description&quot;) &lt;- &quot;Significantly-inhibited DEX-responsive genes by any all inhibitors, when administered after DEX&quot;
 rnames_inhibited &lt;-  head(row.names(res)[res$FDR&lt;0.05],200)
-plt_inhibited   &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibited)</code></pre>
-<pre><code>Warning in .checkRegions(filepaths, regions, verbose = verbose, trimOOR = FALSE): 84 region(s) (34%) were excluded because they were out of range of (some of) the file(s).
-This usually happens when the genome annotation used for the files differs from that on which the regions were based.</code></pre>
+plt_inhibited   &lt;- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibited, plot_around_gene_tss=TRUE)</code></pre>
+<pre><code>snapshotDate(): 2021-10-20</code></pre>
+<pre><code>loading from cache</code></pre>
+<pre><code>Warning in (function (seqlevels, genome, new_style) : cannot switch some of
+GRCh38&#39;s seqlevels from NCBI to UCSC style</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX2h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX6h_r123.bigWig</code></pre>
 <pre><code>Reading ../data/reddy_bigwig_DEX12h_r123.bigWig</code></pre>
@@ -1810,7 +1907,7 @@ ENST00000686449
 chr5:172869049-172869468
 </td>
 <td style="text-align:right;">
--8.196641
+8.196641
 </td>
 <td style="text-align:right;">
 3.139451
@@ -1836,7 +1933,7 @@ ENST00000536411
 chr12:6376197-6376471
 </td>
 <td style="text-align:right;">
--9.442922
+9.442922
 </td>
 <td style="text-align:right;">
 1.932770
@@ -1862,7 +1959,7 @@ ENST00000683006
 chr11:114154481-114154905
 </td>
 <td style="text-align:right;">
--6.603147
+6.603147
 </td>
 <td style="text-align:right;">
 3.326866
@@ -1888,7 +1985,7 @@ ENST00000578262
 chr20:31610720-31611048
 </td>
 <td style="text-align:right;">
--7.391412
+7.391412
 </td>
 <td style="text-align:right;">
 2.354293
@@ -1914,7 +2011,7 @@ ENST00000545851
 chr11:114179197-114179671
 </td>
 <td style="text-align:right;">
--6.317432
+6.317432
 </td>
 <td style="text-align:right;">
 3.572129
@@ -1940,7 +2037,7 @@ ENST00000439890
 chrX:65772821-65773162
 </td>
 <td style="text-align:right;">
--6.559845
+6.559845
 </td>
 <td style="text-align:right;">
 2.871221
@@ -1966,7 +2063,7 @@ ENST00000508295
 chr6:142376184-142376447
 </td>
 <td style="text-align:right;">
--9.314629
+9.314629
 </td>
 <td style="text-align:right;">
 1.809602
@@ -1991,7 +2088,7 @@ ENST00000523502
 chr8:130762051-130762455
 </td>
 <td style="text-align:right;">
--7.318173
+7.318173
 </td>
 <td style="text-align:right;">
 2.255812
@@ -2017,7 +2114,7 @@ ENST00000292176
 chr1:155017282-155017586
 </td>
 <td style="text-align:right;">
--7.240682
+7.240682
 </td>
 <td style="text-align:right;">
 2.180893
@@ -2042,7 +2139,7 @@ ENST00000650258
 chr5:172775589-172775944
 </td>
 <td style="text-align:right;">
--6.422277
+6.422277
 </td>
 <td style="text-align:right;">
 2.756907
@@ -2067,7 +2164,7 @@ ENST00000669692
 chr11:114162823-114163184
 </td>
 <td style="text-align:right;">
--6.423372
+6.423372
 </td>
 <td style="text-align:right;">
 2.738228
@@ -2092,7 +2189,7 @@ ENST00000527351
 chr11:123122426-123122655
 </td>
 <td style="text-align:right;">
--9.139182
+9.139182
 </td>
 <td style="text-align:right;">
 1.641666
@@ -2118,7 +2215,7 @@ ENST00000587470
 chr17:59837426-59837958
 </td>
 <td style="text-align:right;">
--5.922668
+5.922668
 </td>
 <td style="text-align:right;">
 3.587849
@@ -2144,7 +2241,7 @@ ENST00000517147
 chr1:9436312-9436621
 </td>
 <td style="text-align:right;">
--6.628821
+6.628821
 </td>
 <td style="text-align:right;">
 2.419730
@@ -2170,7 +2267,7 @@ ENST00000502082
 chr8:127500769-127501057
 </td>
 <td style="text-align:right;">
--7.111911
+7.111911
 </td>
 <td style="text-align:right;">
 2.056748
@@ -2196,7 +2293,7 @@ ENST00000477230
 chr10:91144907-91145205
 </td>
 <td style="text-align:right;">
--7.079109
+7.079109
 </td>
 <td style="text-align:right;">
 2.053142
@@ -2221,7 +2318,7 @@ ENST00000656621
 chr14:94599130-94599528
 </td>
 <td style="text-align:right;">
--6.058585
+6.058585
 </td>
 <td style="text-align:right;">
 3.089651
@@ -2246,7 +2343,7 @@ ENST00000531569
 chr11:35908078-35908413
 </td>
 <td style="text-align:right;">
--6.213104
+6.213104
 </td>
 <td style="text-align:right;">
 2.553969
@@ -2272,7 +2369,7 @@ ENST00000643403
 chr3:105792326-105792693
 </td>
 <td style="text-align:right;">
--6.133745
+6.133745
 </td>
 <td style="text-align:right;">
 2.886163
@@ -2298,7 +2395,7 @@ ENST00000441977
 chr20:47334115-47334473
 </td>
 <td style="text-align:right;">
--5.941042
+5.941042
 </td>
 <td style="text-align:right;">
 3.005947
@@ -2325,60 +2422,7 @@ chr20:47334115-47334473
                            max.overlaps = 30)</code></pre>
 <pre><code>Warning: ggrepel: 210 unlabeled data points (too many overlaps). Consider
 increasing max.overlaps</code></pre>
-<p><img src="figure/01_Results.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/01_Results.Rmd/unnamed-chunk-9-1.png" target="_blank">4a4e1e6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-07-09
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="signal-tracks" class="section level2">
-<h2>Signal tracks</h2>
-<pre class="r"><code>tracks &lt;- list(&quot;C2&quot;=&quot;../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig&quot;,
-               &quot;C3&quot;=&quot;../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig&quot;,
-               &quot;t12_1&quot;=&quot;../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig&quot;,
-               &quot;t12_2&quot;=&quot;../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig&quot;,
-               &quot;t12_3&quot;=&quot;../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig&quot;)
-m &lt;- signal2Matrix(tracks, merged_peaks)</code></pre>
-<pre><code>Reading ../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig</code></pre>
-<pre><code>Reading ../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig</code></pre>
-<pre><code>Reading ../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig</code></pre>
-<pre><code>Reading ../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig</code></pre>
-<pre><code>Reading ../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig</code></pre>
-<pre class="r"><code>plotEnrichedHeatmaps(m)</code></pre>
-<p><img src="figure/01_Results.Rmd/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/01_Results.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
 Past versions of unnamed-chunk-10-1.png
@@ -2417,13 +2461,20 @@ dominique-paul-uzh
 </div>
 </div>
 </div>
-<div id="average-signal-plots" class="section level2">
-<h2>Average signal plots</h2>
-<pre class="r"><code>d1 &lt;- meltSignals(m)
-d1$condition &lt;- gsub(&quot;[0-9]&quot;,&quot;&quot;,d1$sample)
-d1$condition &lt;- ifelse(d1$condition==&quot;C&quot;, &quot;Control&quot;, &quot;12hDEX&quot;)
-p1 &lt;- ggplot(d1, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle(&quot;Average signal plots&quot;) + theme_ipsum_rc()
-p1</code></pre>
+<div id="signal-tracks" class="section level2">
+<h2>Signal tracks</h2>
+<pre class="r"><code>tracks &lt;- list(&quot;C2&quot;=&quot;../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig&quot;,
+               &quot;C3&quot;=&quot;../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig&quot;,
+               &quot;t12_1&quot;=&quot;../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig&quot;,
+               &quot;t12_2&quot;=&quot;../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig&quot;,
+               &quot;t12_3&quot;=&quot;../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig&quot;)
+m &lt;- signal2Matrix(tracks, merged_peaks)</code></pre>
+<pre><code>Reading ../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig</code></pre>
+<pre><code>Reading ../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig</code></pre>
+<pre><code>Reading ../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig</code></pre>
+<pre><code>Reading ../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig</code></pre>
+<pre><code>Reading ../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig</code></pre>
+<pre class="r"><code>plotEnrichedHeatmaps(m)</code></pre>
 <p><img src="figure/01_Results.Rmd/unnamed-chunk-11-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
@@ -2462,6 +2513,15 @@ dominique-paul-uzh
 </table>
 </div>
 </div>
+</div>
+<div id="average-signal-plots" class="section level2">
+<h2>Average signal plots</h2>
+<pre class="r"><code>d1 &lt;- meltSignals(m)
+d1$condition &lt;- gsub(&quot;[0-9]&quot;,&quot;&quot;,d1$sample)
+d1$condition &lt;- ifelse(d1$condition==&quot;C&quot;, &quot;Control&quot;, &quot;12hDEX&quot;)
+p1 &lt;- ggplot(d1, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle(&quot;Average signal plots&quot;) + theme_ipsum_rc()
+p1</code></pre>
+<p><img src="figure/01_Results.Rmd/unnamed-chunk-12-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># d2 &lt;- meltSignals(m2)
 # d2$condition &lt;- gsub(&quot;[0-9]&quot;,&quot;&quot;,d2$sample)
 # d2$condition &lt;- ifelse(d2$condition==&quot;C&quot;, &quot;Control&quot;, &quot;12hDEX&quot;)
@@ -2476,6 +2536,9 @@ dominique-paul-uzh
 <pre class="r"><code>interactions &lt;- read.csv(&quot;../data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv&quot;, sep=&quot;\t&quot;)
 interactions_gr &lt;- makeGRangesFromDataFrame(interactions, keep.extra.columns=T)
 
+# subset for peaks which are in a range of 2500bp of a TSS
+# gr_peaks &lt;- gr_peaks[gr_peaks$nearestTSS.gene_name.2500r != &quot;&quot;]
+
 # find peaks from our data peak dataset that overlap with the known ETG interactions
 overlap_peaks &lt;- findOverlaps(gr_peaks, interactions_gr)
 
@@ -2485,7 +2548,7 @@ new_peaks_lri$long_range_interaction &lt;- TRUE
 new_peaks_lri$long_range_gene &lt;- interactions_gr[subjectHits(overlap_peaks)]$symbol
 new_peaks_lri$dist2lr_target &lt;- interactions_gr[subjectHits(overlap_peaks)]$distance
 
-# get peaks from our dataset which have no know interactions with distal genes
+# get peaks from our dataset which have no known interactions with distal genes
 mask_peaks_with_no_lr_interactions &lt;- !(1:length(gr_peaks) %in% unique(queryHits(overlap_peaks)))
 new_peaks_no_lri &lt;- gr_peaks[mask_peaks_with_no_lr_interactions]
 new_peaks_no_lri$long_range_interaction &lt;- FALSE
@@ -2493,7 +2556,9 @@ new_peaks_no_lri$long_range_gene &lt;- NA
 new_peaks_no_lri$dist2lr_target &lt;- NA
 
 # merge the granges objects together. This object will contain duplicates
-peaks &lt;- c(new_peaks_lri, new_peaks_no_lri)</code></pre>
+peaks &lt;- c(new_peaks_lri, new_peaks_no_lri)
+
+# Subset the granges object for </code></pre>
 <div id="how-many-significant-genes-are-there-in-our-18h-dex-treatment-depending-on-the-type-of-peaks-associated-with-the-gene" class="section level3">
 <h3>How many significant genes are there in our 18h DEX treatment depending on the type of peaks associated with the gene?</h3>
 <p>TRUE/FALSE indicates whether the gene was found to be differentially expressed in our 18h DEX treatment at a 0.05 FDR level.</p>
@@ -2508,11 +2573,11 @@ de_res &lt;- de_res %&gt;% left_join(as.data.frame(peaks) %&gt;% dplyr::select(&
   tidyr::replace_na(list(long_range_interaction=F))
 
 de_res$category &lt;- NA
-de_res[(de_res$gc_bound == TRUE) &amp; (de_res$long_range_interaction == FALSE), &quot;category&quot;] &lt;- &quot;Closest TSS only&quot;
-de_res[(de_res$gc_bound == FALSE) &amp; (de_res$long_range_interaction == TRUE), &quot;category&quot;] &lt;- &quot;LRI only&quot;
-de_res[(de_res$gc_bound == FALSE) &amp; (de_res$long_range_interaction == FALSE), &quot;category&quot;] &lt;- &quot;Neither&quot;
-de_res[(de_res$gc_bound == TRUE) &amp; (de_res$long_range_interaction == TRUE), &quot;category&quot;] &lt;- &quot;Closest TSS+LRI&quot;
-de_res$category &lt;- factor(de_res$category, levels=c(&quot;Neither&quot;, &quot;LRI only&quot;, &quot;Closest TSS only&quot;,&quot;Closest TSS+LRI&quot;))
+de_res[(de_res$chip_peaks.2500r &gt; 0) &amp; (de_res$long_range_interaction == FALSE), &quot;category&quot;] &lt;- &quot;&lt;2500 to TSS only&quot;
+de_res[(de_res$chip_peaks.2500r == 0) &amp; (de_res$long_range_interaction == TRUE), &quot;category&quot;] &lt;- &quot;LRI only&quot;
+de_res[(de_res$chip_peaks.2500r == 0) &amp; (de_res$long_range_interaction == FALSE), &quot;category&quot;] &lt;- &quot;Neither&quot;
+de_res[(de_res$chip_peaks.2500r &gt; 0) &amp; (de_res$long_range_interaction == TRUE), &quot;category&quot;] &lt;- &quot;&lt;2500 to TSS+LRI&quot;
+de_res$category &lt;- factor(de_res$category, levels=c(&quot;Neither&quot;, &quot;LRI only&quot;, &quot;&lt;2500 to TSS only&quot;,&quot;&lt;2500 to TSS+LRI&quot;))
 
 kableExtra::kable(table(de_res$is_significant, de_res$category)) %&gt;% kableExtra::kable_styling()</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -2527,10 +2592,10 @@ Neither
 LRI only
 </th>
 <th style="text-align:right;">
-Closest TSS only
+&lt;2500 to TSS only
 </th>
 <th style="text-align:right;">
-Closest TSS+LRI
+&lt;2500 to TSS+LRI
 </th>
 </tr>
 </thead>
@@ -2540,16 +2605,16 @@ Closest TSS+LRI
 FALSE
 </td>
 <td style="text-align:right;">
-5361
+5582
 </td>
 <td style="text-align:right;">
-1495
+1616
 </td>
 <td style="text-align:right;">
-311
+90
 </td>
 <td style="text-align:right;">
-181
+60
 </td>
 </tr>
 <tr>
@@ -2557,16 +2622,16 @@ FALSE
 TRUE
 </td>
 <td style="text-align:right;">
-4076
+4477
 </td>
 <td style="text-align:right;">
-1410
+1671
 </td>
 <td style="text-align:right;">
-639
+238
 </td>
 <td style="text-align:right;">
-463
+202
 </td>
 </tr>
 </tbody>
@@ -2577,7 +2642,7 @@ TRUE
 <pre class="r"><code># Idea: A table of our peaks with a the gene it is influencing and the distance to the gene
 ### boxplot: no closeby peak, but known lr-interaction VS. no peak at all, closeby peak and long-range interaction, closeby peak only
 de_res %&gt;%
-  filter(FDR &lt; 0.05) %&gt;%
+  dplyr::filter(FDR &lt; 0.05) %&gt;%
   ggplot(aes(x=category, y=abs(logFC))) + 
   geom_boxplot() +
   theme_ipsum_rc() +#
@@ -2625,13 +2690,13 @@ dominique-paul-uzh
 <pre class="r"><code>###
 # Idea 2: A table of peaks with a column containing a string. This string is the comma-separated gene names
 peaks_short &lt;- as.data.frame(peaks) %&gt;% 
-  mutate(id=paste0(seqnames, &quot;:&quot;, start, &quot;-&quot;, end)) %&gt;%
+  dplyr::mutate(id=paste0(seqnames, &quot;:&quot;, start, &quot;-&quot;, end)) %&gt;%
   # select(&quot;id&quot;, everything()) %&gt;%
   group_by(id) %&gt;% 
   mutate(lr_genes = paste0(long_range_gene, collapse = &quot;, &quot;))  %&gt;%
   dplyr::select(-c(&quot;long_range_gene&quot;,&quot;dist2lr_target&quot;)) %&gt;%
   distinct() %&gt;%
-  select(&quot;id&quot;, &quot;score&quot;, &quot;signalValue&quot;, &quot;pValue&quot;, &quot;distance2nearestTSS&quot;, &quot;nearestTSS.gene_name&quot;, #&quot;nearestTSS&quot;, 
+  dplyr::select(&quot;id&quot;, &quot;score&quot;, &quot;signalValue&quot;, &quot;pValue&quot;, &quot;distance2nearestTSS&quot;, &quot;nearestTSS.gene_name&quot;, #&quot;nearestTSS&quot;, 
          &quot;class&quot;,&quot;long_range_interaction&quot;, &quot;lr_genes&quot;)</code></pre>
 </div>
 <div id="is-the-gene-closest-to-a-peak-included-in-the-list-of-genes-acting-at-long-range-based-on-the-salviato-dataset" class="section level3">
@@ -2714,6 +2779,9 @@ FDR
 <th style="text-align:right;">
 chip_peaks
 </th>
+<th style="text-align:right;">
+chip_peaks.2500r
+</th>
 <th style="text-align:left;">
 gc_bound
 </th>
@@ -2754,6 +2822,9 @@ ANGPTL4
 <td style="text-align:right;">
 3
 </td>
+<td style="text-align:right;">
+1
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -2767,7 +2838,7 @@ TRUE
 207532
 </td>
 <td style="text-align:left;">
-Closest TSS+LRI
+&lt;2500 to TSS+LRI
 </td>
 </tr>
 <tr>
@@ -2792,6 +2863,9 @@ FKBP5
 <td style="text-align:right;">
 7
 </td>
+<td style="text-align:right;">
+3
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -2805,7 +2879,7 @@ TRUE
 35155
 </td>
 <td style="text-align:left;">
-Closest TSS+LRI
+&lt;2500 to TSS+LRI
 </td>
 </tr>
 <tr>
@@ -2830,6 +2904,9 @@ ATP1A1
 <td style="text-align:right;">
 1
 </td>
+<td style="text-align:right;">
+0
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -2843,7 +2920,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+Neither
 </td>
 </tr>
 <tr>
@@ -2858,6 +2935,9 @@ PYGB
 </td>
 <td style="text-align:right;">
 1433.3839
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 0
@@ -2906,6 +2986,9 @@ TFCP2L1
 <td style="text-align:right;">
 2
 </td>
+<td style="text-align:right;">
+2
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -2919,7 +3002,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -2944,6 +3027,9 @@ CIDEC
 <td style="text-align:right;">
 4
 </td>
+<td style="text-align:right;">
+2
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -2957,7 +3043,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -2982,6 +3068,9 @@ MT2A
 <td style="text-align:right;">
 4
 </td>
+<td style="text-align:right;">
+4
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -2995,7 +3084,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -3020,6 +3109,9 @@ TSC22D3
 <td style="text-align:right;">
 5
 </td>
+<td style="text-align:right;">
+1
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3033,7 +3125,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -3058,6 +3150,9 @@ RHCG
 <td style="text-align:right;">
 2
 </td>
+<td style="text-align:right;">
+2
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3071,7 +3166,7 @@ TRUE
 379498
 </td>
 <td style="text-align:left;">
-Closest TSS+LRI
+&lt;2500 to TSS+LRI
 </td>
 </tr>
 <tr>
@@ -3096,6 +3191,9 @@ TGM2
 <td style="text-align:right;">
 3
 </td>
+<td style="text-align:right;">
+1
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3109,7 +3207,7 @@ TRUE
 928082
 </td>
 <td style="text-align:left;">
-Closest TSS+LRI
+&lt;2500 to TSS+LRI
 </td>
 </tr>
 <tr>
@@ -3124,6 +3222,9 @@ FAM43A
 </td>
 <td style="text-align:right;">
 961.5880
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 0
@@ -3172,6 +3273,9 @@ ACSL1
 <td style="text-align:right;">
 3
 </td>
+<td style="text-align:right;">
+2
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3185,7 +3289,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -3200,6 +3304,9 @@ STOM
 </td>
 <td style="text-align:right;">
 953.1021
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 0
@@ -3248,6 +3355,9 @@ CAVIN2
 <td style="text-align:right;">
 1
 </td>
+<td style="text-align:right;">
+1
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3261,7 +3371,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -3276,6 +3386,9 @@ NBEAL2
 </td>
 <td style="text-align:right;">
 873.5847
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 0
@@ -3324,6 +3437,9 @@ SHC1
 <td style="text-align:right;">
 2
 </td>
+<td style="text-align:right;">
+2
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3337,7 +3453,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -3362,6 +3478,9 @@ MT1X
 <td style="text-align:right;">
 1
 </td>
+<td style="text-align:right;">
+1
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3375,7 +3494,7 @@ FALSE
 NA
 </td>
 <td style="text-align:left;">
-Closest TSS only
+&lt;2500 to TSS only
 </td>
 </tr>
 <tr>
@@ -3390,6 +3509,9 @@ SEC14L2
 </td>
 <td style="text-align:right;">
 811.4586
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 0
@@ -3438,6 +3560,9 @@ OTULINL
 <td style="text-align:right;">
 2
 </td>
+<td style="text-align:right;">
+0
+</td>
 <td style="text-align:left;">
 TRUE
 </td>
@@ -3451,7 +3576,7 @@ TRUE
 7867
 </td>
 <td style="text-align:left;">
-Closest TSS+LRI
+LRI only
 </td>
 </tr>
 <tr>
@@ -3466,6 +3591,9 @@ ITGA5
 </td>
 <td style="text-align:right;">
 721.2871
+</td>
+<td style="text-align:right;">
+0
 </td>
 <td style="text-align:right;">
 0
@@ -3522,76 +3650,106 @@ attached base packages:
 [8] methods   base     
 
 other attached packages:
- [1] kableExtra_1.3.4            epiwraps_0.99.42           
- [3] EnrichedHeatmap_1.24.0      ComplexHeatmap_2.10.0      
- [5] rtracklayer_1.54.0          stringdist_0.9.8           
- [7] openxlsx_4.2.5              hrbrthemes_0.8.6           
- [9] VennDiagram_1.7.3           futile.logger_1.4.3        
-[11] SEtools_1.8.0               edgeR_3.36.0               
-[13] limma_3.50.3                SummarizedExperiment_1.24.0
-[15] Biobase_2.54.0              GenomicRanges_1.46.1       
-[17] GenomeInfoDb_1.30.1         IRanges_2.28.0             
-[19] S4Vectors_0.32.4            BiocGenerics_0.40.0        
-[21] MatrixGenerics_1.6.0        matrixStats_0.62.0         
-[23] dplyr_1.0.9                 biomaRt_2.50.3             
-[25] ggplot2_3.3.6              
+ [1] ensembldb_2.18.4            AnnotationFilter_1.18.0    
+ [3] GenomicFeatures_1.46.5      AnnotationDbi_1.56.2       
+ [5] AnnotationHub_3.2.2         BiocFileCache_2.2.1        
+ [7] dbplyr_2.2.1                kableExtra_1.3.4           
+ [9] epiwraps_0.99.42            EnrichedHeatmap_1.24.0     
+[11] ComplexHeatmap_2.10.0       rtracklayer_1.54.0         
+[13] stringdist_0.9.8            openxlsx_4.2.5             
+[15] hrbrthemes_0.8.6            VennDiagram_1.7.3          
+[17] futile.logger_1.4.3         SEtools_1.8.0              
+[19] edgeR_3.36.0                limma_3.50.3               
+[21] SummarizedExperiment_1.24.0 Biobase_2.54.0             
+[23] GenomicRanges_1.46.1        GenomeInfoDb_1.30.1        
+[25] IRanges_2.28.0              S4Vectors_0.32.4           
+[27] BiocGenerics_0.40.0         MatrixGenerics_1.6.0       
+[29] matrixStats_0.62.0          dplyr_1.0.9                
+[31] biomaRt_2.50.3              ggplot2_3.3.6              
 
 loaded via a namespace (and not attached):
-  [1] utf8_1.2.2               tidyselect_1.1.2         htmlwidgets_1.5.4       
-  [4] RSQLite_2.2.14           AnnotationDbi_1.56.2     TSP_1.2-0               
-  [7] BiocParallel_1.28.3      Rtsne_0.16               munsell_0.5.0           
- [10] codetools_0.2-18         interp_1.1-2             withr_2.5.0             
- [13] colorspace_2.0-3         filelock_1.0.2           highr_0.9               
- [16] knitr_1.39               rstudioapi_0.13          Rttf2pt1_1.3.10         
- [19] labeling_0.4.2           git2r_0.30.1             GenomeInfoDbData_1.2.7  
- [22] farver_2.1.1             bit64_4.0.5              rprojroot_2.0.3         
- [25] vctrs_0.4.1              generics_0.1.3           lambda.r_1.2.4          
- [28] xfun_0.31                biovizBase_1.42.0        BiocFileCache_2.2.1     
- [31] R6_2.5.1                 doParallel_1.0.17        clue_0.3-61             
- [34] seriation_1.3.5          locfit_1.5-9.5           AnnotationFilter_1.18.0 
- [37] bitops_1.0-7             cachem_1.0.6             DelayedArray_0.20.0     
- [40] assertthat_0.2.1         promises_1.2.0.1         BiocIO_1.4.0            
- [43] scales_1.2.0             nnet_7.3-17              gtable_0.3.0            
- [46] sva_3.42.0               ensembldb_2.18.4         workflowr_1.7.0         
- [49] rlang_1.0.3              genefilter_1.76.0        systemfonts_1.0.4       
- [52] GlobalOptions_0.1.2      splines_4.1.0            extrafontdb_1.0         
- [55] lazyeval_0.2.2           dichromat_2.0-0.1        checkmate_2.1.0         
- [58] yaml_2.3.5               backports_1.4.1          GenomicFeatures_1.46.5  
- [61] httpuv_1.6.5             Hmisc_4.7-0              extrafont_0.18          
- [64] tools_4.1.0              ellipsis_0.3.2           jquerylib_0.1.4         
- [67] RColorBrewer_1.1-3       plyr_1.8.7               Rcpp_1.0.8.3            
- [70] base64enc_0.1-3          progress_1.2.2           zlibbioc_1.40.0         
- [73] purrr_0.3.4              RCurl_1.98-1.7           prettyunits_1.1.1       
- [76] rpart_4.1.16             deldir_1.0-6             viridis_0.6.2           
- [79] GetoptLong_1.0.5         cowplot_1.1.1            GenomicFiles_1.30.0     
- [82] ggrepel_0.9.1            cluster_2.1.3            fs_1.5.2                
- [85] magrittr_2.0.3           magick_2.7.3             data.table_1.14.2       
- [88] futile.options_1.0.1     circlize_0.4.15          whisker_0.4             
- [91] ProtGenerics_1.26.0      randomcoloR_1.1.0.1      hms_1.1.1               
- [94] evaluate_0.15            xtable_1.8-4             XML_3.99-0.10           
- [97] jpeg_0.1-9               gridExtra_2.3            shape_1.4.6             
-[100] compiler_4.1.0           tibble_3.1.7             V8_4.2.0                
-[103] crayon_1.5.1             htmltools_0.5.2          mgcv_1.8-40             
-[106] later_1.3.0              Formula_1.2-4            tidyr_1.2.0             
-[109] geneplotter_1.72.0       DBI_1.1.3                formatR_1.12            
-[112] dbplyr_2.2.1             rappdirs_0.3.3           Matrix_1.4-1            
-[115] cli_3.3.0                parallel_4.1.0           Gviz_1.38.4             
-[118] pkgconfig_2.0.3          GenomicAlignments_1.30.0 registry_0.5-1          
-[121] foreign_0.8-82           xml2_1.3.3               foreach_1.5.2           
-[124] svglite_2.1.0            annotate_1.72.0          bslib_0.3.1             
-[127] webshot_0.5.3            XVector_0.34.0           rvest_1.0.2             
-[130] stringr_1.4.0            VariantAnnotation_1.40.0 digest_0.6.29           
-[133] Biostrings_2.62.0        rmarkdown_2.14           htmlTable_2.4.0         
-[136] gdtools_0.2.4            restfulr_0.0.15          curl_4.3.2              
-[139] Rsamtools_2.10.0         rjson_0.2.21             lifecycle_1.0.1         
-[142] nlme_3.1-158             jsonlite_1.8.0           viridisLite_0.4.0       
-[145] BSgenome_1.62.0          fansi_1.0.3              pillar_1.7.0            
-[148] lattice_0.20-45          KEGGREST_1.34.0          fastmap_1.1.0           
-[151] httr_1.4.3               survival_3.3-1           glue_1.6.2              
-[154] UpSetR_1.4.0             zip_2.2.0                sechm_1.2.0             
-[157] png_0.1-7                iterators_1.0.14         bit_4.0.4               
-[160] stringi_1.7.6            sass_0.4.1               blob_1.2.3              
-[163] DESeq2_1.34.0            latticeExtra_0.6-30      memoise_2.0.1           </code></pre>
+  [1] rappdirs_0.3.3                tidyr_1.2.0                  
+  [3] bit64_4.0.5                   knitr_1.39                   
+  [5] DelayedArray_0.20.0           data.table_1.14.2            
+  [7] rpart_4.1.16                  KEGGREST_1.34.0              
+  [9] RCurl_1.98-1.7                doParallel_1.0.17            
+ [11] generics_0.1.3                cowplot_1.1.1                
+ [13] lambda.r_1.2.4                RSQLite_2.2.14               
+ [15] bit_4.0.4                     webshot_0.5.3                
+ [17] xml2_1.3.3                    httpuv_1.6.5                 
+ [19] assertthat_0.2.1              viridis_0.6.2                
+ [21] xfun_0.31                     hms_1.1.1                    
+ [23] jquerylib_0.1.4               evaluate_0.15                
+ [25] promises_1.2.0.1              TSP_1.2-0                    
+ [27] fansi_1.0.3                   restfulr_0.0.15              
+ [29] progress_1.2.2                DBI_1.1.3                    
+ [31] geneplotter_1.72.0            htmlwidgets_1.5.4            
+ [33] purrr_0.3.4                   ellipsis_0.3.2               
+ [35] backports_1.4.1               V8_4.2.0                     
+ [37] annotate_1.72.0               deldir_1.0-6                 
+ [39] vctrs_0.4.1                   cachem_1.0.6                 
+ [41] withr_2.5.0                   Gviz_1.38.4                  
+ [43] BSgenome_1.62.0               checkmate_2.1.0              
+ [45] GenomicAlignments_1.30.0      prettyunits_1.1.1            
+ [47] svglite_2.1.0                 cluster_2.1.3                
+ [49] lazyeval_0.2.2                crayon_1.5.1                 
+ [51] genefilter_1.76.0             pkgconfig_2.0.3              
+ [53] labeling_0.4.2                nlme_3.1-158                 
+ [55] ProtGenerics_1.26.0           seriation_1.3.5              
+ [57] nnet_7.3-17                   rlang_1.0.3                  
+ [59] lifecycle_1.0.1               registry_0.5-1               
+ [61] filelock_1.0.2                extrafontdb_1.0              
+ [63] dichromat_2.0-0.1             rprojroot_2.0.3              
+ [65] Matrix_1.4-1                  base64enc_0.1-3              
+ [67] whisker_0.4                   GlobalOptions_0.1.2          
+ [69] png_0.1-7                     viridisLite_0.4.0            
+ [71] rjson_0.2.21                  bitops_1.0-7                 
+ [73] Biostrings_2.62.0             blob_1.2.3                   
+ [75] workflowr_1.7.0               shape_1.4.6                  
+ [77] stringr_1.4.0                 jpeg_0.1-9                   
+ [79] scales_1.2.0                  memoise_2.0.1                
+ [81] magrittr_2.0.3                plyr_1.8.7                   
+ [83] zlibbioc_1.40.0               compiler_4.1.0               
+ [85] BiocIO_1.4.0                  RColorBrewer_1.1-3           
+ [87] clue_0.3-61                   DESeq2_1.34.0                
+ [89] Rsamtools_2.10.0              cli_3.3.0                    
+ [91] XVector_0.34.0                htmlTable_2.4.0              
+ [93] formatR_1.12                  Formula_1.2-4                
+ [95] mgcv_1.8-40                   tidyselect_1.1.2             
+ [97] stringi_1.7.6                 highr_0.9                    
+ [99] yaml_2.3.5                    locfit_1.5-9.5               
+[101] latticeExtra_0.6-30           ggrepel_0.9.1                
+[103] sass_0.4.1                    VariantAnnotation_1.40.0     
+[105] randomcoloR_1.1.0.1           tools_4.1.0                  
+[107] parallel_4.1.0                circlize_0.4.15              
+[109] rstudioapi_0.13               foreach_1.5.2                
+[111] foreign_0.8-82                git2r_0.30.1                 
+[113] gridExtra_2.3                 farver_2.1.1                 
+[115] Rtsne_0.16                    sechm_1.2.0                  
+[117] digest_0.6.29                 BiocManager_1.30.18          
+[119] shiny_1.7.1                   Rcpp_1.0.8.3                 
+[121] BiocVersion_3.14.0            later_1.3.0                  
+[123] httr_1.4.3                    gdtools_0.2.4                
+[125] biovizBase_1.42.0             colorspace_2.0-3             
+[127] rvest_1.0.2                   XML_3.99-0.10                
+[129] fs_1.5.2                      splines_4.1.0                
+[131] systemfonts_1.0.4             xtable_1.8-4                 
+[133] jsonlite_1.8.0                futile.options_1.0.1         
+[135] GenomicFiles_1.30.0           UpSetR_1.4.0                 
+[137] R6_2.5.1                      Hmisc_4.7-0                  
+[139] mime_0.12                     pillar_1.7.0                 
+[141] htmltools_0.5.2               glue_1.6.2                   
+[143] fastmap_1.1.0                 BiocParallel_1.28.3          
+[145] interactiveDisplayBase_1.32.0 codetools_0.2-18             
+[147] utf8_1.2.2                    lattice_0.20-45              
+[149] bslib_0.3.1                   tibble_3.1.7                 
+[151] sva_3.42.0                    curl_4.3.2                   
+[153] magick_2.7.3                  zip_2.2.0                    
+[155] Rttf2pt1_1.3.10               interp_1.1-2                 
+[157] survival_3.3-1                rmarkdown_2.14               
+[159] munsell_0.5.0                 GetoptLong_1.0.5             
+[161] GenomeInfoDbData_1.2.7        iterators_1.0.14             
+[163] gtable_0.3.0                  extrafont_0.18               </code></pre>
 </div>
 </div>
 

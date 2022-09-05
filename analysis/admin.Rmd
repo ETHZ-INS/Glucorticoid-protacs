@@ -4,8 +4,6 @@ library(workflowr)
 ```
 
 ```{r}
-# Push changes to github
-# wflow_publish("analysis/*", "Start my new project")
 
 # Question files
 workflowr::wflow_build(files=c(
@@ -16,7 +14,10 @@ workflowr::wflow_build(files=c(
   # "Q7-PRX-sequences.Rmd",
   # "Q9-Differential_binding.Rmd",
   "01_Results.Rmd",
-  "00_Download_files.Rmd",
+  # "00_Download_files.Rmd",
   "index.Rmd"), 
   verbose=TRUE)
+
+# Push changes to github
+wflow_publish(".", "Small changes to differential binding")
 ```

@@ -54,32 +54,35 @@ ah <- AnnotationHub()
 
 ensdb <- ah[["AH98047"]] # AH89211
 peakAnno <- annotateRegions(peaks, ensdb)
+# column only for peaks with 2500np range
+peakAnno$nearestTSS.gene_name.2500r <- peakAnno$nearestTSS.gene_name
+peakAnno[abs(peakAnno$distance2nearestTSS) >= 2500, ]$nearestTSS.gene_name.2500r <- ""
 saveRDS(peakAnno, "../data/EOS_files/Q2_annotated_peaks.rds")
 table(peakAnno$class)
 
-peakfreq <- as.data.frame(table(peakAnno$nearestTSS.gene_name)) %>% mutate_all(na_if,"")
-colnames(peakfreq) <- c("Gene", "Freq")
+peakfreq <- as.data.frame(table(peakAnno$nearestTSS.gene_name)) %>% mutate_all(na_if,"") %>%
+  left_join(as.data.frame(table(peakAnno$nearestTSS.gene_name.2500r)) %>% mutate_all(na_if,""), by="Var1")
+colnames(peakfreq) <- c("Gene", "Freq", "Freq_2500peaks")
 
 saveRDS(file="../data/EOS_files/Q2_gene_peaks.rds", peakfreq)
 ```
 
 # Load Mahshid's DE genes
 
+
 ```{r}
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 # names(res_int_all)
 res_int <- res_int_all$`2h DEX > 16h DEX+DMSO`
 res_int_significant <- res_int[res_int$FDR < 0.05,]
-```
 
-```{r}
 # Merge the frequency count onto the DE table
 res_int <- left_join(res_int %>% mutate(Gene = rownames(res_int)), 
           peakfreq[2:nrow(peakfreq),],
           by="Gene") %>%
-  tidyr::replace_na(list(Freq=0)) %>%
+  tidyr::replace_na(list(Freq=0, Freq_2500peaks=0)) %>%
   mutate(gc_bound = Freq > 0) %>%
-  dplyr::rename(chip_peaks=Freq) %>%
+  dplyr::rename(chip_peaks=Freq, chip_peaks.2500r=Freq_2500peaks) %>%
   relocate(Gene)
 
 # add a binary tag for significance
@@ -120,9 +123,9 @@ res_reddy <- EOS1[["Reddy_all"]]
 res_reddy <- left_join(res_reddy %>% mutate(Gene = rownames(res_reddy)), 
           peakfreq[2:nrow(peakfreq),],
           by="Gene") %>%
-  tidyr::replace_na(list(Freq=0)) %>%
+  tidyr::replace_na(list(Freq=0, Freq_2500peaks=0)) %>%
   mutate(gc_bound = Freq > 0) %>%
-  dplyr::rename(chip_peaks=Freq) %>% 
+  dplyr::rename(chip_peaks=Freq, chip_peaks.2500r=Freq_2500peaks) %>% 
   tibble::column_to_rownames("Gene")
 
 # add a binary tag for significance
@@ -153,6 +156,9 @@ combined_plot <- ggpubr::ggarrange(plt_value, plt_logfc, plt_value_reddy, plt_lo
 combined_plot
 ```
 
+
+
+
 Save plots
 
 ```{r}
@@ -168,43 +174,44 @@ Each peaks was attributed to the gene of the TSS closest to the peak
 ```{r distribution by numbers of peaks, fig.width=14}
 mixed_data <- rbind(as.data.frame(res_reddy) %>% 
         tibble::rownames_to_column("Gene") %>%
-        dplyr::select("Gene", "logFC", "chip_peaks") %>%
+        dplyr::select("Gene", "logFC", "chip_peaks", "chip_peaks.2500r") %>%
         mutate(Source="Reddy"),
       as.data.frame(res_int) %>%
-        dplyr::select("Gene", "logFC", "chip_peaks") %>%
+        dplyr::select("Gene", "logFC", "chip_peaks", "chip_peaks.2500r") %>%
         mutate(Source="Mahshid")
         ) %>%
   mutate(chip_peaks=factor(chip_peaks, levels=sort(as.numeric(unique(chip_peaks)))),
+         chip_peaks.2500r=factor(chip_peaks.2500r, levels=sort(as.numeric(unique(chip_peaks.2500r)))),
          abs_logFC=abs(logFC))
 
 
 boxplot <- ggplot(mixed_data, aes(x=chip_peaks, y=logFC, colour=Source)) +
   geom_boxplot() +
   theme_ipsum_rc() +
-  labs(title="Distribution of logFC by number of nearby GR-peaks", subtitle="Some outliers cutoff by y-axis", x="# ChIP peaks") +
+  labs(title="Distribution of logFC by number of nearby GR-peaks", subtitle="Closest peak to gene no matter distance", x="# ChIP peaks") +
   ylim(c(-5,5))
 
-violin <- ggplot(mixed_data, aes(x=chip_peaks, y=logFC, colour=Source)) +
-  geom_violin() +
+boxplot_2500 <- ggplot(mixed_data, aes(x=chip_peaks.2500r, y=logFC, colour=Source)) +
+  geom_boxplot() +
   theme_ipsum_rc() +
-  labs(title="", subtitle="", x="# ChIP peaks") +
+  labs(title="", subtitle="Peaks within 2500bp range", x="# ChIP peaks") +
   ylim(c(-5,5))
 
 boxplot_abs <- ggplot(mixed_data, aes(x=chip_peaks, y=abs_logFC, colour=Source)) +
   geom_boxplot() +
   theme_ipsum_rc() +
-  labs(title="Distribution of ABSOLUTE logFCs by number of nearby GR-peaks", subtitle="Some outliers cutoff by y-axis", x="# ChIP peaks") +
+  labs(title="Distribution of ABSOLUTE logFCs by number of nearby GR-peaks", subtitle="Closest peak to gene no matter distances", x="# ChIP peaks") +
   ylim(c(0,5))
 
-violin_abs <- ggplot(mixed_data, aes(x=chip_peaks, y=abs_logFC, colour=Source)) +
-  geom_violin() +
+boxplot_abs_2500 <- ggplot(mixed_data, aes(x=chip_peaks.2500r, y=abs_logFC, colour=Source)) +
+  geom_boxplot() +
   theme_ipsum_rc() +
-  labs(title="", subtitle="", x="# ChIP peaks") +
+  labs(title="", subtitle="Peaks within 2500bp range", x="# ChIP peaks") +
   ylim(c(0,5))
 
 boxplot <- ggarrange(
-  ggarrange(boxplot, violin, ncol=2),
-  ggarrange(boxplot_abs, violin_abs, ncol=2),
+  ggarrange(boxplot, boxplot_2500, ncol=2),
+  ggarrange(boxplot_abs, boxplot_abs_2500, ncol=2),
   ncol=1)
 boxplot
 
@@ -214,7 +221,7 @@ ggsave(filename="../docs/assets/Q2_4_boxplots.png", boxplot, width=14, height=10
 
 # Relationship between a logFC and the closest GR peak
 
-```{r logFC vs GR peak, fig.width=14, fig.height=14}
+```{r logFC vs GR peak, fig.width=14, fig.height=18}
 data <- as.data.frame(peakAnno) %>%
   dplyr::select(c("nearestTSS.gene_name", "score", "signalValue", "peak", "distance2nearestTSS", "class")) %>% 
   mutate_all(na_if,"") %>% 
@@ -245,13 +252,14 @@ min_dist <- ggplot(plt_data, aes(min_dist2tss, logFC, size=n_peaks, colour=is_si
   labs(title="LogFC vs minimum distance peak to TSS", subtitle="Size indicates the number of peaks for a given gene")
 
 # Mean distance to TSS
-max_dist <- plt_data %>%
-  ggplot(aes(max_dist2tss, logFC, size=n_peaks, colour=is_significant)) +
+min_dist2 <- plt_data %>%
+  ggplot(aes(log(min_dist2tss), logFC, size=n_peaks, colour=is_significant)) +
   geom_point(alpha=0.8) +
   geom_density_2d(bins = 10, colour="green") +
-  labs(title="LogFC vs max distance peak to TSS", subtitle="Size indicates the number of peaks for a given gene")
+  labs(title="LogFC vs log(min distance peak to TSS)", subtitle="Size indicates the number of peaks for a given gene") +
+  ylim(c(-3,3))
 
-TSS_distances <- ggarrange(min_dist, max_dist, ncol=1)
+TSS_distances <- ggarrange(min_dist, min_dist2, ncol=1)
 TSS_distances
 
 ggsave(filename="../docs/assets/Q2_5_TSS_distances.png", TSS_distances)

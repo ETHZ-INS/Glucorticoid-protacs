@@ -112,11 +112,11 @@ A file with the list of genes can be found in the downloads section.
 
 ![](assets/Q3_1_reversal216.png)
 
-## 2h > 16h (logFC > 0)
+## 16h > 2h (logFC > 0)
 
 ![](assets/Q3_2_reversal162_p1.png)
 
-## 2h > 16h (logFC < 0)
+## 16h > 2h (logFC < 0)
 
 ![](assets/Q3_3_reversal162_p2.png)
 
@@ -219,7 +219,7 @@ plt_data %>%
 
 
 
-# Question 6: Common binding sites of JUNB and GR {.tabset}
+# Question 6: Common binding sites of JUNB and GR 
 
 **Q: What are common binding sites between JUNB and GR?** -> Generally not a priority though
 
@@ -229,24 +229,27 @@ plt_data %>%
 - Most of the 12h GR peaks are shared with the JUNB peaks, only a small fraction is unique to the 12h GR ChIP seq data
 - The 2h GR data has more peaks that are unique and not shared with the 12h GR or 12h JUNB data
 
+## Unfiltered {.tabset}
+
 ```{r q6, results="asis"}
 # Load GR
 peaks_gr_12h <- import.bed15("../data/reddy_bed_DEX12h_r123.bed", format="narrowPeak")
 peaks_gr_2h <- import.bed15("../data/reddy_bed_DEX2h_r123.bed.gz", format="narrowPeak")
 # load JUNB
+peaks_junb_2h <- import.bed15("../data/reddy_bed_JUNB_DEX2h_r23.bed.gz", format="narrowPeak")
 peaks_junb_12h <- import.bed15("../data/reddy_bed_JUNB_DEX12h_r123.bed", format="narrowPeak")
 
 # Show tile diagram
 list_of_regions <- list(GR_2h=peaks_gr_2h, GR_12h=peaks_gr_12h, JUNB_12h=peaks_junb_12h) # Does not work with only 
-cat("\n\n## Overlap \n\n")
+cat("\n\n### Overlap \n\n")
 regionOverlaps(list_of_regions)
 
 # Show upset plot
-cat("\n\n## Upset plot \n\n")
+cat("\n\n### Upset plot \n\n")
 regionUpset(list_of_regions)
 ```
 
-### What if we filter the peaks by their score? {.tabset}
+## What if we filter the peaks by their score? {.tabset}
 
 **Take-away:** There is no significant change in the results/plots if we filter for a minimum peak score of 900 (max value is 1000).
 
@@ -259,13 +262,69 @@ regionUpset(list_of_regions)
 list_of_regions_v2 <- list(GR_2h=peaks_gr_2h[peaks_gr_2h$score>900], 
                            GR_12h=peaks_gr_12h[peaks_gr_12h$score>900], 
                            JUNB_12h=peaks_junb_12h[peaks_junb_12h$score>900]) # Does not work with only two 
-cat("\n\n## Overlap \n\n")
+cat("\n\n### Overlap \n\n")
 regionOverlaps(list_of_regions_v2)
 
 # Show upset plot
-cat("\n\n## Upset plot \n\n")
+cat("\n\n### Upset plot \n\n")
 regionUpset(list_of_regions_v2)
 ```
+
+## Which genes have a GR peak AND a JUNB peak within 2500bp distance to the TSS? {.tabset}
+
+Annotate GR 2h and 12h and JUNB 2h
+
+```{r, results="asis"}
+library(AnnotationHub)
+ah <- AnnotationHub()
+ensdb <- ah[["AH98047"]] # AH89211
+gr_peaks_annotated_2h <- annotateRegions(peaks_gr_2h, ensdb)
+gr_peaks_annotated_12h <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
+JUNB_peaks_annotated_2h <- annotateRegions(peaks_junb_2h, ensdb)
+JUNB_peaks_annotated_12h <- annotateRegions(peaks_junb_12h, ensdb)
+
+### filter for 2500 bp distance to gene TSS
+# GR 2h
+gr_peaks_annotated_2h$nearestTSS.gene_name.2500r <- gr_peaks_annotated_2h$nearestTSS.gene_name
+gr_peaks_annotated_2h[abs(gr_peaks_annotated_2h$distance2nearestTSS) >= 2500, ]$nearestTSS.gene_name.2500r <- ""
+# JUNB 2h 
+JUNB_peaks_annotated_2h$nearestTSS.gene_name.2500r <- JUNB_peaks_annotated_2h$nearestTSS.gene_name
+JUNB_peaks_annotated_2h[abs(JUNB_peaks_annotated_2h$distance2nearestTSS) >= 2500, ]$nearestTSS.gene_name.2500r <- ""
+# JUNB 12h 
+JUNB_peaks_annotated_12h$nearestTSS.gene_name.2500r <- JUNB_peaks_annotated_12h$nearestTSS.gene_name
+JUNB_peaks_annotated_12h[abs(JUNB_peaks_annotated_12h$distance2nearestTSS) >= 2500, ]$nearestTSS.gene_name.2500r <- ""
+
+# subset
+gr_2h_subset <- gr_peaks_annotated_2h[gr_peaks_annotated_2h$nearestTSS.gene_name.2500r != "",]
+gr_12h_subset <- gr_peaks_annotated_12h[gr_peaks_annotated_12h$nearestTSS.gene_name.2500r != "",]
+junb_2h_subset <- JUNB_peaks_annotated_2h[JUNB_peaks_annotated_2h$nearestTSS.gene_name.2500r != "",]
+junb_12h_subset <- JUNB_peaks_annotated_12h[JUNB_peaks_annotated_12h$nearestTSS.gene_name.2500r != "",]
+
+list_of_regions_v3 <- list(GR_2h=gr_2h_subset, 
+                           GR_12h=gr_12h_subset,
+                           JUNB_2h=junb_2h_subset,
+                           JUNB_12h=junb_12h_subset)
+
+cat("\n\n### Overlap \n\n")
+regionOverlaps(list_of_regions_v3)
+
+# Show upset plot
+cat("\n\n### Upset plot \n\n")
+regionUpset(list_of_regions_v3)
+```
+
+#### Visualise the genes that have both a JUNB and GR peak within 2500bp of their TSS
+
+```{r gr and junb peak}
+gr_junb_2h_intersection_genes <- intersect(gr_2h_subset$nearestTSS.gene_name.2500r, junb_2h_subset$nearestTSS.gene_name.2500r)
+
+# cat(gr_junb_2h_intersection_genes)
+
+length(gr_junb_2h_intersection_genes)
+```
+
+There is an overlap of `r length(gr_junb_2h_intersection_genes)` genes.
+
 
 # Question 7: PXR Sequences
 
@@ -297,7 +356,7 @@ In the following we plot the signal for a subset of genes, IF these genes are as
 
 ### Signals and DE results for all genes with associated peaks
 
-We first plot the signal tracks for all genes for the sake of completeness
+We first plot the signal tracks for all genes for the sake of completeness. We plot around the TSS of the gene, not around the centre of the peak. Reminder: The peaks are labelled with the gene name the TSS of which is closest to the peak.
 
 ```{r}
 # load summarised experiment
@@ -314,12 +373,13 @@ tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
                 "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
                 "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
 
-plot_signals_and_sechm <- function(peaks, genes_subset=NULL){
+plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE){
   # first subset for a given selection of genes
   if (is.null(genes_subset) == FALSE) {
     peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
     if (length(peaks) == 0) return(paste0("No peaks found for the genes:", paste(genes_subset, collapse = ', ')))
   }
+  
   # get rid of peaks that don't have an assigned gene that was quantified
   peaks <- sort(peaks[peaks$nearestTSS.gene_name %in% row.names(se)])
   # give unique names to the peaks
@@ -327,7 +387,31 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL){
   # select (and duplicate) the entries in R, and give them the names
   se2 <- se[as.character(peaks$nearestTSS.gene_name),]
   row.names(se2) <- names(peaks)
-  signals <- signal2Matrix(tracks, peaks, w=5, extend=500)
+  
+  if (plot_around_gene_tss == TRUE){
+    ah <- AnnotationHub()
+    ensdb <- ah[["AH98047"]] # AH89211
+
+    mygenes.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype",
+                                                                "tx_support_level",
+                                                                "gene_id","gene_name"))
+    mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
+    mygenes.tss <-  resize(mygenes.transcripts, width=2000, fix='start')
+    seqlevelsStyle(mygenes.tss) <- "UCSC"
+    mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
+    
+    # adjust the se2 genes to only show the ones for which we have the TSS
+    genes <- mygenes_unique$gene_name
+    se2 <- se[genes,]
+    # get the signals
+    signals <- signal2Matrix(tracks, mygenes_unique, w=5, extend=1000)
+  } 
+  else
+  {
+    signals <- signal2Matrix(tracks, peaks, w=5, extend=500)  
+  }
+  
+  
   h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"))
   set.seed(100) # for colours
   h2 <- sechm::sechm(se2, genes=row.names(se2), assayName="log2FC", sortRowsOn=NULL, 
@@ -337,13 +421,15 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL){
   h1 + h2
 }
 
-plt <- plot_signals_and_sechm(gr_peaks)
+plt <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE)
 plt
 ```
 
 ## Signaltracks + DE plot for Side effects of the inhibitors {.tabset}
 
 In the following we show the same plots, but for smaller subsets of genes. We choose at most the 200 most significantly differentially expressed genes from a given comparison named below.
+
+The signals are plotted around the gene TSS ± 1000bp.
 
 ```{r, fig.width=22, fig.height=10, results="asis"}
 se.processed <- readRDS(file="../data/results/SE.processed.rds")
@@ -356,7 +442,7 @@ mm <- model.matrix(~se$isInhibited[w])
 fit <- glmFit(dds2,mm)
 res <- as.data.frame(topTags(glmLRT(fit),Inf))
 rnames_all_inhibs <- head(row.names(res)[res$FDR<0.05],200)
-plt_all_inhibs <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhibs)
+plt_all_inhibs <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhibs, plot_around_gene_tss=TRUE)
 plt_all_inhibs
 
 cat("\n\n### Genes specifically altered by KH-103 \n\n")
@@ -366,7 +452,7 @@ mm <- model.matrix(~isKh)
 fit <- glmFit(estimateDisp(dds2,mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, "isKhTRUE"),Inf))
 rnames_kh103 <- row.names(res)[res$FDR<0.05]
-plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103)
+plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103, plot_around_gene_tss=TRUE)
 plt_kh103
 
 cat("\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n")
@@ -375,11 +461,13 @@ mm <- model.matrix(~se$isInhibited[w]+isKh)
 fit <- glmFit(estimateDisp(dds2,mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
 rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
-plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh)
+plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE)
 plt_inhibs_not_kh
 ```
 
 ## Signaltracks + DE plot for inhibition effects {.tabset}
+
+The signals are plotted around the gene TSS ± 1000bp.
 
 ```{r inhibition effects, fig.width=22, fig.height=10, results="asis"}
 cat("\n\n### DEX-triggered genes that are inhibited (prior) \n\n")
@@ -390,7 +478,7 @@ mm <- model.matrix(~droplevels(se$condition2[wPrior]))
 fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
 rnames_dex_triggered <-  head(row.names(res)[res$FDR<0.05],200)
-plt_dex_triggered  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_dex_triggered)
+plt_dex_triggered  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_dex_triggered, plot_around_gene_tss=TRUE)
 plt_dex_triggered
 
 
@@ -401,7 +489,7 @@ mm <- model.matrix(~tmp)
 fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit), Inf))
 rnames_kh103_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
-plt_kh103_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_inhibited)
+plt_kh103_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_inhibited, plot_around_gene_tss=TRUE)
 plt_kh103_inhibited
 
 
@@ -412,7 +500,7 @@ mm <- model.matrix(~tmp)
 fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit), Inf))
 rnames_kh103_less_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
-plt_kh103_less_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_less_inhibited)
+plt_kh103_less_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_less_inhibited, plot_around_gene_tss=TRUE)
 plt_kh103_less_inhibited
 
 cat("\n\n### DEX-triggered genes that are inhibited (after)\n\n")
@@ -424,7 +512,7 @@ fit <- glmFit(estimateDisp(dds[,wAfter],mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
 attr(res, "description") <- "Significantly-inhibited DEX-responsive genes by any all inhibitors, when administered after DEX"
 rnames_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
-plt_inhibited   <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibited)
+plt_inhibited   <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibited, plot_around_gene_tss=TRUE)
 plt_inhibited 
 ```
 
@@ -501,6 +589,9 @@ p1
 interactions <- read.csv("../data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv", sep="\t")
 interactions_gr <- makeGRangesFromDataFrame(interactions, keep.extra.columns=T)
 
+# subset for peaks which are in a range of 2500bp of a TSS
+# gr_peaks <- gr_peaks[gr_peaks$nearestTSS.gene_name.2500r != ""]
+
 # find peaks from our data peak dataset that overlap with the known ETG interactions
 overlap_peaks <- findOverlaps(gr_peaks, interactions_gr)
 
@@ -510,7 +601,7 @@ new_peaks_lri$long_range_interaction <- TRUE
 new_peaks_lri$long_range_gene <- interactions_gr[subjectHits(overlap_peaks)]$symbol
 new_peaks_lri$dist2lr_target <- interactions_gr[subjectHits(overlap_peaks)]$distance
 
-# get peaks from our dataset which have no know interactions with distal genes
+# get peaks from our dataset which have no known interactions with distal genes
 mask_peaks_with_no_lr_interactions <- !(1:length(gr_peaks) %in% unique(queryHits(overlap_peaks)))
 new_peaks_no_lri <- gr_peaks[mask_peaks_with_no_lr_interactions]
 new_peaks_no_lri$long_range_interaction <- FALSE
@@ -519,6 +610,8 @@ new_peaks_no_lri$dist2lr_target <- NA
 
 # merge the granges objects together. This object will contain duplicates
 peaks <- c(new_peaks_lri, new_peaks_no_lri)
+
+# Subset the granges object for 
 ```
 
 
@@ -538,11 +631,11 @@ de_res <- de_res %>% left_join(as.data.frame(peaks) %>% dplyr::select("long_rang
   tidyr::replace_na(list(long_range_interaction=F))
 
 de_res$category <- NA
-de_res[(de_res$gc_bound == TRUE) & (de_res$long_range_interaction == FALSE), "category"] <- "Closest TSS only"
-de_res[(de_res$gc_bound == FALSE) & (de_res$long_range_interaction == TRUE), "category"] <- "LRI only"
-de_res[(de_res$gc_bound == FALSE) & (de_res$long_range_interaction == FALSE), "category"] <- "Neither"
-de_res[(de_res$gc_bound == TRUE) & (de_res$long_range_interaction == TRUE), "category"] <- "Closest TSS+LRI"
-de_res$category <- factor(de_res$category, levels=c("Neither", "LRI only", "Closest TSS only","Closest TSS+LRI"))
+de_res[(de_res$chip_peaks.2500r > 0) & (de_res$long_range_interaction == FALSE), "category"] <- "<2500 to TSS only"
+de_res[(de_res$chip_peaks.2500r == 0) & (de_res$long_range_interaction == TRUE), "category"] <- "LRI only"
+de_res[(de_res$chip_peaks.2500r == 0) & (de_res$long_range_interaction == FALSE), "category"] <- "Neither"
+de_res[(de_res$chip_peaks.2500r > 0) & (de_res$long_range_interaction == TRUE), "category"] <- "<2500 to TSS+LRI"
+de_res$category <- factor(de_res$category, levels=c("Neither", "LRI only", "<2500 to TSS only","<2500 to TSS+LRI"))
 
 kableExtra::kable(table(de_res$is_significant, de_res$category)) %>% kableExtra::kable_styling()
 ```
@@ -553,7 +646,7 @@ kableExtra::kable(table(de_res$is_significant, de_res$category)) %>% kableExtra:
 # Idea: A table of our peaks with a the gene it is influencing and the distance to the gene
 ### boxplot: no closeby peak, but known lr-interaction VS. no peak at all, closeby peak and long-range interaction, closeby peak only
 de_res %>%
-  filter(FDR < 0.05) %>%
+  dplyr::filter(FDR < 0.05) %>%
   ggplot(aes(x=category, y=abs(logFC))) + 
   geom_boxplot() +
   theme_ipsum_rc() +#
@@ -565,13 +658,13 @@ de_res %>%
 ###
 # Idea 2: A table of peaks with a column containing a string. This string is the comma-separated gene names
 peaks_short <- as.data.frame(peaks) %>% 
-  mutate(id=paste0(seqnames, ":", start, "-", end)) %>%
+  dplyr::mutate(id=paste0(seqnames, ":", start, "-", end)) %>%
   # select("id", everything()) %>%
   group_by(id) %>% 
   mutate(lr_genes = paste0(long_range_gene, collapse = ", "))  %>%
   dplyr::select(-c("long_range_gene","dist2lr_target")) %>%
   distinct() %>%
-  select("id", "score", "signalValue", "pValue", "distance2nearestTSS", "nearestTSS.gene_name", #"nearestTSS", 
+  dplyr::select("id", "score", "signalValue", "pValue", "distance2nearestTSS", "nearestTSS.gene_name", #"nearestTSS", 
          "class","long_range_interaction", "lr_genes")
 
 ```

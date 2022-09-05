@@ -36,10 +36,11 @@ control216 <- res_int_all[["2h DEX > 16h DEX+DMSO"]]
 control162 <- res_int_all[["16h DMSO > 2h DEX+DMSO"]]
 ```
 
-*Def. 1:*
-We consider "reversed by inhibitor" to mean: "Is DE in '2h DEX > 16h DEX+DMSO' but not in '2h DEX > 16h DEX+Cort113'". We look at both inhibitors and the PROTAC
+## 2h > 16h
 
-```{r def1}
+*Def. 1:* We consider "reversed by inhibitor" to mean: "Is DE in '2h DEX > 16h DEX+DMSO' but not in '2h DEX > 16h DEX+Cort113'". We look at both inhibitors and the PROTAC
+
+```{r def1, fig.width=10, fig.height=7}
 # Load inhibitors/Protac data
 cort216 <- res_int_all[["2h DEX > 16h DEX+Cort113"]]
 mif216 <- res_int_all[["2h DEX > 16h DEX+MIF"]]
@@ -84,7 +85,7 @@ merged216[merged216$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
 ```
 
 
-```{r, fig.width=7, fig.height=5}
+```{r, fig.width=10, fig.height=7}
 plt1 <- ggplot(merged216_long[merged216_long$rowname %in% rnames_kh_reversal,]) +
   geom_point(aes(x=rowname, y=value, color=Group)) +
   theme_ipsum_rc() +
@@ -98,15 +99,87 @@ plt1
 ggsave(file="../docs/assets/Q3_1_reversal216.png", plt1, width=12, height=7)
 ```
 
-*Def. 2:*
+### Sign flips / reversals
 
-"Is DE from 2h DEX > 16h DEX+DMSO but is not DE in 2h DEX > 16h DEX+Cort113 experiment"
+We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the control as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the control experiment.
+
+```{r, fig.width=10, fig.height=7, results="asis"}
+# Check for flips in sign
+merged216$cort_flipped <- ifelse(merged216$FDR < 0.05 & merged216$FDR_cort < 0.05 & 
+                                   ((merged216$logFC * merged216$logFC_cort) < 0), TRUE, FALSE)
+merged216$MIF_flipped <- ifelse(merged216$FDR < 0.05 & merged216$FDR_MIF < 0.05 & 
+                                   ((merged216$logFC * merged216$logFC_MIF) < 0), TRUE, FALSE)
+merged216$KH_flipped <- ifelse(merged216$FDR < 0.05 & merged216$FDR_KH < 0.05 & 
+                                   ((merged216$logFC * merged216$logFC_KH) < 0), TRUE, FALSE)
+
+plot_logFCs <- function(rownames_subset, title){
+  # cort
+  plt <- ggplot(merged216_long[merged216_long$rowname %in% rownames_subset,]) +
+    geom_point(aes(x=rowname, y=value, color=Group)) +
+    theme_ipsum_rc() +
+    labs(title=title,
+         subtitle="2h DEX > 16h DEX + Inhibitor/Protac",
+         x="", y="") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      scale_color_manual(values=c(Control="Black", Cort="#7ef2b4", MIF="#dda6ff", KH="#ff000d"))
+  plt
+}
+
+rnames_flipped_cort <- merged216 %>% filter(cort_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_mif <- merged216 %>% filter(MIF_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_kh <- merged216 %>% filter(KH_flipped == TRUE) %>% pull(rowname)
+
+plt_flipped_cort <- plot_logFCs(rnames_flipped_cort, "Genes flipped by cort")
+plt_flipped_mif <- plot_logFCs(rnames_flipped_mif, "Genes flipped by MIF")
+plt_flipped_kh <- plot_logFCs(rnames_flipped_kh, "Genes flipped by KH")
+
+# Save all plots
+ggsave(file="../docs/assets/Q3_1_flipped_cort_216.png", plt_flipped_cort, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_216.png", plt_flipped_mif, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_216.png", plt_flipped_kh, width=12, height=7)
+
+# Show all plots
+cat("\n\n### Flipped effects {.tabset} \n\n")
+cat("\n\n#### Cort \n\n")
+plt_flipped_cort
+cat("\n\n#### MIF  \n\n")
+plt_flipped_mif
+cat("\n\n#### KH \n\n")
+plt_flipped_kh
+
+# plot genes flipped by the respective markers only
+rnames_flipped_cort_only <- rnames_flipped_cort[!(rnames_flipped_cort %in% c(rnames_flipped_mif, rnames_flipped_kh))]
+rnames_flipped_mif_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(plt_flipped_kh, rnames_flipped_kh))]
+rnames_flipped_kh_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(rnames_flipped_mif, plt_flipped_cort))]
+
+plt_flipped_cort_only <- plot_logFCs(rnames_flipped_cort_only, "Genes flipped by cort only")
+plt_flipped_mif_only <- plot_logFCs(rnames_flipped_mif_only, "Genes flipped by MIF only")
+plt_flipped_kh_only <- plot_logFCs(rnames_flipped_kh_only, "Genes flipped by KH only")
+
+# Save all plots
+ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.png", plt_flipped_cort_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_only_216.png", plt_flipped_mif_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_only_216.png", plt_flipped_kh_only, width=12, height=7)
+
+# Show all plots
+cat("\n\n### Flipped effects with unique genes per treatment {.tabset} \n\n")
+cat("\n\n#### Cort \n\n")
+plt_flipped_cort_only
+cat("\n\n#### MIF  \n\n")
+plt_flipped_mif_only
+cat("\n\n#### KH \n\n")
+plt_flipped_kh_only
+```
+
+## 16h > 2h
+
+*Def. 2:* "Is DE from 16h DEX > 2h DEX+DMSO but is not DE in 16h DEX > 2h DEX+Cort113 experiment"
 
 
 ```{r def2}
 # Load inhibitors/Protac data
 cort162 <- res_int_all[["16h Cort113 > 2h DEX+Cort113"]]
-mif162 <- res_int_all[[ "2h DEX > 16h DEX+MIF"]]
+mif162 <- res_int_all[[ "16h MIF  > 2h DEX+MIF"]]
 protac162 <- res_int_all[["16h KH-103 > 2h DEX+KH-103"]]
 
 # merge the respective FDRs onto DF
@@ -149,7 +222,7 @@ merged162[merged162$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
 
 Because we have a lot of genes to show in one plot for the 16h > 2h experiment, we split them into two groups. One plot shows the genes for which the control logFC is >0 and the other <0.
 
-```{r plots, fig.width=12, fig.height=5}
+```{r plots, fig.width=14, fig.height=5}
 # split the long formatted dataset into two groups
 data_plt <- merged162_long[merged162_long$rowname %in% rnames_kh_reversal,]
 data <- data_plt[data_plt$Group == "Control",]
@@ -183,6 +256,80 @@ plt2_2
 ggsave(file="../docs/assets/Q3_2_reversal162_p1.png", plt2_1, width=24, height=8)
 ggsave(file="../docs/assets/Q3_3_reversal162_p2.png", plt2_2, width=24, height=8)
 ```
+
+
+### Sign flips / reversals
+
+We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the control as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the control experiment.
+
+```{r, fig.width=10, fig.height=7, results="asis"}
+# Check for flips in sign
+merged162$cort_flipped <- ifelse(merged162$FDR < 0.05 & merged162$FDR_cort < 0.05 & 
+                                   ((merged162$logFC * merged162$logFC_cort) < 0), TRUE, FALSE)
+merged162$MIF_flipped <- ifelse(merged162$FDR < 0.05 & merged162$FDR_MIF < 0.05 & 
+                                   ((merged162$logFC * merged162$logFC_MIF) < 0), TRUE, FALSE)
+merged162$KH_flipped <- ifelse(merged162$FDR < 0.05 & merged162$FDR_KH < 0.05 & 
+                                   ((merged162$logFC * merged162$logFC_KH) < 0), TRUE, FALSE)
+
+plot_logFCs <- function(rownames_subset, title){
+  # cort
+  plt <- ggplot(merged162_long[merged162_long$rowname %in% rownames_subset,]) +
+    geom_point(aes(x=rowname, y=value, color=Group)) +
+    theme_ipsum_rc() +
+    labs(title=title,
+         subtitle="2h DEX > 16h DEX + Inhibitor/Protac",
+         x="", y="") +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
+      scale_color_manual(values=c(Control="Black", Cort="#7ef2b4", MIF="#dda6ff", KH="#ff000d"))
+  plt
+}
+
+rnames_flipped_cort <- merged162 %>% filter(cort_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_mif <- merged162 %>% filter(MIF_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_kh <- merged162 %>% filter(KH_flipped == TRUE) %>% pull(rowname)
+
+plt_flipped_cort <- plot_logFCs(rnames_flipped_cort, "Genes flipped by cort")
+plt_flipped_mif <- plot_logFCs(rnames_flipped_mif, "Genes flipped by MIF")
+plt_flipped_kh <- plot_logFCs(rnames_flipped_kh, "Genes flipped by KH")
+
+# Save all plots
+ggsave(file="../docs/assets/Q3_1_flipped_cort_216.png", plt_flipped_cort, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_216.png", plt_flipped_mif, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_216.png", plt_flipped_kh, width=12, height=7)
+
+# Show all plots
+cat("\n\n### Flipped effects {.tabset} \n\n")
+cat("\n\n#### Cort \n\n")
+plt_flipped_cort
+cat("\n\n#### MIF  \n\n")
+plt_flipped_mif
+cat("\n\n#### KH \n\n")
+plt_flipped_kh
+
+# plot genes flipped by the respective markers only
+rnames_flipped_cort_only <- rnames_flipped_cort[!(rnames_flipped_cort %in% c(rnames_flipped_mif, rnames_flipped_kh))]
+rnames_flipped_mif_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(plt_flipped_kh, rnames_flipped_kh))]
+rnames_flipped_kh_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(rnames_flipped_mif, plt_flipped_cort))]
+
+plt_flipped_cort_only <- plot_logFCs(rnames_flipped_cort_only, "Genes flipped by cort only")
+plt_flipped_mif_only <- plot_logFCs(rnames_flipped_mif_only, "Genes flipped by MIF only")
+plt_flipped_kh_only <- plot_logFCs(rnames_flipped_kh_only, "Genes flipped by KH only")
+
+# Save all plots
+ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.png", plt_flipped_cort_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_only_216.png", plt_flipped_mif_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_only_216.png", plt_flipped_kh_only, width=12, height=7)
+
+# Show all plots
+cat("\n\n### Flipped effects with unique genes per treatment {.tabset} \n\n")
+cat("\n\n#### Cort \n\n")
+plt_flipped_cort_only
+cat("\n\n#### MIF  \n\n")
+plt_flipped_mif_only
+cat("\n\n#### KH \n\n")
+plt_flipped_kh_only
+```
+
 
 ### Save file to excel
 

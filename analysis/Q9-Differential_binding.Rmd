@@ -19,6 +19,8 @@ suppressPackageStartupMessages({
   library(rtracklayer)
   library(ggplot2)
   library(AnnotationHub)
+  library(openxlsx)
+  library(hrbrthemes)
 })
 ```
 
@@ -144,6 +146,7 @@ colnames(se) <- c("C2","C3","T1","T2","T3")
 # we assign the conditions:
 # se$condition  equivalent to  colData(se)$condition
 se$condition <- c("Control","12hDEX")[1+grepl("T",colnames(se))]
+se$condition <- factor(se$condition, levels=c("Control","12hDEX"))
 # is equivalent to:
 # se$condition <- c("CTRL","CTRL","CTRL","MUT","MUT","MUT","MUT")
 se
@@ -189,7 +192,7 @@ read_counts <- sapply(bamfiles, function(bamfile){
 dds <- DGEList(assay(se), group=se$condition)
 
 # We skip this due to the different peak per sample
-# dds$samples$lib.size <- read_counts
+dds$samples$lib.size <- read_counts
 # dds <- calcNormFactors(dds)
 assays(se)$tmm.logcpm <- log1p(cpm(dds))
 sechm::sechm(se, head(row.names(se),500), assayName="tmm.logcpm", do.scale = TRUE)
@@ -291,19 +294,23 @@ sechm(se, head(row.names(et),50), assayName="logcpm", do.scale=TRUE, row_title="
 
 For comparison, we first plot using background normalization:
 
-```{r, fig.width=8, fig.height=4}
+```{r, fig.width=14, fig.height=4}
 tracks <- list("C2"="../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig",
                "C3"="../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig",
+               "t2_1"="../data/single_replicate_peaks/dex2h/Chip_GR_12hDex_s1.bigWig",
+               "t2_2"="../data/single_replicate_peaks/dex2h/Chip_GR_12hDex_s2.bigWig",
+               "t2_3"="../data/single_replicate_peaks/dex2h/Chip_GR_12hDex_s3.bigWig",
                "t12_1"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig",
                "t12_2"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig",
                "t12_3"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig")
 m <- signal2Matrix(tracks, merged_peaks)
-plotEnrichedHeatmaps(m)
+c <- bwNormFactors(tracks)
+sm2 <- rescaleSignalMatrices(m, nf)
+plotEnrichedHeatmaps(sm2)
 ```
 
-We now apply the normalization factors we calculated:
 
-```{r, fig.width=8, fig.height=4}
+```{r, fig.width=14, fig.height=4}
 # we first make sure that the order of the samples matches:
 cbind(colnames(dds), names(m))
 m2 <- rescaleSignalMatrices(m, scaleFactors=1/dds$samples$norm.factors)
