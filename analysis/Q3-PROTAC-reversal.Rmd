@@ -51,13 +51,13 @@ merged216 <- control216 %>%
   tibble::rownames_to_column() %>% 
   left_join(cort216 %>% 
               tibble::rownames_to_column() %>%
-              select(rowname, logFC, FDR), suffix=c("","_cort"), by="rowname") %>%
+              dplyr::select(rowname, logFC, FDR), suffix=c("","_cort"), by="rowname") %>%
   left_join(mif216 %>% 
               tibble::rownames_to_column() %>%
-              select(rowname, logFC, FDR), suffix=c("","_MIF"), by="rowname") %>%
+              dplyr::select(rowname, logFC, FDR), suffix=c("","_MIF"), by="rowname") %>%
   left_join(protac216 %>% 
               tibble::rownames_to_column() %>%
-              select(rowname, logFC, FDR), suffix=c("","_KH"), by="rowname")
+              dplyr::select(rowname, logFC, FDR), suffix=c("","_KH"), by="rowname")
 
 # Using a FDR of 0.05, how many clear reversals do we have?
 merged216$cort_reversed <- ifelse(merged216$FDR < 0.05 & merged216$FDR_cort >= 0.05, TRUE, FALSE)
@@ -112,7 +112,7 @@ merged216$MIF_flipped <- ifelse(merged216$FDR < 0.05 & merged216$FDR_MIF < 0.05 
 merged216$KH_flipped <- ifelse(merged216$FDR < 0.05 & merged216$FDR_KH < 0.05 & 
                                    ((merged216$logFC * merged216$logFC_KH) < 0), TRUE, FALSE)
 
-plot_logFCs <- function(rownames_subset, title){
+plot_logFCs_216 <- function(rownames_subset, title){
   # cort
   plt <- ggplot(merged216_long[merged216_long$rowname %in% rownames_subset,]) +
     geom_point(aes(x=rowname, y=value, color=Group)) +
@@ -125,13 +125,13 @@ plot_logFCs <- function(rownames_subset, title){
   plt
 }
 
-rnames_flipped_cort <- merged216 %>% filter(cort_flipped == TRUE) %>% pull(rowname)
-rnames_flipped_mif <- merged216 %>% filter(MIF_flipped == TRUE) %>% pull(rowname)
-rnames_flipped_kh <- merged216 %>% filter(KH_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_cort <- merged216 %>% dplyr::filter(cort_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_mif <- merged216 %>% dplyr::filter(MIF_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_kh <- merged216 %>% dplyr::filter(KH_flipped == TRUE) %>% pull(rowname)
 
-plt_flipped_cort <- plot_logFCs(rnames_flipped_cort, "Genes flipped by cort")
-plt_flipped_mif <- plot_logFCs(rnames_flipped_mif, "Genes flipped by MIF")
-plt_flipped_kh <- plot_logFCs(rnames_flipped_kh, "Genes flipped by KH")
+plt_flipped_cort <- plot_logFCs_216(rnames_flipped_cort, "Genes flipped by cort")
+plt_flipped_mif <- plot_logFCs_216(rnames_flipped_mif, "Genes flipped by MIF")
+plt_flipped_kh <- plot_logFCs_216(rnames_flipped_kh, "Genes flipped by KH")
 
 # Save all plots
 ggsave(file="../docs/assets/Q3_1_flipped_cort_216.png", plt_flipped_cort, width=12, height=7)
@@ -152,9 +152,9 @@ rnames_flipped_cort_only <- rnames_flipped_cort[!(rnames_flipped_cort %in% c(rna
 rnames_flipped_mif_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(plt_flipped_kh, rnames_flipped_kh))]
 rnames_flipped_kh_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(rnames_flipped_mif, plt_flipped_cort))]
 
-plt_flipped_cort_only <- plot_logFCs(rnames_flipped_cort_only, "Genes flipped by cort only")
-plt_flipped_mif_only <- plot_logFCs(rnames_flipped_mif_only, "Genes flipped by MIF only")
-plt_flipped_kh_only <- plot_logFCs(rnames_flipped_kh_only, "Genes flipped by KH only")
+plt_flipped_cort_only <- plot_logFCs_216(rnames_flipped_cort_only, "Genes flipped by cort only")
+plt_flipped_mif_only <- plot_logFCs_216(rnames_flipped_mif_only, "Genes flipped by MIF only")
+plt_flipped_kh_only <- plot_logFCs_216(rnames_flipped_kh_only, "Genes flipped by KH only")
 
 # Save all plots
 ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.png", plt_flipped_cort_only, width=12, height=7)
@@ -171,7 +171,69 @@ cat("\n\n#### KH \n\n")
 plt_flipped_kh_only
 ```
 
-## 16h > 2h
+## Plots from Mahshids summary
+
+## 1. Only those genes which are significant in Dex 18h, ns in 2h>KH103 but are significant in the same direction (+/-) as Dex 18h in 2h dex>mif and 2h dex>cort113
+
+```{r, fig.width=14, fig.height=5}
+merged216$category1 <- (merged216$FDR < 0.05) & 
+  (merged216$FDR_KH > 0.05) & 
+  (merged216$FDR_MIF < 0.05) & (merged216$FDR_cort < 0.05) & 
+  (merged216$logFC_MIF * merged216$logFC_cort > 0) & # checks that mif and cort have same sign
+  (merged216$logFC * merged216$logFC_cort > 0)  # checks that mif and 2h dex have the same sign
+
+rnames_flipped_cat1 <- merged216 %>% dplyr::filter(category1 == TRUE) %>% pull(rowname)
+
+plot_logFCs_216(rnames_flipped_cat1, "Category 1")
+```
+
+## 2. Only those genes which are significant in Dex 18h, ns in 2h dex> KH103 but are significant in the opposite direction as Dex 18h in 2h dex>mif and 2h dex > cort113
+
+```{r, fig.width=7, fig.height=5}
+merged216$category2 <- (merged216$FDR < 0.05) & 
+  (merged216$FDR_KH > 0.05) & 
+  (merged216$FDR_MIF < 0.05) & (merged216$FDR_cort < 0.05) & 
+  (merged216$logFC_MIF * merged216$logFC_cort > 0) & # checks that mif and cort have same sign
+  (merged216$logFC * merged216$logFC_cort < 0)  # checks that mif and 2h dex have different sign
+
+rnames_flipped_cat2 <- merged216 %>% dplyr::filter(category2 == TRUE) %>% pull(rowname)
+
+plot_logFCs_216(rnames_flipped_cat2, "Category 2")
+```
+
+## 3. Only those genes which are significant in Dex 18h, and are ns or significant in the same direction as Dex 18h for 2h dex>mif and 2h dex>cort113 but are significant in the opposite direction as Dex 18h in 2h dex>KH-103
+
+
+```{r, fig.width=14, fig.height=5}
+merged216$category3 <- (merged216$FDR < 0.05) & 
+  (merged216$logFC * merged216$logFC_MIF > 0) & # 2h DEX and MIF point in same direction
+  (merged216$logFC * merged216$logFC_cort > 0) & # 2h DEX and cort point in same direction
+  (merged216$logFC * merged216$logFC_KH < 0) & # 2h DEX and KH have different logFC signs
+  (merged216$FDR_KH > 0) # KH is significant
+
+rnames_flipped_cat3 <- merged216 %>% dplyr::filter(category3 == TRUE) %>% pull(rowname)
+
+plot_logFCs_216(rnames_flipped_cat3, "Category 3")
+```
+
+
+## 4. Only those genes which are significant in Dex 18h, and are significant in the opposite direction as Dex 18h in all three conditions of 2h dex>KH-103, 2h dex>MIF, 2h dex>Cort113
+
+
+```{r, fig.width=14, fig.height=5}
+merged216$category4 <- (merged216$FDR < 0.05) & 
+  (merged216$logFC * merged216$logFC_KH < 0) & (merged216$FDR_KH < 0.05) & # KH is significant in other direction as 2h DEX
+  (merged216$logFC * merged216$logFC_MIF < 0) & (merged216$FDR_MIF < 0.05) & # MIF is significant in other direction as 2h DEX
+  (merged216$logFC * merged216$logFC_cort < 0) & (merged216$FDR_cort < 0.05) # cort is significant in other direction as 2h DEX
+
+rnames_flipped_cat4 <- merged216 %>% dplyr::filter(category4 == TRUE) %>% pull(rowname)
+
+plot_logFCs_162(rnames_flipped_cat4, "Category 4")
+```
+
+
+
+# 16h > 2h
 
 *Def. 2:* "Is DE from 16h DEX > 2h DEX+DMSO but is not DE in 16h DEX > 2h DEX+Cort113 experiment"
 
@@ -187,13 +249,13 @@ merged162 <- control162 %>%
   tibble::rownames_to_column() %>% 
   left_join(cort162 %>% 
               tibble::rownames_to_column() %>%
-              select(rowname, logFC, FDR), suffix=c("","_cort"), by="rowname") %>%
+              dplyr::select(rowname, logFC, FDR), suffix=c("","_cort"), by="rowname") %>%
   left_join(mif162 %>% 
               tibble::rownames_to_column() %>%
-              select(rowname, logFC, FDR), suffix=c("","_MIF"), by="rowname") %>%
+              dplyr::select(rowname, logFC, FDR), suffix=c("","_MIF"), by="rowname") %>%
   left_join(protac162 %>% 
               tibble::rownames_to_column() %>%
-              select(rowname, logFC, FDR), suffix=c("","_KH"), by="rowname")
+              dplyr::select(rowname, logFC, FDR), suffix=c("","_KH"), by="rowname")
 
 # Using a FDR of 0.05, how many clear reversals do we have?
 merged162$cort_reversed <- ifelse(merged162$FDR < 0.05 & merged162$FDR_cort >= 0.05, TRUE, FALSE)
@@ -271,7 +333,7 @@ merged162$MIF_flipped <- ifelse(merged162$FDR < 0.05 & merged162$FDR_MIF < 0.05 
 merged162$KH_flipped <- ifelse(merged162$FDR < 0.05 & merged162$FDR_KH < 0.05 & 
                                    ((merged162$logFC * merged162$logFC_KH) < 0), TRUE, FALSE)
 
-plot_logFCs <- function(rownames_subset, title){
+plot_logFCs_162 <- function(rownames_subset, title){
   # cort
   plt <- ggplot(merged162_long[merged162_long$rowname %in% rownames_subset,]) +
     geom_point(aes(x=rowname, y=value, color=Group)) +
@@ -284,13 +346,13 @@ plot_logFCs <- function(rownames_subset, title){
   plt
 }
 
-rnames_flipped_cort <- merged162 %>% filter(cort_flipped == TRUE) %>% pull(rowname)
-rnames_flipped_mif <- merged162 %>% filter(MIF_flipped == TRUE) %>% pull(rowname)
-rnames_flipped_kh <- merged162 %>% filter(KH_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_cort <- merged162 %>% dplyr::filter(cort_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_mif <- merged162 %>% dplyr::filter(MIF_flipped == TRUE) %>% pull(rowname)
+rnames_flipped_kh <- merged162 %>% dplyr::filter(KH_flipped == TRUE) %>% pull(rowname)
 
-plt_flipped_cort <- plot_logFCs(rnames_flipped_cort, "Genes flipped by cort")
-plt_flipped_mif <- plot_logFCs(rnames_flipped_mif, "Genes flipped by MIF")
-plt_flipped_kh <- plot_logFCs(rnames_flipped_kh, "Genes flipped by KH")
+plt_flipped_cort <- plot_logFCs_162(rnames_flipped_cort, "Genes flipped by cort")
+plt_flipped_mif <- plot_logFCs_162(rnames_flipped_mif, "Genes flipped by MIF")
+plt_flipped_kh <- plot_logFCs_162(rnames_flipped_kh, "Genes flipped by KH")
 
 # Save all plots
 ggsave(file="../docs/assets/Q3_1_flipped_cort_216.png", plt_flipped_cort, width=12, height=7)
@@ -311,9 +373,9 @@ rnames_flipped_cort_only <- rnames_flipped_cort[!(rnames_flipped_cort %in% c(rna
 rnames_flipped_mif_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(plt_flipped_kh, rnames_flipped_kh))]
 rnames_flipped_kh_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(rnames_flipped_mif, plt_flipped_cort))]
 
-plt_flipped_cort_only <- plot_logFCs(rnames_flipped_cort_only, "Genes flipped by cort only")
-plt_flipped_mif_only <- plot_logFCs(rnames_flipped_mif_only, "Genes flipped by MIF only")
-plt_flipped_kh_only <- plot_logFCs(rnames_flipped_kh_only, "Genes flipped by KH only")
+plt_flipped_cort_only <- plot_logFCs_162(rnames_flipped_cort_only, "Genes flipped by cort only")
+plt_flipped_mif_only <- plot_logFCs_162(rnames_flipped_mif_only, "Genes flipped by MIF only")
+plt_flipped_kh_only <- plot_logFCs_162(rnames_flipped_kh_only, "Genes flipped by KH only")
 
 # Save all plots
 ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.png", plt_flipped_cort_only, width=12, height=7)
@@ -331,6 +393,67 @@ plt_flipped_kh_only
 ```
 
 
+# Plots according to document
+
+## Only those genes which are significant in Dex 2h, ns in KH103>2h dex but are significant in the same direction (+/-) as Dex 2h in mif>2h dex and cort>2h dex
+
+```{r, fig.width=14, fig.height=5}
+merged162$category1 <- (merged162$FDR < 0.05) & 
+  (merged162$FDR_KH > 0.05) & 
+  (merged162$FDR_MIF < 0.05) & (merged162$FDR_cort < 0.05) & 
+  (merged162$logFC_MIF * merged162$logFC_cort > 0) & # checks that mif and cort have same sign
+  (merged162$logFC * merged162$logFC_cort > 0)  # checks that mif and 2h dex have the same sign
+
+rnames_flipped_cat1 <- merged162 %>% dplyr::filter(category1 == TRUE) %>% pull(rowname)
+
+plot_logFCs_162(rnames_flipped_cat1, "Category 1")
+```
+
+
+
+## Only those genes which are significant in Dex 2h, ns in KH103>2h dex but are significant in the opposite direction as Dex 2h in mif>2h dex and cort113>2h dex
+
+```{r, fig.width=7, fig.height=5}
+merged162$category2 <- (merged162$FDR < 0.05) & 
+  (merged162$FDR_KH > 0.05) & 
+  (merged162$FDR_MIF < 0.05) & (merged162$FDR_cort < 0.05) & 
+  (merged162$logFC_MIF * merged162$logFC_cort > 0) & # checks that mif and cort have same sign
+  (merged162$logFC * merged162$logFC_cort < 0)  # checks that mif and 2h dex have different sign
+
+rnames_flipped_cat2 <- merged162 %>% dplyr::filter(category2 == TRUE) %>% pull(rowname)
+
+plot_logFCs_162(rnames_flipped_cat2, "Category 2")
+```
+
+
+## Only those genes which are significant in Dex 2h, ns or significant in same direction as Dex 2h for mif>2h dex and cort113>2h dex but are significant in the opposite direction as Dex 2h in KH-103>2h dex
+
+```{r, fig.width=14, fig.height=5}
+merged162$category3 <- (merged162$FDR < 0.05) & 
+  (merged162$logFC * merged162$logFC_MIF > 0) & # 2h DEX and MIF point in same direction
+  (merged162$logFC * merged162$logFC_cort > 0) & # 2h DEX and cort point in same direction
+  (merged162$logFC * merged162$logFC_KH < 0) & # 2h DEX and KH have different logFC signs
+  (merged162$FDR_KH > 0) # KH is significant
+
+rnames_flipped_cat3 <- merged162 %>% dplyr::filter(category3 == TRUE) %>% pull(rowname)
+
+plot_logFCs_162(rnames_flipped_cat3, "Category 3")
+```
+
+
+## Only those genes which are significant in Dex 2h, and are significant in the opposite direction as Dex 2h in all three conditions of KH-103>2h dex, MIF>2h dex, Cort113>2h dex
+
+```{r, fig.width=14, fig.height=5}
+merged162$category4 <- (merged162$FDR < 0.05) & 
+  (merged162$logFC * merged162$logFC_KH < 0) & (merged162$FDR_KH < 0.05) & # KH is significant in other direction as 2h DEX
+  (merged162$logFC * merged162$logFC_MIF < 0) & (merged162$FDR_MIF < 0.05) & # MIF is significant in other direction as 2h DEX
+  (merged162$logFC * merged162$logFC_cort < 0) & (merged162$FDR_cort < 0.05) # cort is significant in other direction as 2h DEX
+
+rnames_flipped_cat4 <- merged162 %>% dplyr::filter(category4 == TRUE) %>% pull(rowname)
+
+plot_logFCs_162(rnames_flipped_cat4, "Category 4")
+```
+
 ### Save file to excel
 
 ```{r save excel}
@@ -344,3 +467,4 @@ writeData(wb, "16h>2h", merged162)
 # write final excel to disk
 saveWorkbook(wb, "../docs/downloads/Q3_protac_flipped_DE.xlsx", overwrite=TRUE)
 ```
+

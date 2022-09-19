@@ -1,5 +1,5 @@
 ---
-title: 'Q1: DE Gene overlap'
+title: 'Q1: DE Gene overlap for 12h data'
 author: "Dominique Paul"
 date: "`r Sys.Date()`"
 output: html_document
@@ -205,7 +205,7 @@ saveRDS(file="../data/EOS_files/Q1_SummExp.rds", SE)
 
 ```{r, fig.width=8, fig.height=8}
 sechm::sechm(SE, topDegs, assay="scaledLFC", gaps_at="Treatment", breaks=TRUE,
-      top_annotation="Replicate", row_title="Union of top DEGs", show_rownames=TRUE,
+      top_annotation="Replicate", row_title="Union of top DEGs (12h data)", show_rownames=TRUE,
       row_names_gp=gpar(fontsize=9), column_title_gp=gpar(fontsize=10),
       column_title_rot=90)
 ```
@@ -297,7 +297,7 @@ plot_lfc <- ggplot(d_plot) +
   geom_point(aes(x=logFC_mahshid, y=logFC_reddy), size=0.5) +
   geom_abline(linetype="dashed", color="red") +
   theme_ipsum_rc() +
-  labs(title="LogFC values for DE genes", subtitle="Union of DE genes from both experiments with FDR<0.05 \nwhich also occurred in other dataset", 
+  labs(title="LogFC values for DE genes (12h data)", subtitle="Union of DE genes from both experiments with FDR<0.05 \nwhich also occurred in other dataset", 
        x="logFC Mahshid", y="logFC Reddy")
 plot_lfc
 
@@ -310,5 +310,4 @@ ggsave(file="../docs/assets/2_logFC_Mahshid_Reddy.png", plot_lfc)
 saveRDS(list("Reddy_all"=res_ext, "Reddy_significant"=res_ext_significant, "Mahshid_all"=res_int, "Mahshid_significant"=res_int_significant, "union_DE_genes"=union_DE_genes, "logFC_plot_data"=d_plot),
         file="../data/EOS_files/Q1_EOS.rds")
 ```
-
 

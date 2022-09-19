@@ -110,6 +110,7 @@ plt_logfc <- ggplot(res_int, aes(x=FDR)) +
        y="Density")
 plt_logfc
 ```
+
 ### Same plots for Reddy data
 
 Load Reddy DE genes
@@ -264,6 +265,30 @@ TSS_distances
 
 ggsave(filename="../docs/assets/Q2_5_TSS_distances.png", TSS_distances)
 ```
+
+```{r, fig.width=14, fig.height=18}
+# Min distance to TSS
+min_dist_xlim <- ggplot(plt_data, aes(min_dist2tss, logFC, size=n_peaks, colour=is_significant)) +
+  geom_point(alpha=0.8) +
+  geom_density_2d(bins = 10, colour="green") +
+  labs(title="LogFC vs minimum distance peak to TSS", subtitle="Size indicates the number of peaks for a given gene") +
+  xlim(c(0,2500))
+
+# Mean distance to TSS
+min_dist2_xlim <- plt_data %>%
+  ggplot(aes(log(min_dist2tss), logFC, size=n_peaks, colour=is_significant)) +
+  geom_point(alpha=0.8) +
+  geom_density_2d(bins = 10, colour="green") +
+  labs(title="LogFC vs log(min distance peak to TSS)", subtitle="Size indicates the number of peaks for a given gene") +
+  ylim(c(-3,3)) +
+  xlim(c(0,log(2500)))
+
+TSS_distances_xlim <- ggarrange(min_dist_xlim, min_dist2_xlim, ncol=1)
+TSS_distances_xlim
+
+ggsave(filename="../docs/assets/Q2_5_TSS_distances_xlim2500.png", TSS_distances_xlim)
+```
+
 
 ```{r boxplots based on class, fig.width=14}
 mixed_data2 <- mixed_data %>% left_join(data %>%

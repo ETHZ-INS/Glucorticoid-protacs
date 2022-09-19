@@ -1,0 +1,335 @@
+---
+title: "Q2: TF Binding to DE genes"
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(epiwraps)
+  library(GenomicRanges)
+  library(rtracklayer)
+  library(AnnotationHub)
+  library(dplyr)
+  library(ggplot2)
+  library(hrbrthemes)
+  library(dplyr)
+  library(ggpubr)
+})
+
+theme_set(theme_ipsum_rc())
+
+extrafont::loadfonts()
+```
+
+### Question 2: Does the Reddy data show GR binding to DE genes from our analysis
+
+# Load data
+
+```{r}
+peaks <- import.bed15("../data/reddy_bed_DEX2h_r123.bed.gz", format="narrowPeak")
+```
+
+Peak annotation
+
+```{r peak annotation}
+ah <- AnnotationHub()
+
+ensdb <- ah[["AH98047"]] # AH89211
+peakAnno <- annotateRegions(peaks, ensdb)
+# column only for peaks with 2500np range
+peakAnno$nearestTSS.gene_name.2500r <- peakAnno$nearestTSS.gene_name
+peakAnno[abs(peakAnno$distance2nearestTSS) >= 2500, ]$nearestTSS.gene_name.2500r <- ""
+saveRDS(peakAnno, "../data/EOS_files/Q2_annotated_peaks.rds")
+table(peakAnno$class)
+
+peakfreq <- as.data.frame(table(peakAnno$nearestTSS.gene_name)) %>% mutate_all(na_if,"") %>%
+  left_join(as.data.frame(table(peakAnno$nearestTSS.gene_name.2500r)) %>% mutate_all(na_if,""), by="Var1")
+colnames(peakfreq) <- c("Gene", "Freq", "Freq_2500peaks")
+
+saveRDS(file="../data/EOS_files/Q2_gene_peaks_2h.rds", peakfreq)
+```
+
+# Load Mahshid's DE genes
+
+
+```{r}
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+# names(res_int_all)
+res_int <- res_int_all$`16h DMSO > 2h DEX+DMSO`
+res_int_significant <- res_int[res_int$FDR < 0.05,]
+
+# Merge the frequency count onto the DE table
+res_int <- left_join(res_int %>% mutate(Gene = rownames(res_int)), 
+          peakfreq[2:nrow(peakfreq),],
+          by="Gene") %>%
+  tidyr::replace_na(list(Freq=0, Freq_2500peaks=0)) %>%
+  mutate(gc_bound = Freq > 0) %>%
+  dplyr::rename(chip_peaks=Freq, chip_peaks.2500r=Freq_2500peaks) %>%
+  relocate(Gene)
+
+# add a binary tag for significance
+res_int$is_significant <- res_int$FDR < 0.05
+
+# What is the fraction of significant DE genes that have GC-GR bound to them?
+table(res_int$is_significant, res_int$gc_bound)
+
+# Of all the genes where GC-GR is bound, what is the distribution of (a) p.values and (b) logFC. How is this different for genes where GC-GR did not bind?
+plt_value <- ggplot(res_int, aes(x=logFC)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., fill=gc_bound), alpha=0.5) +
+  xlim(c(-3,3)) +
+  geom_vline(xintercept=0) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of logFC values", subtitle="DE genes from Mahshid's experiments; \nbinding from Reddy data",
+       y="Density")
+plt_value
+
+plt_logfc <- ggplot(res_int, aes(x=FDR)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., group=gc_bound, fill=gc_bound), alpha=0.5) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of p.values", subtitle="DE genes from Mahshid's experiments; \nbinding from Reddy data",
+       y="Density")
+plt_logfc
+```
+
+### Same plots for Reddy data
+
+Load Reddy DE genes
+
+```{r, fig.width=10, fig.height=8}
+EOS1 <- readRDS(file="../data/EOS_files/Q1_EOS.rds")
+res_reddy <- EOS1[["Reddy_all"]]
+# res_reddy_significant <- res_reddy[res_reddy$FDR < 0.05,]
+
+# Merge the frequency count onto the DE table and create binary variable
+res_reddy <- left_join(res_reddy %>% mutate(Gene = rownames(res_reddy)), 
+          peakfreq[2:nrow(peakfreq),],
+          by="Gene") %>%
+  tidyr::replace_na(list(Freq=0, Freq_2500peaks=0)) %>%
+  mutate(gc_bound = Freq > 0) %>%
+  dplyr::rename(chip_peaks=Freq, chip_peaks.2500r=Freq_2500peaks) %>% 
+  tibble::column_to_rownames("Gene")
+
+# add a binary tag for significance
+res_reddy$is_significant <- res_reddy$FDR < 0.05
+
+# What is the fraction significantly DE genes have GC-GR bound to them?
+table(res_reddy$is_significant, res_reddy$gc_bound)
+
+# Of all the genes where GC-GR is bound, what is the distribution of (a) p.values and (b) logFC. How is this different for genes where GC-GR did not bind?
+
+plt_value_reddy <- ggplot(res_reddy, aes(x=logFC)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., fill=gc_bound), alpha=0.5) +
+  xlim(c(-3,3)) +
+  geom_vline(xintercept=0) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of logFC values", subtitle="DE genes from Reddy experiments; \nbinding from Reddy data",
+       y="Density")
+
+plt_logfc_reddy <- ggplot(res_reddy, aes(x=FDR)) +
+  # geom_histogram(aes(y=..density.., fill=gc_bound)) +
+  geom_density(aes(y=..density.., group=gc_bound, fill=gc_bound), alpha=0.5) +
+  theme_ipsum_rc() +
+  labs(title="Distribution of p.values", subtitle="DE genes from Reddy experiments; \nbinding from Reddy data",
+       y="Density")
+
+combined_plot <- ggpubr::ggarrange(plt_value, plt_logfc, plt_value_reddy, plt_logfc_reddy, ncol=2, nrow=2)
+combined_plot
+```
+
+
+
+
+Save plots
+
+```{r}
+ggsave(file="../docs/assets/Q2_1_pvalue_dist_2h.png", plt_value)
+ggsave(file="../docs/assets/Q2_2_logfc_dist_2h.png", plt_logfc)
+ggsave(file="../docs/assets/Q2_3_mahshid_reddy_2h.png", combined_plot, width=12, height=8)
+```
+
+# Boxplot: Distribution of logFC by number of nearby GR-peaks
+
+Each peaks was attributed to the gene of the TSS closest to the peak
+
+```{r distribution by numbers of peaks, fig.width=14}
+mixed_data <- rbind(as.data.frame(res_reddy) %>% 
+        tibble::rownames_to_column("Gene") %>%
+        dplyr::select("Gene", "logFC", "chip_peaks", "chip_peaks.2500r") %>%
+        mutate(Source="Reddy"),
+      as.data.frame(res_int) %>%
+        dplyr::select("Gene", "logFC", "chip_peaks", "chip_peaks.2500r") %>%
+        mutate(Source="Mahshid")
+        ) %>%
+  mutate(chip_peaks=factor(chip_peaks, levels=sort(as.numeric(unique(chip_peaks)))),
+         chip_peaks.2500r=factor(chip_peaks.2500r, levels=sort(as.numeric(unique(chip_peaks.2500r)))),
+         abs_logFC=abs(logFC))
+
+
+boxplot <- ggplot(mixed_data, aes(x=chip_peaks, y=logFC, colour=Source)) +
+  geom_boxplot() +
+  theme_ipsum_rc() +
+  labs(title="Distribution of logFC by number of nearby GR-peaks", subtitle="Closest peak to gene no matter distance", x="# ChIP peaks") +
+  ylim(c(-5,5))
+
+boxplot_2500 <- ggplot(mixed_data, aes(x=chip_peaks.2500r, y=logFC, colour=Source)) +
+  geom_boxplot() +
+  theme_ipsum_rc() +
+  labs(title="", subtitle="Peaks within 2500bp range", x="# ChIP peaks") +
+  ylim(c(-5,5))
+
+boxplot_abs <- ggplot(mixed_data, aes(x=chip_peaks, y=abs_logFC, colour=Source)) +
+  geom_boxplot() +
+  theme_ipsum_rc() +
+  labs(title="Distribution of ABSOLUTE logFCs by number of nearby GR-peaks", subtitle="Closest peak to gene no matter distances", x="# ChIP peaks") +
+  ylim(c(0,5))
+
+boxplot_abs_2500 <- ggplot(mixed_data, aes(x=chip_peaks.2500r, y=abs_logFC, colour=Source)) +
+  geom_boxplot() +
+  theme_ipsum_rc() +
+  labs(title="", subtitle="Peaks within 2500bp range", x="# ChIP peaks") +
+  ylim(c(0,5))
+
+boxplot <- ggarrange(
+  ggarrange(boxplot, boxplot_2500, ncol=2),
+  ggarrange(boxplot_abs, boxplot_abs_2500, ncol=2),
+  ncol=1)
+boxplot
+
+ggsave(filename="../docs/assets/Q2_4_boxplots_2h.png", boxplot, width=14, height=10, unit="in")
+```
+
+
+# Relationship between a logFC and the closest GR peak
+
+```{r logFC vs GR peak, fig.width=14, fig.height=18}
+data <- as.data.frame(peakAnno) %>%
+  dplyr::select(c("nearestTSS.gene_name", "score", "signalValue", "peak", "distance2nearestTSS", "class")) %>% 
+  mutate_all(na_if,"") %>% 
+  dplyr::filter(!is.na(nearestTSS.gene_name)) %>%
+  dplyr::rename(Gene = nearestTSS.gene_name)
+
+(plt_data <- data %>% dplyr::left_join(as.data.frame(res_int) %>%
+                            dplyr::select("Gene", "logFC", "chip_peaks", "FDR", "is_significant") %>%
+                            mutate(Source="Mahshid"), 
+                          by="Gene") %>%
+  dplyr::group_by(Gene) %>%
+  summarise(min_dist2tss=min(abs(distance2nearestTSS)),
+            max_dist2tss=max(abs(distance2nearestTSS)),
+            mean_dist2tss=mean(abs(distance2nearestTSS)),
+            minSignal=min(signalValue),
+            maxSignal=max(signalValue),
+            n_peaks=n(),
+            logFC=logFC,
+            is_significant=is_significant) %>%
+    distinct() %>%
+    dplyr::filter(!is.na(logFC))
+  )
+
+# Min distance to TSS
+min_dist <- ggplot(plt_data, aes(min_dist2tss, logFC, size=n_peaks, colour=is_significant)) +
+  geom_point(alpha=0.8) +
+  geom_density_2d(bins = 10, colour="green") +
+  labs(title="LogFC vs minimum distance peak to TSS", subtitle="Size indicates the number of peaks for a given gene")
+
+# Mean distance to TSS
+min_dist2 <- plt_data %>%
+  ggplot(aes(log(min_dist2tss), logFC, size=n_peaks, colour=is_significant)) +
+  geom_point(alpha=0.8) +
+  geom_density_2d(bins = 10, colour="green") +
+  labs(title="LogFC vs log(min distance peak to TSS)", subtitle="Size indicates the number of peaks for a given gene") +
+  ylim(c(-3,3))
+
+TSS_distances <- ggarrange(min_dist, min_dist2, ncol=1)
+TSS_distances
+
+ggsave(filename="../docs/assets/Q2_5_TSS_distances_2h.png", TSS_distances)
+```
+
+```{r, fig.width=14, fig.height=18}
+# Min distance to TSS
+min_dist_xlim <- ggplot(plt_data, aes(min_dist2tss, logFC, size=n_peaks, colour=is_significant)) +
+  geom_point(alpha=0.8) +
+  geom_density_2d(bins = 10, colour="green") +
+  labs(title="LogFC vs minimum distance peak to TSS", subtitle="Size indicates the number of peaks for a given gene") +
+  xlim(c(0,2500))
+
+# Mean distance to TSS
+min_dist2_xlim <- plt_data %>%
+  ggplot(aes(log(min_dist2tss), logFC, size=n_peaks, colour=is_significant)) +
+  geom_point(alpha=0.8) +
+  geom_density_2d(bins = 10, colour="green") +
+  labs(title="LogFC vs log(min distance peak to TSS)", subtitle="Size indicates the number of peaks for a given gene") +
+  ylim(c(-3,3)) +
+  xlim(c(0,log(2500)))
+
+TSS_distances_xlim <- ggarrange(min_dist_xlim, min_dist2_xlim, ncol=1)
+TSS_distances_xlim
+
+ggsave(filename="../docs/assets/Q2_5_TSS_distances_xlim2500_2h.png", TSS_distances_xlim)
+```
+
+
+```{r boxplots based on class, fig.width=14}
+mixed_data2 <- mixed_data %>% left_join(data %>%
+                                         group_by(Gene) %>%
+                                         dplyr::slice(which.min(abs(distance2nearestTSS))) %>% 
+                                         dplyr::select("Gene", "class") %>%
+                                         dplyr::rename(closest_peak_class=class) %>%
+                                         mutate(closest_peak_class = factor(closest_peak_class, levels=c("NA", "intergenic", "exonic", "intronic", "proximal >1000&<=2500bp", "proximal <=1000bp", "TSS"))), 
+                           by="Gene")
+
+boxplot2 <- ggplot(mixed_data2, aes(x=closest_peak_class, y=logFC, colour=Source)) +
+  geom_boxplot() +
+  theme_ipsum_rc() +
+  labs(title="Distribution of logFC by type of closest GR-peak", subtitle="Some outliers cutoff by y-axis", x="") +
+  ylim(c(-5,5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size=9),
+        plot.margin = unit(c(0.2,0.2,0.2,0.2), "cm"))
+
+violin2 <- ggplot(mixed_data2, aes(x=closest_peak_class, y=logFC, colour=Source)) +
+  geom_violin() +
+  theme_ipsum_rc() +
+  labs(title="", subtitle="", x="") +
+  ylim(c(-5,5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size=9),
+        plot.margin = unit(c(0.2,0.2,0.2,0.2), "cm"))
+
+boxplot_abs2 <- ggplot(mixed_data2, aes(x=closest_peak_class, y=abs_logFC, colour=Source)) +
+  geom_boxplot() +
+  theme_ipsum_rc() +
+  labs(title="Distribution of ABSOLUTE logFCs by type of closest GR-peak", subtitle="Some outliers cutoff by y-axis", x="") +
+  ylim(c(0,5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size=9),
+        plot.margin = unit(c(0.2,0.2,0.2,0.2), "cm"))
+
+violin_abs2 <- ggplot(mixed_data2, aes(x=closest_peak_class, y=abs_logFC, colour=Source)) +
+  geom_violin() +
+  theme_ipsum_rc() +
+  labs(title="", subtitle="", x="") +
+  ylim(c(0,5)) +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1, size=9),
+        plot.margin = unit(c(0.2,0.2,0.2,0.2), "cm"))
+
+group_image2 <- ggarrange(
+  ggarrange(boxplot2, violin2, ncol=2),
+  ggarrange(boxplot_abs2, violin_abs2, ncol=2),
+  ncol=1)
+group_image2
+
+ggsave(filename="../docs/assets/Q2_6_boxplots_class_2h.png", group_image2, width=14, height=10, unit="in")
+```
+
+# Save excel 
+
+```{r}
+openxlsx::write.xlsx(file="../docs/downloads/Q2_GR_bound_DE_genes.xlsx", res_int)
+
+# sessionInfo()
+```

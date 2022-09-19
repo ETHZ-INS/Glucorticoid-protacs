@@ -373,19 +373,30 @@ tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
                 "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
                 "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
 
-plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE){
+plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE){
   # first subset for a given selection of genes
   if (is.null(genes_subset) == FALSE) {
     peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
     if (length(peaks) == 0) return(paste0("No peaks found for the genes:", paste(genes_subset, collapse = ', ')))
   }
   
+  se0 <- se
+  if (!is.null(subset_columns)){
+      se0 <- se0[,se0$condition %in% subset_columns]
+    }
+  
+  if (is.null(tracks_subset)){
+    tracks_used <- tracks
+  } else {
+    tracks_used <- tracks[tracks_subset]
+  }
+  
   # get rid of peaks that don't have an assigned gene that was quantified
-  peaks <- sort(peaks[peaks$nearestTSS.gene_name %in% row.names(se)])
+  peaks <- sort(peaks[peaks$nearestTSS.gene_name %in% row.names(se0)])
   # give unique names to the peaks
   names(peaks) <- make.unique(peaks$nearestTSS.gene_name)
   # select (and duplicate) the entries in R, and give them the names
-  se2 <- se[as.character(peaks$nearestTSS.gene_name),]
+  se2 <- se0[as.character(peaks$nearestTSS.gene_name),]
   row.names(se2) <- names(peaks)
   
   if (plot_around_gene_tss == TRUE){
@@ -395,22 +406,22 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
     mygenes.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype",
                                                                 "tx_support_level",
                                                                 "gene_id","gene_name"))
+    mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% genes_subset)
+    
     mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
-    mygenes.tss <-  resize(mygenes.transcripts, width=2000, fix='start')
+    mygenes.tss <-  resize(mygenes.transcripts, width=1, fix='start')
     seqlevelsStyle(mygenes.tss) <- "UCSC"
     mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
     
     # adjust the se2 genes to only show the ones for which we have the TSS
     genes <- mygenes_unique$gene_name
-    se2 <- se[genes,]
+    se2 <- se0[genes,]
+    
     # get the signals
-    signals <- signal2Matrix(tracks, mygenes_unique, w=5, extend=1000)
-  } 
-  else
-  {
-    signals <- signal2Matrix(tracks, peaks, w=5, extend=500)  
+    signals <- signal2Matrix(tracks_used, mygenes_unique, w=5, extend=2500)
+  } else {
+    signals <- signal2Matrix(tracks_used, peaks, w=5, extend=500)  
   }
-  
   
   h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"))
   set.seed(100) # for colours
@@ -425,11 +436,50 @@ plt <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE)
 plt
 ```
 
+## Fig 6c.1 (Q3).
+
+Heatmap visualizing conditions dmso, untreated, 2h dex, KH103 >2h dex, MIF>2h dex, Cort113>2h dex, also show next to it GR tracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message: KH103 if given before dex, blocks dex induced changes better than mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
+
+```{r, fig.width=10, fig.height=10, results="asis", warning=FALSE}
+reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h Cort113", "18h KH-103", "18h MIF"), tracks_subset=c("2h-DEX", "12h-DEX"))
+
+reduced_view
+```
+
+## Fig 6d.1 (Q3). 
+
+Heatmap visualizing conditions dmso, untreated, dex 18h, 2h dex>KH103, 2h dex>MIF, 2h dex>Cort113, also show next to it GRtracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message1: KH103 if given after dex, blocks less good probably compared to mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
+
+```{r, fig.width=10, fig.height=12, results="asis", warning=FALSE}
+reduced_view2 <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, 
+                                       subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"))
+
+reduced_view2
+```
+
+## Fig 7b.2 (Q4). 
+
+Heatmap of those 13 genes that are significant in KH-103 alone condition comparing with untreated/dmso/Dex2h/Dex 18h (maybe also MIF/Cort113) alongside their TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list (maybe if possible also including the long range enhancer info as well?). (message: a. these few genes that are changed in kh103 are also mostly changed in other inhibitor and dex conditions too, b. only 5 of those changed genes have direct GR mediation (except some have GR around enhancer) and c. marking up TEF and Cry2 as the only ones that are specifically changed only by KH103)
+
+```{r, fig.width=8, fig.height=4, results="asis", warning=FALSE}
+kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
+
+# Maybe if possible also including the long range enhancer info as well
+genes <- kh.protac[kh.protac$FDR < 0.05,]
+
+fig7b <- plot_signals_and_sechm(gr_peaks, genes_subset=genes$Gene, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
+
+fig7b
+```
+
+
+
+
 ## Signaltracks + DE plot for Side effects of the inhibitors {.tabset}
 
 In the following we show the same plots, but for smaller subsets of genes. We choose at most the 200 most significantly differentially expressed genes from a given comparison named below.
 
-The signals are plotted around the gene TSS ± 1000bp.
+The signals are plotted around the gene TSS ± 25'000bp.
 
 ```{r, fig.width=22, fig.height=10, results="asis"}
 se.processed <- readRDS(file="../data/results/SE.processed.rds")
