@@ -254,8 +254,8 @@ myCol <- RColorBrewer::brewer.pal(4, "Pastel2")
 venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c("Mahshid up" , "Mahshid down", "Reddy up", "Reddy down"),
-  filename = '../docs/assets/1_venn_diagram.png',
-  imagetype="png",
+  filename = '../docs/assets/1_venn_diagram.pdf',
+  imagetype="pdf",
   output=FALSE,
   disable.logging=TRUE,
   # Circles
@@ -276,11 +276,11 @@ venn.diagram(
 ```
 
 ```{bash, engine.opts='-l'}
-cp ../docs/assets/1_venn_diagram.png ../docs/00_paper_figures/6a_venn.png
+cp ../docs/assets/1_venn_diagram.pdf ../docs/00_paper_figures/6a1_venn.pdf
 ```
 
 
-![](assets/1_venn_diagram.png)
+![](assets/1_venn_diagram.pdf)
 
 ### Plot logFCs for both experiments for DE gene union
 
@@ -306,7 +306,7 @@ plot_lfc <- ggplot(d_plot) +
        x="logFC Mahshid", y="logFC Reddy")
 plot_lfc
 
-ggsave(file="../docs/assets/2_logFC_Mahshid_Reddy.png", plot_lfc)
+ggsave(file="../docs/assets/2_logFC_Mahshid_Reddy.pdf", plot_lfc)
 ```
 
 # Save data

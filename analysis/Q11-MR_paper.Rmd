@@ -11,7 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 suppressPackageStartupMessages({
   library(rtracklayer)
   library(AnnotationHub)
+  library(kableExtra)
+  library(biomaRt)
+  library(epiwraps)
 })
+
+
+# Data from:
+# https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126706
 ```
 
 # Load chip data
@@ -27,16 +34,46 @@ ah <- AnnotationHub()
 ensdb <- ah[["AH95846"]] # AH89211 (mouse), AH98047 (human), AH95846 (rat)
 
 folder.path <- "../data/MR-data"
-mr.chip <- lapply(dir(folder.path), function(filename){
+file.names <- dir(folder.path)
+file.names <- file.names[sapply(file.names, function(x){stringr::str_detect(x, ".gz")})]
+mr.chip <- lapply(file.names, function(filename){
   file.path = paste0(folder.path, "/", filename)
   peaks <- import.bed15(file.path, format="narrowPeak")
-  annotated_peaks <- annotateRegions(peaks, ensdb)
 })
 # Change the names of the list to the filenames
-names(mr.chip) <- dir(folder.path)
+names(mr.chip) <- file.names
+
+# merge the peaks
+peaks.merged <- reduce(unlist(GRangesList(mr.chip)), with.revmap=TRUE)
+
+# annotate peaks
+annotated_peaks <- annotateRegions(peaks.merged, ensdb)
 
 # save the annnotated peaks
-saveRDS(mr.chip, file="../data/MR-data/00_peaks_annotated.rds")
+saveRDS(annotated_peaks, file="../data/MR-data/00_peaks_annotated.rds")
+annotated_peaks <- readRDS(file="../data/MR-data/00_peaks_annotated.rds")
+```
+
+### Peak genes translated into human genes
+
+```{r}
+human = useMart(biomart="ENSEMBL_MART_ENSEMBL", 
+                dataset = "hsapiens_gene_ensembl",
+                host = "https://dec2021.archive.ensembl.org/")
+rat = useMart(biomart="ENSEMBL_MART_ENSEMBL", 
+              dataset = "rnorvegicus_gene_ensembl",
+              host = "https://dec2021.archive.ensembl.org/")
+
+# only keep peaks within 2500bp range
+annotated_peaks <-  annotated_peaks[abs(annotated_peaks$distance2nearestTSS) < 2500,]
+
+mr.genes = getLDS(attributes = c("rgd_symbol"), 
+                 filters = "rgd_symbol", 
+                 values = annotated_peaks$nearestTSS.gene_name , 
+                 mart = rat, 
+                 attributesL = c("hgnc_symbol"), 
+                 martL = human, 
+                 uniqueRows=T)
 ```
 
 
@@ -51,22 +88,208 @@ names(res_int_all)
 #   "16h KH-103 > 2h DEX+KH-103"  
 #   "16h MIF  > 2h DEX+MIF" 
 
-# get the triggered genes and examine the relationship
-cort216 <- res_int_all[["16h Cort113 > 2h DEX+Cort113"]]
-cort216[cort216$FDR < 0.05,]
+gene_list_names <- c("16h DMSO > 2h DEX+DMSO", "16h Cort113 > 2h DEX+Cort113", "16h KH-103 > 2h DEX+KH-103", "16h MIF  > 2h DEX+MIF")
+
+results <- data.frame(matrix(ncol = 4, nrow = 0))
+
+for (gene_list_name in gene_list_names){
+  df <- res_int_all[[gene_list_name]]
+  df <- df[df$FDR < 0.05,] # filter for significant genes
+  df$mr.activated <- rownames(df) %in% mr.genes$HGNC.symbol
+  
+  res <- t(data.frame(c(dim(res_int_all[[gene_list_name]])[1],
+               dim(df)[1],
+               sum(df$mr.activated),
+               round(sum(df$mr.activated) / dim(df)[1],3)
+               )))
+  results <- rbind(results, res)
+}
+
+colnames(results) <- c("Total_genes", "Significant_genes", "Num_Sig_Genes_MR_peak", "as.perc")
+rownames(results) <- gene_list_names
+
+
+results %>% 
+  kable() %>% 
+  kable_styling()
 ```
 
-# Examine a single MR file
 
-## Do the genes overlap between a rat and our human cell line
+```{r}
+plBiomart <- function(glist,martdataset,fromK,toK,returnTable=F){
+  library(biomaRt)
+  ensembl = useMart("ensembl", dataset = martdataset)
+  g2 <- getBM(attributes=c(toK,fromK), filters = fromK,values = glist, mart = ensembl)
+  if(returnTable){
+    g2 <- g2[!duplicated(g2),]
+    tmp <- unique(g2[duplicated(g2[,2]),2])
+    g2 <- g2[which( !(g2[,1] == "" & g2[,2] %in% tmp) ),]
+    return(g2)
+  }
+  names(g2) <- c("toK","fromK")
+  allg <- unique(g2$fromK)
+  g2 <- g2[g2$toK!="" & !is.na(g2$toK),]
+  lostg <- sum(!(allg %in% g2$fromK))
+  if(lostg > 0){
+    print(paste("Warning: ",lostg,"genes were lost during the conversion."))
+  }
+  return(unique(g2$toK))
+}
 
-```{r overlap between rat and human genes}
-homo.genes <- unique(rownames(cort216))
+#' @export
+bm.availableSpecies <- function(){
+  c("human"="hsa","mouse"="mmu")
+}
+.bm.getEnsembl <- function(sp){
+  switch(match.arg(tolower(sp), bm.availableSpecies()),
+         hsa="hsapiens_gene_ensembl",
+         mmu="mmusculus_gene_ensembl"
+  )
+}
+.bm.getSymbolKey <- function(sp){
+  switch(match.arg(tolower(sp), bm.availableSpecies()),
+         
+  )
+}
+.bm.getKey <- function(type, sp){
+  type <- match.arg(tolower(type), c("entrez","symbol","ensembl","refseq","uniprot"))
+  sp <- match.arg(tolower(sp), bm.availableSpecies())
+  switch( type,
+          entrez="entrezgene",
+          symbol=switch(sp, hsa="hgnc_symbol", mmu="mgi_symbol"),
+          ensembl="ensembl_gene_id",
+          refseq="refseq_mrna",
+          uniprot="uniprot_swissprot"
+  )
+}
 
-for (peaks in mr.chip){
-  rat.genes <- unique(peaks$nearestTSS.gene_name)  
-  cat(length(intersect(homo.genes, rat.genes)))
-  cat("\n")
+
+#' bm.idMap
+#'
+#' @param ids A vector of ids to be converted.
+#' @param from The ID type of `ids`. Possible types are "entrez","symbol","ensembl","refseq","uniprot"
+#' @param to The desired ID type. Possible types are "entrez","symbol","ensembl","refseq","uniprot"
+#' @param species The species (see `bm.availableSpecies()`). Default 'hsa'.
+#' @param returnTable Logical; whether to return a conversion table (default). If FALSE, the converted IDs are returned.
+#'
+#' @return Either a table or a vector.
+#' @export
+bm.idMap <- function(ids, from, to, species="hsa", returnTable=TRUE){
+  from <- .bm.getKey(from, species)
+  to <- .bm.getKey(to, species)
+  plBiomart(ids,.bm.getEnsembl(species),from, to, returnTable=returnTable)
+}
+
+
+
+
+#' bm.symbol2desc
+#'
+#' Return descriptions of gene symbols. Requires an internet connection.
+#'
+#' @param glist a character vector containing the official gene symbols
+#' @param species a character specifying the species (see `bm.availableSpecies()`). Default 'hsa'.
+#'
+#' @return A table.
+#'
+#' @export
+bm.symbol2desc <- function(glist, species="hsa"){
+  plBiomart(glist,.bm.getEnsembl(species),.bm.getSymbolKey(species),c("wikigene_description","gene_biotype"),returnTable=T)
+}
+
+
+
+#' Human to mouse gene symbols
+#'
+#' Returns the mouse orthologs of human genes. Requires an internet connection.
+#'
+#' @param glist a character vector containing the HGNC gene symbols
+#' @param returnTable logical; whether to return the whole conversion table, rather than just the converted IDs (default).
+#'
+#' @return Either a character vector containing the converted IDs, or the conversion table if returnTable=TRUE.
+#'
+#' @export
+hs2mm <- function(glist, returnTable=F){
+    library(biomaRt)
+    human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+    mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl") 
+    g2 <- getLDS(attributes = c("hgnc_symbol"), filters = "hgnc_symbol", values = glist, mart = human, attributesL = c("mgi_symbol"), martL = mouse)
+    if(returnTable){
+        return(g2)
+    }
+    names(g2) <- c("fromK","toK")
+    allg <- unique(g2$fromK)
+    g2 <- g2[g2$toK!="" & !is.na(g2$toK),]
+    lostg <- sum(!(allg %in% g2$fromK))
+    if(lostg > 0){
+        print(paste("Warning: ",lostg,"genes were lost during the conversion."))
+    }
+    return(unique(g2$toK))    
+}
+
+
+#' Yeast to human gene symbols
+#'
+#' Returns the human orthologs of yeast genes. Requires an internet connection.
+#'
+#' @param glist a character vector containing the yeast gene symbols
+#' @param returnTable logical; whether to return the whole conversion table, rather than just the converted IDs (default).
+#'
+#' @return Either a character vector containing the converted IDs, or the conversion table if returnTable=TRUE.
+#'
+#' @export
+yeast2human <- function(glist, returnTable=F){
+    library(biomaRt)
+    human = useMart("ensembl", dataset = "hsapiens_gene_ensembl")
+    yeast = useMart("ensembl", dataset = "scerevisiae_gene_ensembl") 
+    g2 <- getLDS(attributes = c("external_gene_name"), filters = "external_gene_name", values = glist, mart = yeast, attributesL = c("hgnc_symbol"), martL = human)
+    if(returnTable){
+        return(g2)
+    }
+    names(g2) <- c("fromK","toK")
+    allg <- unique(g2$fromK)
+    g2 <- g2[g2$toK!="" & !is.na(g2$toK),]
+    lostg <- sum(!(allg %in% g2$fromK))
+    if(lostg > 0){
+        print(paste("Warning: ",lostg,"genes were lost during the conversion."))
+    }
+    return(unique(g2$toK))    
+}
+
+#' Mouse to human gene symbols
+#'
+#' Returns the human orthologs of mouse genes. Requires an internet connection.
+#'
+#' @param glist a character vector containing the MGI gene symbols
+#' @param returnTable logical; whether to return the whole conversion table, rather than just the converted IDs (default).
+#'
+#' @return Either a character vector containing the converted IDs, or the conversion table if returnTable=TRUE.
+#'
+#' @export
+rat2hs <- function(glist, returnTable=F){
+    library(biomaRt)
+    human = useMart(biomart="ENSEMBL_MART_ENSEMBL", 
+                    dataset = "hsapiens_gene_ensembl",
+                    host="uswest.ensembl.org", 
+                    ensemblRedirect = FALSE)
+    #mouse = useMart("ensembl", dataset = "mmusculus_gene_ensembl")
+    rat = useMart(biomart="ENSEMBL_MART_ENSEMBL", 
+                  dataset = "rnorvegicus_gene_ensembl",
+                  host="uswest.ensembl.org", 
+                  ensemblRedirect = FALSE)
+    
+    # change this to rat and mgi_symbol to rat gene symbol (rgd_symbol)
+    g2 <- getLDS(attributes = c("rgd_symbol"), filters = "rgd_symbol", values = glist, mart = rat, attributesL = c("hgnc_symbol"), martL = human)
+    if(returnTable){
+        return(g2)
+    }
+    names(g2) <- c("fromK","toK")
+    allg <- unique(g2$fromK)
+    g2 <- g2[g2$toK!="" & !is.na(g2$toK),]
+    lostg <- sum(!(allg %in% g2$fromK))
+    if(lostg > 0){
+        print(paste("Warning: ",lostg, "genes were lost during the conversion."))
+    }
+    return(unique(g2$toK))    
 }
 ```
-

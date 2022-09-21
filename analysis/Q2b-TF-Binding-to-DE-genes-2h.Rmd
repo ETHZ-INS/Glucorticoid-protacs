@@ -149,9 +149,9 @@ combined_plot
 Save plots
 
 ```{r}
-ggsave(file="../docs/assets/Q2_1_pvalue_dist_2h.png", plt_value)
-ggsave(file="../docs/assets/Q2_2_logfc_dist_2h.png", plt_logfc)
-ggsave(file="../docs/assets/Q2_3_mahshid_reddy_2h.png", combined_plot, width=12, height=8)
+ggsave(file="../docs/assets/Q2_1_pvalue_dist_2h.pdf", plt_value)
+ggsave(file="../docs/assets/Q2_2_logfc_dist_2h.pdf", plt_logfc)
+ggsave(file="../docs/assets/Q2_3_mahshid_reddy_2h.pdf", combined_plot, width=12, height=8)
 ```
 
 # Boxplot: Distribution of logFC by number of nearby GR-peaks
@@ -202,7 +202,7 @@ boxplot <- ggarrange(
   ncol=1)
 boxplot
 
-ggsave(filename="../docs/assets/Q2_4_boxplots_2h.png", boxplot, width=14, height=10, unit="in")
+ggsave(filename="../docs/assets/Q2_4_boxplots_2h.pdf", boxplot, width=14, height=10, unit="in")
 ```
 
 
@@ -249,7 +249,7 @@ min_dist2 <- plt_data %>%
 TSS_distances <- ggarrange(min_dist, min_dist2, ncol=1)
 TSS_distances
 
-ggsave(filename="../docs/assets/Q2_5_TSS_distances_2h.png", TSS_distances)
+ggsave(filename="../docs/assets/Q2_5_TSS_distances_2h.pdf", TSS_distances)
 ```
 
 ```{r, fig.width=14, fig.height=18}
@@ -272,8 +272,8 @@ min_dist2_xlim <- plt_data %>%
 TSS_distances_xlim <- ggarrange(min_dist_xlim, min_dist2_xlim, ncol=1)
 TSS_distances_xlim
 
-ggsave(filename="../docs/assets/Q2_5_TSS_distances_xlim2500_2h.png", TSS_distances_xlim)
-ggsave(filename="../docs/00_paper_figures/6b_2h.png", TSS_distances_xlim)
+ggsave(filename="../docs/assets/Q2_5_TSS_distances_xlim2500_2h.pdf", TSS_distances_xlim)
+ggsave(filename="../docs/00_paper_figures/6b_2h.pdf", TSS_distances_xlim)
 ```
 
 
@@ -324,7 +324,7 @@ group_image2 <- ggarrange(
   ncol=1)
 group_image2
 
-ggsave(filename="../docs/assets/Q2_6_boxplots_class_2h.png", group_image2, width=14, height=10, unit="in")
+ggsave(filename="../docs/assets/Q2_6_boxplots_class_2h.pdf", group_image2, width=14, height=10, unit="in")
 ```
 
 # Save excel 

@@ -96,7 +96,7 @@ plt1 <- ggplot(merged216_long[merged216_long$rowname %in% rnames_kh_reversal,]) 
     scale_color_manual(values=c(Control="Black", Cort="#7ef2b4", MIF="#dda6ff", KH="#ff000d"))
 plt1
 
-ggsave(file="../docs/assets/Q3_1_reversal216.png", plt1, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_reversal216.pdf", plt1, width=12, height=7)
 ```
 
 ### Sign flips / reversals
@@ -134,9 +134,9 @@ plt_flipped_mif <- plot_logFCs_216(rnames_flipped_mif, "Genes flipped by MIF")
 plt_flipped_kh <- plot_logFCs_216(rnames_flipped_kh, "Genes flipped by KH")
 
 # Save all plots
-ggsave(file="../docs/assets/Q3_1_flipped_cort_216.png", plt_flipped_cort, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_mif_216.png", plt_flipped_mif, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_kh_216.png", plt_flipped_kh, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_cort_216.pdf", plt_flipped_cort, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_216.pdf", plt_flipped_mif, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_216.pdf", plt_flipped_kh, width=12, height=7)
 
 # Show all plots
 cat("\n\n### Flipped effects {.tabset} \n\n")
@@ -157,9 +157,9 @@ plt_flipped_mif_only <- plot_logFCs_216(rnames_flipped_mif_only, "Genes flipped 
 plt_flipped_kh_only <- plot_logFCs_216(rnames_flipped_kh_only, "Genes flipped by KH only")
 
 # Save all plots
-ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.png", plt_flipped_cort_only, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_mif_only_216.png", plt_flipped_mif_only, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_kh_only_216.png", plt_flipped_kh_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.pdf", plt_flipped_cort_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_only_216.pdf", plt_flipped_mif_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_only_216.pdf", plt_flipped_kh_only, width=12, height=7)
 
 # Show all plots
 cat("\n\n### Flipped effects with unique genes per treatment {.tabset} \n\n")
@@ -184,7 +184,9 @@ merged216$category1 <- (merged216$FDR < 0.05) &
 
 rnames_flipped_cat1 <- merged216 %>% dplyr::filter(category1 == TRUE) %>% pull(rowname)
 
+# fig 6d.2a
 plot_logFCs_216(rnames_flipped_cat1, "Category 1")
+ggsave(filename="../data/00_paper_figures/6d2a.pdf", width = 14, height=5)
 ```
 
 ## 2. Only those genes which are significant in Dex 18h, ns in 2h dex> KH103 but are significant in the opposite direction as Dex 18h in 2h dex>mif and 2h dex > cort113
@@ -198,7 +200,9 @@ merged216$category2 <- (merged216$FDR < 0.05) &
 
 rnames_flipped_cat2 <- merged216 %>% dplyr::filter(category2 == TRUE) %>% pull(rowname)
 
+# fig 6d.2b
 plot_logFCs_216(rnames_flipped_cat2, "Category 2")
+ggsave(filename="../data/00_paper_figures/6d2b.pdf", width = 7, height=5)
 ```
 
 ## 3. Only those genes which are significant in Dex 18h, and are ns or significant in the same direction as Dex 18h for 2h dex>mif and 2h dex>cort113 but are significant in the opposite direction as Dex 18h in 2h dex>KH-103
@@ -213,7 +217,9 @@ merged216$category3 <- (merged216$FDR < 0.05) &
 
 rnames_flipped_cat3 <- merged216 %>% dplyr::filter(category3 == TRUE) %>% pull(rowname)
 
+# fig 6d.2c
 plot_logFCs_216(rnames_flipped_cat3, "Category 3")
+ggsave(filename="../data/00_paper_figures/6d2c.pdf", width = 14, height=5)
 ```
 
 
@@ -228,7 +234,9 @@ merged216$category4 <- (merged216$FDR < 0.05) &
 
 rnames_flipped_cat4 <- merged216 %>% dplyr::filter(category4 == TRUE) %>% pull(rowname)
 
-plot_logFCs_162(rnames_flipped_cat4, "Category 4")
+# fig 6d.2d
+plot_logFCs_216(rnames_flipped_cat4, "Category 4")
+ggsave(filename="../data/00_paper_figures/6d2d.pdf", width = 14, height=5)
 ```
 
 
@@ -315,8 +323,8 @@ plt2_2 <- ggplot(data_plt2) +
 plt2_1
 plt2_2
 
-ggsave(file="../docs/assets/Q3_2_reversal162_p1.png", plt2_1, width=24, height=8)
-ggsave(file="../docs/assets/Q3_3_reversal162_p2.png", plt2_2, width=24, height=8)
+ggsave(file="../docs/assets/Q3_2_reversal162_p1.pdf", plt2_1, width=24, height=8)
+ggsave(file="../docs/assets/Q3_3_reversal162_p2.pdf", plt2_2, width=24, height=8)
 ```
 
 
@@ -350,14 +358,19 @@ rnames_flipped_cort <- merged162 %>% dplyr::filter(cort_flipped == TRUE) %>% pul
 rnames_flipped_mif <- merged162 %>% dplyr::filter(MIF_flipped == TRUE) %>% pull(rowname)
 rnames_flipped_kh <- merged162 %>% dplyr::filter(KH_flipped == TRUE) %>% pull(rowname)
 
+print(kableExtra::kable(data.frame("Inhibitor"=c("Cort only", "MIF only", "KH only"), 
+                                   "length"=c(length(rnames_flipped_cort), 
+                                              length(rnames_flipped_mif), 
+                                              length(rnames_flipped_kh)))))
+
 plt_flipped_cort <- plot_logFCs_162(rnames_flipped_cort, "Genes flipped by cort")
 plt_flipped_mif <- plot_logFCs_162(rnames_flipped_mif, "Genes flipped by MIF")
 plt_flipped_kh <- plot_logFCs_162(rnames_flipped_kh, "Genes flipped by KH")
 
 # Save all plots
-ggsave(file="../docs/assets/Q3_1_flipped_cort_216.png", plt_flipped_cort, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_mif_216.png", plt_flipped_mif, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_kh_216.png", plt_flipped_kh, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_cort_216.pdf", plt_flipped_cort, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_216.pdf", plt_flipped_mif, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_216.pdf", plt_flipped_kh, width=12, height=7)
 
 # Show all plots
 cat("\n\n### Flipped effects {.tabset} \n\n")
@@ -373,14 +386,19 @@ rnames_flipped_cort_only <- rnames_flipped_cort[!(rnames_flipped_cort %in% c(rna
 rnames_flipped_mif_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(plt_flipped_kh, rnames_flipped_kh))]
 rnames_flipped_kh_only <- rnames_flipped_mif[!(rnames_flipped_mif %in% c(rnames_flipped_mif, plt_flipped_cort))]
 
+print(kableExtra::kable(data.frame("Inhibitor"=c("Cort only", "MIF only", "KH only"), 
+                                   "length"=c(length(rnames_flipped_cort_only), 
+                                              length(rnames_flipped_mif_only), 
+                                              length(rnames_flipped_kh_only)))))
+
 plt_flipped_cort_only <- plot_logFCs_162(rnames_flipped_cort_only, "Genes flipped by cort only")
 plt_flipped_mif_only <- plot_logFCs_162(rnames_flipped_mif_only, "Genes flipped by MIF only")
 plt_flipped_kh_only <- plot_logFCs_162(rnames_flipped_kh_only, "Genes flipped by KH only")
 
 # Save all plots
-ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.png", plt_flipped_cort_only, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_mif_only_216.png", plt_flipped_mif_only, width=12, height=7)
-ggsave(file="../docs/assets/Q3_1_flipped_kh_only_216.png", plt_flipped_kh_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_cort_only_216.pdf", plt_flipped_cort_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_mif_only_216.pdf", plt_flipped_mif_only, width=12, height=7)
+ggsave(file="../docs/assets/Q3_1_flipped_kh_only_216.pdf", plt_flipped_kh_only, width=12, height=7)
 
 # Show all plots
 cat("\n\n### Flipped effects with unique genes per treatment {.tabset} \n\n")
@@ -406,7 +424,9 @@ merged162$category1 <- (merged162$FDR < 0.05) &
 
 rnames_flipped_cat1 <- merged162 %>% dplyr::filter(category1 == TRUE) %>% pull(rowname)
 
+# fig 6c.2a
 plot_logFCs_162(rnames_flipped_cat1, "Category 1")
+ggsave(filename="../data/00_paper_figures/6c2a.pdf", width = 14, height=5)
 ```
 
 
@@ -422,7 +442,9 @@ merged162$category2 <- (merged162$FDR < 0.05) &
 
 rnames_flipped_cat2 <- merged162 %>% dplyr::filter(category2 == TRUE) %>% pull(rowname)
 
+# fig 6c.2b
 plot_logFCs_162(rnames_flipped_cat2, "Category 2")
+ggsave(filename="../data/00_paper_figures/6c2b.pdf", width = 7, height=5)
 ```
 
 
@@ -437,13 +459,15 @@ merged162$category3 <- (merged162$FDR < 0.05) &
 
 rnames_flipped_cat3 <- merged162 %>% dplyr::filter(category3 == TRUE) %>% pull(rowname)
 
+# fig 6c.2c
 plot_logFCs_162(rnames_flipped_cat3, "Category 3")
+ggsave(filename="../data/00_paper_figures/6c2c.pdf", width = 14, height=5)
 ```
 
 
 ## Only those genes which are significant in Dex 2h, and are significant in the opposite direction as Dex 2h in all three conditions of KH-103>2h dex, MIF>2h dex, Cort113>2h dex
 
-```{r, fig.width=14, fig.height=5}
+```{r, fig.width=7, fig.height=5}
 merged162$category4 <- (merged162$FDR < 0.05) & 
   (merged162$logFC * merged162$logFC_KH < 0) & (merged162$FDR_KH < 0.05) & # KH is significant in other direction as 2h DEX
   (merged162$logFC * merged162$logFC_MIF < 0) & (merged162$FDR_MIF < 0.05) & # MIF is significant in other direction as 2h DEX
@@ -451,7 +475,9 @@ merged162$category4 <- (merged162$FDR < 0.05) &
 
 rnames_flipped_cat4 <- merged162 %>% dplyr::filter(category4 == TRUE) %>% pull(rowname)
 
+# fig 6c.2d
 plot_logFCs_162(rnames_flipped_cat4, "Category 4")
+ggsave(filename="../data/00_paper_figures/6c2d.pdf", width = 7, height=5)
 ```
 
 ### Save file to excel
