@@ -287,6 +287,7 @@ TSS_distances_xlim <- ggarrange(min_dist_xlim, min_dist2_xlim, ncol=1)
 TSS_distances_xlim
 
 ggsave(filename="../docs/assets/Q2_5_TSS_distances_xlim2500.png", TSS_distances_xlim)
+ggsave(filename="../docs/00_paper_figures/6b_12h.png", TSS_distances_xlim)
 ```
 
 

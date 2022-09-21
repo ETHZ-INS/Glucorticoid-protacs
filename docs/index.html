@@ -371,7 +371,7 @@ div.tocify {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -380,7 +380,7 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -389,10 +389,10 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-05
+<strong>Last updated:</strong> 2022-09-21
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>GR-PROTAC-analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -408,12 +408,12 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -480,16 +480,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstreefd8956d244119afeedefa8cf31c9eddca56d6014targetblankfd8956da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/fd8956d244119afeedefa8cf31c9eddca56d6014" target="_blank">fd8956d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree748f409e28a1149f7546c4b1cdffb66aea132fcctargetblank748f409a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/748f409e28a1149f7546c4b1cdffb66aea132fcc" target="_blank">748f409</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstreefd8956d244119afeedefa8cf31c9eddca56d6014targetblankfd8956da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree748f409e28a1149f7546c4b1cdffb66aea132fcctargetblank748f409a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/fd8956d244119afeedefa8cf31c9eddca56d6014" target="_blank">fd8956d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/748f409e28a1149f7546c4b1cdffb66aea132fcc" target="_blank">748f409</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -507,12 +507,32 @@ Ignored files:
     Ignored:    data/reddy_bigwig_DEX2h_r123.bigWig
     Ignored:    data/reddy_bigwig_DEX6h_r123.bigWig
     Ignored:    data/reddy_bigwig_JUNB_DEX12h_r123.bigWig
+    Ignored:    data/reddy_rna_DEX2h_r1.tsv
+    Ignored:    data/reddy_rna_DEX2h_r2.tsv
+    Ignored:    data/reddy_rna_DEX2h_r3.tsv
+    Ignored:    data/reddy_rna_DEX2h_r4.tsv
     Ignored:    data/single_replicate_peaks/.DS_Store
     Ignored:    data/single_replicate_peaks/control/
     Ignored:    data/single_replicate_peaks/dex12h/
     Ignored:    data/single_replicate_peaks/dex2h/
     Ignored:    data/single_replicate_peaks/peaks/.DS_Store
     Ignored:    output/.DS_Store
+    Ignored:    output/Files/
+
+Untracked files:
+    Untracked:  analysis/Q11-MR_paper.Rmd
+    Untracked:  data/MR-data/
+    Untracked:  data/otherInhibs- Altered by (18h) Cort113MIF, but not (or significantly less) by (18h) KH-103.csv
+    Untracked:  data/otherInhibs- Altered by (18h) Cort113MIF, but not (or significantly less) by (18h) KH-103.numbers
+
+Unstaged changes:
+    Modified:   analysis/01_Results.Rmd
+    Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q1b-Gene-overlap-2h.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/Q2b-TF-Binding-to-DE-genes.Rmd
+    Modified:   analysis/admin.Rmd
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -551,6 +571,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/748f409e28a1149f7546c4b1cdffb66aea132fcc/analysis/index.Rmd" target="_blank">748f409</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-19
+</td>
+<td>
+updates september
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/d9ccb20416d5cd9a2aa6dee82f3a6c3dd01bec2d/docs/index.html" target="_blank">d9ccb20</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-05
+</td>
+<td>
+updates september
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -814,12 +868,15 @@ Start workflowr project.
 </ol>
 <p>The rendered markdown files for the individual research questions can be found here:</p>
 <ol style="list-style-type: decimal">
-<li>Q1: <a href="./Q1-Gene-overlap.html">Do the Reddy RNA-seq experiments show the same DE pattern as our experiments?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
-<li>Q2: <a href="./Q2-TF-Binding-to-DE-genes.html">Does the Reddy data show GR binding to DE genes from our analysis?</a> <em><font size="1">(Last modified: 2022-09-04 )</font></em></li>
+<li>Q1: <a href="./Q1-Gene-overlap.html">Do the Reddy RNA-seq experiments show the same DE pattern as our experiments? (12h data)</a> <em><font size="1">(Last modified: 2022-09-21 )</font></em></li>
+<li>Q1: <a href="./Q1b-Gene-overlap-2h.html">Do the Reddy RNA-seq experiments show the same DE pattern as our experiments? (2h data)</a> <em><font size="1">(Last modified: 2022-09-21 )</font></em></li>
+<li>Q2: <a href="./Q2-TF-Binding-to-DE-genes.html">Does the Reddy data show GR binding to DE genes from our analysis? (12h data)</a> <em><font size="1">(Last modified: 2022-09-04 )</font></em></li>
+<li>Q2: <a href="./Q2b-TF-Binding-to-DE-genes-2h.html">Does the Reddy data show GR binding to DE genes from our analysis? (2h data)</a> <em><font size="1">(Last modified: never )</font></em></li>
 <li>Q3: <a href="./Q3-PROTAC-reversal.html">Is this the PROTAC able to reverse the effect of DEX on genes where inhibitors don’t work?</a> <em><font size="1">(Last modified: 2022-09-04 )</font></em></li>
 <li>Q4: <a href="./Q4-GR-binding-PROTAC-genes.html">Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
 <li>Q7: <a href="./Q7-PRX-sequences.html">Does GC-GR bind to PRX sequences?</a> <em><font size="1">(Last modified: 2022-07-07 )</font></em></li>
 <li>Q9: <a href="./Q9-Differential_binding.html">How does differential binding relate to RNA DE results?</a> <em><font size="1">(Last modified: never )</font></em></li>
+<li>Q11: <a href="./Q11-MR_data">MR peaks</a> <em><font size="1">(Last modified: never )</font></em></li>
 </ol>
 </div>
 <div id="downloads" class="section level1" number="5">

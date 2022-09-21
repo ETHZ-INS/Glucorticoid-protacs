@@ -30,6 +30,12 @@ source("../code/helper_functions.R")
 extrafont::loadfonts()
 ```
 
+```{r save or load the environment}
+# save.image(file='myEnvironment.RData')
+# load('myEnvironment.RData')
+# quit(save="no")
+```
+
 # Overview
 
 The overall goal is to (1)understand the effect of activated glucocorticoid receptors on gene regulation and (2) relate the epigenetic data from the Reddy lab with our expression data. To this end Mahshid and developed seven initial questions which define the primary scope of the analysis. In a discussion on these results further questions arised which are answered further below. As some of these questions/answers relate to results obtained in other work by Katharina, Mahshid and Pierre-Luc the flow of questions may not be fully coherent in themselves.
@@ -277,7 +283,7 @@ Annotate GR 2h and 12h and JUNB 2h
 ```{r, results="asis"}
 library(AnnotationHub)
 ah <- AnnotationHub()
-ensdb <- ah[["AH98047"]] # AH89211
+ensdb <- ah[["AH98047"]] # AH89211 (mouse), AH98047 (human), AH95846 (rat)
 gr_peaks_annotated_2h <- annotateRegions(peaks_gr_2h, ensdb)
 gr_peaks_annotated_12h <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
 JUNB_peaks_annotated_2h <- annotateRegions(peaks_junb_2h, ensdb)
@@ -373,7 +379,14 @@ tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
                 "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
                 "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
 
-plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE){
+ah <- AnnotationHub()
+ensdb <- ah[["AH98047"]] # AH89211
+# all transcripts from the genome. Don't want to download this for each function call
+all.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype",
+                                                                "tx_support_level",
+                                                                "gene_id","gene_name"))
+
+plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE, assayName="log2FC"){
   # first subset for a given selection of genes
   if (is.null(genes_subset) == FALSE) {
     peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
@@ -400,14 +413,10 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
   row.names(se2) <- names(peaks)
   
   if (plot_around_gene_tss == TRUE){
-    ah <- AnnotationHub()
-    ensdb <- ah[["AH98047"]] # AH89211
-
-    mygenes.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype",
-                                                                "tx_support_level",
-                                                                "gene_id","gene_name"))
-    mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% genes_subset)
-    
+    mygenes.transcripts <- all.transcripts
+    if (!is.null(genes_subset)){
+      mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% genes_subset)
+    }
     mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
     mygenes.tss <-  resize(mygenes.transcripts, width=1, fix='start')
     seqlevelsStyle(mygenes.tss) <- "UCSC"
@@ -425,7 +434,7 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
   
   h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"))
   set.seed(100) # for colours
-  h2 <- sechm::sechm(se2, genes=row.names(se2), assayName="log2FC", sortRowsOn=NULL, 
+  h2 <- sechm::sechm(se2, genes=row.names(se2), assayName=assayName, sortRowsOn=NULL, 
                      cluster_rows=FALSE, width=unit(12, "cm"), top_annotation=c("condition","batch"), 
                      gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90)
   # (for this second one it's important that rows are in the input order)
@@ -483,11 +492,14 @@ The signals are plotted around the gene TSS ± 25'000bp.
 
 ```{r, fig.width=22, fig.height=10, results="asis"}
 se.processed <- readRDS(file="../data/results/SE.processed.rds")
+names(se.processed)
+
+# prep
+w <- se$condition2 %in% c("control","18h Cort113","18h KH-103","18h MIF")
+dds2 <- dds[,w]
 
 cat("\n\n### Genes triggered by all inhibitors \n\n")
 # Genes triggered by all inhibitors
-w <- se$condition2 %in% c("control","18h Cort113","18h KH-103","18h MIF")
-dds2 <- dds[,w]
 mm <- model.matrix(~se$isInhibited[w])
 fit <- glmFit(dds2,mm)
 res <- as.data.frame(topTags(glmLRT(fit),Inf))
@@ -504,14 +516,22 @@ res <- as.data.frame(topTags(glmLRT(fit, "isKhTRUE"),Inf))
 rnames_kh103 <- row.names(res)[res$FDR<0.05]
 plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103, plot_around_gene_tss=TRUE)
 plt_kh103
+```
 
+## fig7b.1 (Q8)
+
+Heatmap plot of our RNAseq next to the 
+- TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list: “genes that are triggered by inhibitors but not or less by kh-103”. 
+- Visualized next to Dex 2h and Dex 18h and untreated/dmso DE genes
+
+```{r, fig.width=10, fig.height=14, results="asis"}
 cat("\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n")
 ## Genes triggered by other inhibitors and not (or less) KH-103
 mm <- model.matrix(~se$isInhibited[w]+isKh)
 fit <- glmFit(estimateDisp(dds2,mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
 rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
-plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE)
+plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "16h DMSO > 2h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
 plt_inhibs_not_kh
 ```
 

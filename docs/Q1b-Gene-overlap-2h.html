@@ -13,7 +13,7 @@
 
 <meta name="date" content="2022-09-21" />
 
-<title>Q1: DE Gene overlap for 12h data</title>
+<title>Q1b: DE Gene overlap for 2h data</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -366,7 +366,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Q1: DE Gene overlap for 12h data</h1>
+<h1 class="title toc-ignore">Q1b: DE Gene overlap for 2h data</h1>
 <h4 class="author">Dominique Paul</h4>
 <h4 class="date">2022-09-21</h4>
 
@@ -533,6 +533,7 @@ Unstaged changes:
     Modified:   analysis/01_Results.Rmd
     Modified:   analysis/Q1-Gene-overlap.Rmd
     Modified:   analysis/Q1b-Gene-overlap-2h.Rmd
+    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
     Modified:   analysis/admin.Rmd
     Modified:   analysis/index.Rmd
 
@@ -549,7 +550,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Q1-Gene-overlap.Rmd</code>) and HTML (<code>docs/Q1-Gene-overlap.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Q1b-Gene-overlap-2h.Rmd</code>) and HTML (<code>docs/Q1b-Gene-overlap-2h.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -578,7 +579,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/748f409e28a1149f7546c4b1cdffb66aea132fcc/analysis/Q1-Gene-overlap.Rmd" target="_blank">748f409</a>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/748f409e28a1149f7546c4b1cdffb66aea132fcc/analysis/Q1b-Gene-overlap-2h.Rmd" target="_blank">748f409</a>
 </td>
 <td>
 dominique-paul-uzh
@@ -590,108 +591,6 @@ dominique-paul-uzh
 updates september
 </td>
 </tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/analysis/Q1-Gene-overlap.Rmd" target="_blank">4a4e1e6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-07-09
-</td>
-<td>
-final changes for submission in main files
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/Q1-Gene-overlap.html" target="_blank">4a4e1e6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-07-09
-</td>
-<td>
-final changes for submission in main files
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/dd2072ef1ad50bfe6745b0518bcdcdd9add31029/analysis/Q1-Gene-overlap.Rmd" target="_blank">dd2072e</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-22
-</td>
-<td>
-added remaining questions
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/dd2072ef1ad50bfe6745b0518bcdcdd9add31029/docs/Q1-Gene-overlap.html" target="_blank">dd2072e</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-22
-</td>
-<td>
-added remaining questions
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/analysis/Q1-Gene-overlap.Rmd" target="_blank">207afa6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-21
-</td>
-<td>
-added question 3
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/Q1-Gene-overlap.html" target="_blank">207afa6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-21
-</td>
-<td>
-added question 3
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -701,18 +600,6 @@ added question 3
 </div>
 <div id="question-1-similarity-of-our-rna-data-with-the-reddy-data" class="section level1">
 <h1>Question 1: Similarity of our RNA data with the Reddy data</h1>
-<p>Q: Which gene expressions have similar patterns of up-regulation (control vs. Dex) in our data compared to the Reddy data?</p>
-<p><em>Planned approach:</em> Check which genes are differentially expressed in their data and create a Venn-diagram for comparable experiments with the differentially expressed genes from our analysis.</p>
-<p><em>Steps:</em></p>
-<ol style="list-style-type: decimal">
-<li>Decide which data we need to make the comparison -&gt; Control vs. 12h DEX treatment is closest</li>
-<li>Download the Reddy data (on <code>01_download_files.Rmd</code>)</li>
-<li>Bring the data into one SummarisedExperiment</li>
-<li>Run a differential expression analysis on the Reddy data</li>
-<li>Load DE genes from our analysis and the DE genes from the Reddy data</li>
-<li>Create a Venn diagram of the overlap</li>
-</ol>
-<p>In our experiments we compared samples from a control experiment with samples that were treated for 18 hours with DEX. Besides a control, the Reddy lab performed a similar experiment where they treated cells with DEX for 12 hours. This is the closest comparison to our data.</p>
 <div id="load-reddy-data" class="section level3">
 <h3>Load Reddy data</h3>
 <pre class="r"><code>control_r1 &lt;- read.csv(&quot;../data/reddy_rna_control_r1.tsv&quot;, sep=&quot;\t&quot;)
@@ -720,10 +607,10 @@ control_r2 &lt;- read.csv(&quot;../data/reddy_rna_control_r2.tsv&quot;, sep=&quo
 control_r3 &lt;- read.csv(&quot;../data/reddy_rna_control_r3.tsv&quot;, sep=&quot;\t&quot;)
 control_r4 &lt;- read.csv(&quot;../data/reddy_rna_control_r4.tsv&quot;, sep=&quot;\t&quot;)
 
-treatment_r1 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r1.tsv&quot;, sep=&quot;\t&quot;)
-treatment_r2 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r2.tsv&quot;, sep=&quot;\t&quot;)
-treatment_r3 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r3.tsv&quot;, sep=&quot;\t&quot;)
-treatment_r4 &lt;- read.csv(&quot;../data/reddy_rna_DEX12h_r4.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r1 &lt;- read.csv(&quot;../data/reddy_rna_DEX2h_r1.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r2 &lt;- read.csv(&quot;../data/reddy_rna_DEX2h_r2.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r3 &lt;- read.csv(&quot;../data/reddy_rna_DEX2h_r3.tsv&quot;, sep=&quot;\t&quot;)
+treatment_r4 &lt;- read.csv(&quot;../data/reddy_rna_DEX2h_r4.tsv&quot;, sep=&quot;\t&quot;)
 
 ensembl &lt;- useEnsembl(biomart = &quot;genes&quot;, dataset = &quot;hsapiens_gene_ensembl&quot;)
 
@@ -807,7 +694,7 @@ rownames(SE) &lt;- paste0(rowData(SE)$gene_name, &quot;.&quot;, rowData(SE)$gene
 
 # Add coldata
 colData(SE)$Replicate &lt;- factor(c(1,2,3,4,1,2,3,4))
-colData(SE)$Treatment &lt;- c(rep(&quot;Control&quot;,4), rep(&quot;Dex12h&quot;, 4))</code></pre>
+colData(SE)$Treatment &lt;- c(rep(&quot;Control&quot;,4), rep(&quot;Dex2h&quot;, 4))</code></pre>
 </div>
 <div id="run-de-analysis-on-reddy-data" class="section level3">
 <h3>Run DE analysis on Reddy data</h3>
@@ -825,44 +712,7 @@ rd &lt;- BiocSingular::runExactSVD(tmp, center=FALSE, scale=FALSE)$v
 colnames(rd) &lt;- paste0(&quot;C&quot;, seq_len(ncol(rd)))
 d &lt;- cbind(as.data.frame(colData(SE)), rd[,1:5])
 ggplot(d, aes(C1, C2, colour=Treatment)) + geom_point()</code></pre>
-<p><img src="figure/Q1-Gene-overlap.Rmd/Prepare%20for%20DE-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-no-spaces-Prepare-for-DE-1">
-Past versions of “Prepare for DE-1.png”
-</button>
-</p>
-<div id="fig-no-spaces-Prepare-for-DE-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/figure/Q1-Gene-overlap.Rmd/Prepare for DE-1.png" target="_blank">207afa6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/Q1b-Gene-overlap-2h.Rmd/Prepare%20for%20DE-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre class="r"><code># Adds top two columns from surrogate variable analysis to column data. We use these for our DE experiment below as nuisance variables
 SE &lt;- svacor(SE, ~Treatment, n.sv=2)</code></pre>
 <pre><code>Using variance-stabilizing transformation</code></pre>
@@ -899,7 +749,7 @@ for(f in names(res)){
     dround(res[[f]][row.names(SE),c(1,2,4,5)], 2, TRUE)
 }
 
-x &lt;- res$Dex12h
+x &lt;- res$Dex2h
 topDegs &lt;- head(row.names(x)[x$FDR&lt;0.01],15)
 
 # levels(SE$Treatment) &lt;- gsub(&quot;&gt; &quot;,&quot;&gt;\n&quot;, levels(SE$Treatment))
@@ -907,71 +757,12 @@ topDegs &lt;- head(row.names(x)[x$FDR&lt;0.01],15)
                        # unique(c(&quot;18h untreated&quot;,&quot;18h DMSO&quot;,levels(SE$Treatment))))
 SE &lt;- log2FC(SE, &quot;logcpm&quot;, SE$Treatment==&quot;Control&quot;)
 
-saveRDS(file=&quot;../data/EOS_files/Q1_SummExp.rds&quot;, SE)</code></pre>
+saveRDS(file=&quot;../data/EOS_files/Q1_SummExp_2h.rds&quot;, SE)</code></pre>
 <pre class="r"><code>sechm::sechm(SE, topDegs, assay=&quot;scaledLFC&quot;, gaps_at=&quot;Treatment&quot;, breaks=TRUE,
-      top_annotation=&quot;Replicate&quot;, row_title=&quot;Union of top DEGs (12h data)&quot;, show_rownames=TRUE,
+      top_annotation=&quot;Replicate&quot;, row_title=&quot;Union of top DEGs (2h data)&quot;, show_rownames=TRUE,
       row_names_gp=gpar(fontsize=9), column_title_gp=gpar(fontsize=10),
       column_title_rot=90)</code></pre>
-<p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
-Past versions of unnamed-chunk-3-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-3-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" target="_blank">4a4e1e6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-07-09
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/dd2072ef1ad50bfe6745b0518bcdcdd9add31029/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" target="_blank">dd2072e</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-22
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/207afa653f1bc6b51cf5f07acfe8c498be77c57b/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" target="_blank">207afa6</a>
-</td>
-<td>
-dominique-paul-uzh
-</td>
-<td>
-2022-06-21
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/Q1b-Gene-overlap-2h.Rmd/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <div id="compare-de-genes-between-reddy-and-our-data" class="section level3">
 <h3>Compare DE genes between Reddy and our data</h3>
@@ -984,10 +775,10 @@ names(res_int_all)</code></pre>
  [7] &quot;18h MIF&quot;                      &quot;2h DEX &gt; 16h DEX+Cort113&quot;    
  [9] &quot;2h DEX &gt; 16h DEX+DMSO&quot;        &quot;2h DEX &gt; 16h DEX+KH-103&quot;     
 [11] &quot;2h DEX &gt; 16h DEX+MIF&quot;        </code></pre>
-<pre class="r"><code>res_int &lt;- res_int_all$`2h DEX &gt; 16h DEX+DMSO`
+<pre class="r"><code>res_int &lt;- res_int_all$`16h DMSO &gt; 2h DEX+DMSO`
 res_int_significant &lt;- res_int[res_int$FDR &lt; 0.05,]
 
-res_ext &lt;- res$Dex12h
+res_ext &lt;- res$Dex2h
 # change rownames in dataframe
 rnames &lt;- rowData(SE)[rownames(res_ext), &quot;gene_name&quot;]
 rnames[rnames==&quot;&quot;] &lt;- rownames(res_ext)[rnames==&quot;&quot;]
@@ -1009,28 +800,21 @@ reddy_down &lt;- rownames(res_ext_significant[res_ext_significant$logFC &lt; 0,]
 # Print genes with opposing effect
 up_mahshid_down_reddy &lt;- intersect(ours_up, reddy_down)
 cat(paste0(&quot;Up in our data, down in reddy data (n=&quot;, length(up_mahshid_down_reddy), &quot;)&quot;))</code></pre>
-<pre><code>Up in our data, down in reddy data (n=15)</code></pre>
+<pre><code>Up in our data, down in reddy data (n=2)</code></pre>
 <pre class="r"><code>print(up_mahshid_down_reddy)</code></pre>
-<pre><code> [1] &quot;EPHA2&quot;     &quot;MYBBP1A&quot;   &quot;NIP7&quot;      &quot;EPAS1&quot;     &quot;DDX6&quot;      &quot;KIAA1549L&quot;
- [7] &quot;PODXL&quot;     &quot;PMS1&quot;      &quot;SINHCAF&quot;   &quot;HSPE1&quot;     &quot;NAA50&quot;     &quot;HERC4&quot;    
-[13] &quot;POLR1G&quot;    &quot;SNX6&quot;      &quot;ALDOA&quot;    </code></pre>
+<pre><code>[1] &quot;METTL21A&quot; &quot;KLF2&quot;    </code></pre>
 <pre class="r"><code>down_mahshid_up_reddy &lt;- intersect(ours_down, reddy_up)
 cat(paste0(&quot;Down in our data, up in reddy data (n=&quot;, length(down_mahshid_up_reddy), &quot;)&quot;))</code></pre>
-<pre><code>Down in our data, up in reddy data (n=28)</code></pre>
+<pre><code>Down in our data, up in reddy data (n=5)</code></pre>
 <pre class="r"><code>print(down_mahshid_up_reddy)</code></pre>
-<pre><code> [1] &quot;TEF&quot;         &quot;IQCJ-SCHIP1&quot; &quot;GTF2IRD2&quot;    &quot;RHOBTB1&quot;     &quot;RNASE4&quot;     
- [6] &quot;CRY1&quot;        &quot;MLLT3&quot;       &quot;ANG&quot;         &quot;MAGED2&quot;      &quot;CAMKK1&quot;     
-[11] &quot;GTF2IP4&quot;     &quot;GTF2IP1&quot;     &quot;TP53INP2&quot;    &quot;GDPD5&quot;       &quot;BSDC1&quot;      
-[16] &quot;AKNA&quot;        &quot;HDAC6&quot;       &quot;BCL2L13&quot;     &quot;HERC6&quot;       &quot;H2BC21&quot;     
-[21] &quot;ZBED1&quot;       &quot;ALDH6A1&quot;     &quot;LLGL2&quot;       &quot;CCDC69&quot;      &quot;USPL1&quot;      
-[26] &quot;SPC24&quot;       &quot;MAPKAPK2&quot;    &quot;GMPPA&quot;      </code></pre>
+<pre><code>[1] &quot;SWAP70&quot; &quot;RNF25&quot;  &quot;BRPF1&quot;  &quot;LBH&quot;    &quot;ZNF3&quot;  </code></pre>
 <pre class="r"><code># Create venn diagram
 myCol &lt;- RColorBrewer::brewer.pal(4, &quot;Pastel2&quot;)
 
 venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c(&quot;Mahshid up&quot; , &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;),
-  filename = &#39;../docs/assets/1_venn_diagram.png&#39;,
+  filename = &#39;../docs/assets/1_venn_diagram_2h.png&#39;,
   imagetype=&quot;png&quot;,
   output=FALSE,
   disable.logging=TRUE,
@@ -1049,58 +833,58 @@ venn.diagram(
   cat.default.pos = &quot;outer&quot;,
   cat.fontfamily = &quot;sans&quot;,
 )</code></pre>
-<pre><code>INFO [2022-09-21 15:18:17] $x
-INFO [2022-09-21 15:18:17] list(ours_up, ours_down, reddy_up, reddy_down)
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $category.names
-INFO [2022-09-21 15:18:17] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $filename
-INFO [2022-09-21 15:18:17] [1] &quot;../docs/assets/1_venn_diagram.png&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $imagetype
-INFO [2022-09-21 15:18:17] [1] &quot;png&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $output
-INFO [2022-09-21 15:18:17] [1] FALSE
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $disable.logging
-INFO [2022-09-21 15:18:17] [1] TRUE
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $lwd
-INFO [2022-09-21 15:18:17] [1] 2
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $fill
-INFO [2022-09-21 15:18:17] myCol
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cex
-INFO [2022-09-21 15:18:17] [1] 0.6
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $fontface
-INFO [2022-09-21 15:18:17] [1] &quot;bold&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $fontfamily
-INFO [2022-09-21 15:18:17] [1] &quot;sans&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.cex
-INFO [2022-09-21 15:18:17] [1] 0.6
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.fontface
-INFO [2022-09-21 15:18:17] [1] &quot;bold&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.default.pos
-INFO [2022-09-21 15:18:17] [1] &quot;outer&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.fontfamily
-INFO [2022-09-21 15:18:17] [1] &quot;sans&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] [[16]]
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] </code></pre>
+<pre><code>INFO [2022-09-21 15:19:45] $x
+INFO [2022-09-21 15:19:45] list(ours_up, ours_down, reddy_up, reddy_down)
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $category.names
+INFO [2022-09-21 15:19:45] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $filename
+INFO [2022-09-21 15:19:45] [1] &quot;../docs/assets/1_venn_diagram_2h.png&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $imagetype
+INFO [2022-09-21 15:19:45] [1] &quot;png&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $output
+INFO [2022-09-21 15:19:45] [1] FALSE
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $disable.logging
+INFO [2022-09-21 15:19:45] [1] TRUE
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $lwd
+INFO [2022-09-21 15:19:45] [1] 2
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $fill
+INFO [2022-09-21 15:19:45] myCol
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $cex
+INFO [2022-09-21 15:19:45] [1] 0.6
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $fontface
+INFO [2022-09-21 15:19:45] [1] &quot;bold&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $fontfamily
+INFO [2022-09-21 15:19:45] [1] &quot;sans&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $cat.cex
+INFO [2022-09-21 15:19:45] [1] 0.6
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $cat.fontface
+INFO [2022-09-21 15:19:45] [1] &quot;bold&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $cat.default.pos
+INFO [2022-09-21 15:19:45] [1] &quot;outer&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] $cat.fontfamily
+INFO [2022-09-21 15:19:45] [1] &quot;sans&quot;
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] [[16]]
+INFO [2022-09-21 15:19:45] 
+INFO [2022-09-21 15:19:45] </code></pre>
 <pre><code>[1] 1</code></pre>
-<pre class="bash"><code>cp ../docs/assets/1_venn_diagram.png ../docs/00_paper_figures/6a_venn.png</code></pre>
+<pre class="bash"><code>cp ../docs/assets/1_venn_diagram_2h.png ../docs/00_paper_figures/6b_venn.png</code></pre>
 <pre><code>Using .bash_profile</code></pre>
-<p><img src="assets/1_venn_diagram.png" /></p>
+<p><img src="assets/1_venn_diagram_2h.png" /></p>
 </div>
 <div id="plot-logfcs-for-both-experiments-for-de-gene-union" class="section level3">
 <h3>Plot logFCs for both experiments for DE gene union</h3>
@@ -1120,18 +904,18 @@ plot_lfc &lt;- ggplot(d_plot) +
   geom_point(aes(x=logFC_mahshid, y=logFC_reddy), size=0.5) +
   geom_abline(linetype=&quot;dashed&quot;, color=&quot;red&quot;) +
   theme_ipsum_rc() +
-  labs(title=&quot;LogFC values for DE genes (12h data)&quot;, subtitle=&quot;Union of DE genes from both experiments with FDR&lt;0.05 \nwhich also occurred in other dataset&quot;, 
+  labs(title=&quot;LogFC values for DE genes (2h data)&quot;, subtitle=&quot;Union of DE genes from both experiments with FDR&lt;0.05 \nwhich also occurred in other dataset&quot;, 
        x=&quot;logFC Mahshid&quot;, y=&quot;logFC Reddy&quot;)
 plot_lfc</code></pre>
-<p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/2_logFC_Mahshid_Reddy.png&quot;, plot_lfc)</code></pre>
+<p><img src="figure/Q1b-Gene-overlap-2h.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ggsave(file=&quot;../docs/assets/2_logFC_Mahshid_Reddy_2h.png&quot;, plot_lfc)</code></pre>
 <pre><code>Saving 7 x 5 in image</code></pre>
 </div>
 </div>
 <div id="save-data" class="section level1">
 <h1>Save data</h1>
 <pre class="r"><code>saveRDS(list(&quot;Reddy_all&quot;=res_ext, &quot;Reddy_significant&quot;=res_ext_significant, &quot;Mahshid_all&quot;=res_int, &quot;Mahshid_significant&quot;=res_int_significant, &quot;union_DE_genes&quot;=union_DE_genes, &quot;logFC_plot_data&quot;=d_plot),
-        file=&quot;../data/EOS_files/Q1_EOS.rds&quot;)</code></pre>
+        file=&quot;../data/EOS_files/Q1b_EOS.rds&quot;)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

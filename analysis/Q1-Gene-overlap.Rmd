@@ -214,7 +214,7 @@ sechm::sechm(SE, topDegs, assay="scaledLFC", gaps_at="Treatment", breaks=TRUE,
 
 First, we use a simple Venn diagram to compare how many of our significant DE genes are also significantly DE in the Reddy lab's. The Venn diagram also shows us whether there are any genes that are DE in opposing directions.
 
-```{r extract top DE genes}
+```{r extract top DE genes, messages=FALSE}
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 names(res_int_all)
 res_int <- res_int_all$`2h DEX > 16h DEX+DMSO`
@@ -274,6 +274,11 @@ venn.diagram(
   cat.fontfamily = "sans",
 )
 ```
+
+```{bash, engine.opts='-l'}
+cp ../docs/assets/1_venn_diagram.png ../docs/00_paper_figures/6a_venn.png
+```
+
 
 ![](assets/1_venn_diagram.png)
 

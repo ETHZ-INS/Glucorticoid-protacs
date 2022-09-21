@@ -135,6 +135,7 @@ The rendered markdown files for the individual research questions can be found h
 1. Q4: [Is there a direct binding of GR to the 13 genes shown to be affected by the KH PROTAC?](./Q4-GR-binding-PROTAC-genes.html) `r give_date("Q4-GR-binding-PROTAC-genes.html")`
 1. Q7: [Does GC-GR bind to PRX sequences?](./Q7-PRX-sequences.html) `r give_date("Q7-PRX-sequences.html")`
 1. Q9: [How does differential binding relate to RNA DE results?](./Q9-Differential_binding.html) `r give_date("Q9-PRX-Differential_binding.html")`
+1. Q11: [MR peaks](./Q11-MR_data) `r give_date("Q11-MR_data.html")`
 
 # Files available to download {#downloads}
 

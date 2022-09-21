@@ -1,0 +1,72 @@
+---
+title: "Analysis"
+author: "Dominique Paul"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(rtracklayer)
+  library(AnnotationHub)
+})
+```
+
+# Load chip data
+
+Fig 7b.3. Looking into MR data if for example MR would be bound to most of the triggered genes in conditions (inhibitor > 2h Dex) 
+
+**Message:** In the absence of GR, MR is triggering most of those genes). For example if in 16h KH-103 > 2h dex condition DE genes would have an MR peak on their promoter region or on their enhancer region
+
+```{r load chipseq data}
+# Needed to annotate peaks
+ah <- AnnotationHub()
+# using the rat reference genome
+ensdb <- ah[["AH95846"]] # AH89211 (mouse), AH98047 (human), AH95846 (rat)
+
+folder.path <- "../data/MR-data"
+mr.chip <- lapply(dir(folder.path), function(filename){
+  file.path = paste0(folder.path, "/", filename)
+  peaks <- import.bed15(file.path, format="narrowPeak")
+  annotated_peaks <- annotateRegions(peaks, ensdb)
+})
+# Change the names of the list to the filenames
+names(mr.chip) <- dir(folder.path)
+
+# save the annnotated peaks
+saveRDS(mr.chip, file="../data/MR-data/00_peaks_annotated.rds")
+```
+
+
+Triggered genes in the conditions inhibitor > 2h DEX
+
+```{r}
+res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
+names(res_int_all)
+# Relevant tables are:
+#   "16h DMSO > 2h DEX+DMSO"
+#   "16h Cort113 > 2h DEX+Cort113" 
+#   "16h KH-103 > 2h DEX+KH-103"  
+#   "16h MIF  > 2h DEX+MIF" 
+
+# get the triggered genes and examine the relationship
+cort216 <- res_int_all[["16h Cort113 > 2h DEX+Cort113"]]
+cort216[cort216$FDR < 0.05,]
+```
+
+# Examine a single MR file
+
+## Do the genes overlap between a rat and our human cell line
+
+```{r overlap between rat and human genes}
+homo.genes <- unique(rownames(cort216))
+
+for (peaks in mr.chip){
+  rat.genes <- unique(peaks$nearestTSS.gene_name)  
+  cat(length(intersect(homo.genes, rat.genes)))
+  cat("\n")
+}
+```
+

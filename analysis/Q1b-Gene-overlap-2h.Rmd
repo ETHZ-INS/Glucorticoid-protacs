@@ -199,7 +199,7 @@ sechm::sechm(SE, topDegs, assay="scaledLFC", gaps_at="Treatment", breaks=TRUE,
 
 First, we use a simple Venn diagram to compare how many of our significant DE genes are also significantly DE in the Reddy lab's. The Venn diagram also shows us whether there are any genes that are DE in opposing directions.
 
-```{r extract top DE genes}
+```{r extract top DE genes, messages=FALSE}
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 names(res_int_all)
 res_int <- res_int_all$`16h DMSO > 2h DEX+DMSO`
@@ -239,7 +239,7 @@ myCol <- RColorBrewer::brewer.pal(4, "Pastel2")
 venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c("Mahshid up" , "Mahshid down", "Reddy up", "Reddy down"),
-  filename = '../docs/assets/1_venn_diagram.png',
+  filename = '../docs/assets/1_venn_diagram_2h.png',
   imagetype="png",
   output=FALSE,
   disable.logging=TRUE,
@@ -259,8 +259,11 @@ venn.diagram(
   cat.fontfamily = "sans",
 )
 ```
+```{bash, engine.opts='-l'}
+cp ../docs/assets/1_venn_diagram_2h.png ../docs/00_paper_figures/6b_venn.png
+```
 
-![](assets/1_venn_diagram.png)
+![](assets/1_venn_diagram_2h.png)
 
 ### Plot logFCs for both experiments for DE gene union
 
