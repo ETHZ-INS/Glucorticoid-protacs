@@ -502,7 +502,7 @@ Heatmap visualizing conditions dmso, untreated, 2h dex, KH103 >2h dex, MIF>2h de
 reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h Cort113", "18h KH-103", "18h MIF"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
 reduced_view
 
-pdf("../data/00_paper_figures/6c1.pdf", width=10, height=10)
+pdf("../data/00_paper_figures/6c1.pdf", width=14, height=10)
 reduced_view
 dev.off()
 
@@ -519,7 +519,7 @@ reduced_view2 <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE,
 
 reduced_view2
 
-pdf("../data/00_paper_figures/6d1.pdf", width=10, height=10)
+pdf("../data/00_paper_figures/6d1.pdf", width=14, height=10)
 reduced_view2
 dev.off()
 # ggsave(filename="../data/00_paper_figures/6d1.pdf", width=8, height=12)
@@ -540,7 +540,7 @@ fig7b
 # ggsave(filename="../data/00_paper_figures/7b2.pdf", width=8, height=4)
 
 
-pdf("../data/00_paper_figures/fig7b.pdf", width=8, height=4)
+pdf("../data/00_paper_figures/fig7b2.pdf", width=8, height=4)
 fig7b
 dev.off()
 
@@ -604,7 +604,7 @@ plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhib
 plt_inhibs_not_kh
 
 
-pdf("../data/00_paper_figures/7b1.pdf", width=10, height=14)
+pdf("../data/00_paper_figures/7b1.pdf", width=14, height=14)
 plt_inhibs_not_kh
 dev.off()
 # ggsave(plot=ggplotify::as.ggplot(plt_inhibs_not_kh), filename="../data/00_paper_figures/7b1.pdf", width=10, height=14)

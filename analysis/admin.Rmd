@@ -5,11 +5,11 @@ library(workflowr)
 
 # Question files
 workflowr::wflow_build(files=c(
-  # "Q1-Gene-overlap.Rmd",
-  # "Q1b-Gene-overlap-2h.Rmd",
-  # "Q2-TF-Binding-to-DE-genes.Rmd",
-  # "Q2b-TF-Binding-to-DE-genes-2h.Rmd",
-  # "Q3-PROTAC-reversal.Rmd",
+  "Q1-Gene-overlap.Rmd",
+  "Q1b-Gene-overlap-2h.Rmd",
+  "Q2-TF-Binding-to-DE-genes.Rmd",
+  "Q2b-TF-Binding-to-DE-genes-2h.Rmd",
+  "Q3-PROTAC-reversal.Rmd",
   # "Q4-GR-binding-PROTAC-genes.Rmd",
   # "Q7-PRX-sequences.Rmd",
   # "Q9-Differential_binding.Rmd",

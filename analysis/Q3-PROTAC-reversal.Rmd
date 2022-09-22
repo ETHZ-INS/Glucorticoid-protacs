@@ -429,7 +429,7 @@ rnames_flipped_cat1 <- merged162 %>% dplyr::filter(category1 == TRUE) %>% pull(r
 
 # fig 6c.2a
 plot_logFCs_162(rnames_flipped_cat1, "Category 1")
-ggsave(filename="../data/00_paper_figures/6c2a.pdf", width = 14, height=5)
+ggsave(filename="../data/00_paper_figures/6c2a.pdf", width = 18, height=5)
 ```
 
 
@@ -464,7 +464,7 @@ rnames_flipped_cat3 <- merged162 %>% dplyr::filter(category3 == TRUE) %>% pull(r
 
 # fig 6c.2c
 plot_logFCs_162(rnames_flipped_cat3, "Category 3")
-ggsave(filename="../data/00_paper_figures/6c2c.pdf", width = 14, height=5)
+ggsave(filename="../data/00_paper_figures/6c2c.pdf", width = 18, height=5)
 ```
 
 
