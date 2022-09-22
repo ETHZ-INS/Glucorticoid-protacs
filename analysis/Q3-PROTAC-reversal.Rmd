@@ -14,6 +14,9 @@ suppressPackageStartupMessages({
   library(hrbrthemes)
   library(ggplot2)
 })
+
+hrbrthemes::import_roboto_condensed()
+extrafont::loadfonts()
 ```
 
 # Question 3:

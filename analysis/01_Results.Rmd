@@ -414,7 +414,7 @@ cluster_tracks_and_rna <- function(signal_tracks, summ_exp, k, assay_name="log2F
 }
 ```
 
-```{r, fig.width=22, fig.height=10}
+```{r, fig.width=12, fig.height=10}
 dds <- readRDS("../data/results/dds.rds")
 
 tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
@@ -502,7 +502,11 @@ Heatmap visualizing conditions dmso, untreated, 2h dex, KH103 >2h dex, MIF>2h de
 reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h Cort113", "18h KH-103", "18h MIF"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
 reduced_view
 
-ggsave(filename="../data/00_paper_figures/6c1.pdf", width=10, height=10)
+pdf("../data/00_paper_figures/6c1.pdf", width=10, height=10)
+reduced_view
+dev.off()
+
+# ggsave(filename="../data/00_paper_figures/6c1.pdf", width=10, height=10)
 ```
 
 ## Fig 6d.1 (Q8). 
@@ -514,7 +518,11 @@ reduced_view2 <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE,
                                        subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
 
 reduced_view2
-ggsave(filename="../data/00_paper_figures/6d1.pdf", width=8, height=12)
+
+pdf("../data/00_paper_figures/6d1.pdf", width=10, height=10)
+reduced_view2
+dev.off()
+# ggsave(filename="../data/00_paper_figures/6d1.pdf", width=8, height=12)
 ```
 
 ## Fig 7b.2 (Q8). 
@@ -529,7 +537,12 @@ genes <- kh.protac[kh.protac$FDR < 0.05,]
 
 fig7b <- plot_signals_and_sechm(gr_peaks, genes_subset=genes$Gene, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
 fig7b
-ggsave(filename="../data/00_paper_figures/7b2.pdf", width=8, height=4)
+# ggsave(filename="../data/00_paper_figures/7b2.pdf", width=8, height=4)
+
+
+pdf("../data/00_paper_figures/fig7b.pdf", width=8, height=4)
+fig7b
+dev.off()
 
 ## stop here
 ```
@@ -561,14 +574,17 @@ plt_all_inhibs <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhib
 plt_all_inhibs
 
 cat("\n\n### Genes specifically altered by KH-103 \n\n")
-## Genes specifically altered by KH-103
+# ## Genes specifically altered by KH-103
 isKh <- se$condition[w]=="18h KH-103"
 mm <- model.matrix(~isKh)
 fit <- glmFit(estimateDisp(dds2,mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, "isKhTRUE"),Inf))
 rnames_kh103 <- row.names(res)[res$FDR<0.05]
-plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103, plot_around_gene_tss=TRUE)
-plt_kh103
+
+### BUG
+# plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103, plot_around_gene_tss=TRUE)
+# plt_kh103
+### BUG
 ```
 
 ## fig7b.1 (Q8)
@@ -587,7 +603,11 @@ rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
 plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "16h DMSO > 2h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
 plt_inhibs_not_kh
 
-ggsave(plot=plt_inhibs_not_kh, filename="../data/00_paper_figures/7b1pdf", width=8, height=4)
+
+pdf("../data/00_paper_figures/7b1.pdf", width=10, height=14)
+plt_inhibs_not_kh
+dev.off()
+# ggsave(plot=ggplotify::as.ggplot(plt_inhibs_not_kh), filename="../data/00_paper_figures/7b1.pdf", width=10, height=14)
 ```
 
 ## Signaltracks + DE plot for inhibition effects {.tabset}

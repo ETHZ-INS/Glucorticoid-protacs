@@ -20,6 +20,9 @@ suppressPackageStartupMessages({
   library(hrbrthemes)
 })
 
+hrbrthemes::import_roboto_condensed()
+extrafont::loadfonts()
+
 source("../code/helper_functions.R")
 ```
 
@@ -239,8 +242,8 @@ myCol <- RColorBrewer::brewer.pal(4, "Pastel2")
 venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c("Mahshid up" , "Mahshid down", "Reddy up", "Reddy down"),
-  filename = '../docs/assets/1_venn_diagram_2h.pdf',
-  imagetype="pdf",
+  filename = '../docs/assets/1_venn_diagram_2h.tiff',
+  imagetype="tiff",
   output=FALSE,
   disable.logging=TRUE,
   # Circles
@@ -259,8 +262,9 @@ venn.diagram(
   cat.fontfamily = "sans",
 )
 ```
+
 ```{bash, engine.opts='-l'}
-cp ../docs/assets/1_venn_diagram_2h.pdf ../docs/00_paper_figures/6a2_venn.pdf
+cp ../docs/assets/1_venn_diagram_2h.tiff ../docs/00_paper_figures/6a2_venn.tiff
 ```
 
 ![](assets/1_venn_diagram_2h.pdf)

@@ -16,6 +16,8 @@ suppressPackageStartupMessages({
   library(epiwraps)
 })
 
+hrbrthemes::import_roboto_condensed()
+extrafont::loadfonts()
 
 # Data from:
 # https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126706
@@ -40,6 +42,7 @@ mr.chip <- lapply(file.names, function(filename){
   file.path = paste0(folder.path, "/", filename)
   peaks <- import.bed15(file.path, format="narrowPeak")
 })
+
 # Change the names of the list to the filenames
 names(mr.chip) <- file.names
 

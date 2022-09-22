@@ -13,8 +13,8 @@ workflowr::wflow_build(files=c(
   # "Q4-GR-binding-PROTAC-genes.Rmd",
   # "Q7-PRX-sequences.Rmd",
   # "Q9-Differential_binding.Rmd",
-  "Q11-MR_paper.Rmd",
-  # "01_Results.Rmd",
+  # "Q11-MR_paper.Rmd",
+  "01_Results.Rmd",
   # "00_Download_files.Rmd",
   "index.Rmd"), 
   verbose=TRUE)

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dominique Paul" />
 
-<meta name="date" content="2022-09-21" />
+<meta name="date" content="2022-09-22" />
 
 <title>Q1: DE Gene overlap for 12h data</title>
 
@@ -368,7 +368,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Q1: DE Gene overlap for 12h data</h1>
 <h4 class="author">Dominique Paul</h4>
-<h4 class="date">2022-09-21</h4>
+<h4 class="date">2022-09-22</h4>
 
 </div>
 
@@ -393,7 +393,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-21
+<strong>Last updated:</strong> 2022-09-22
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -484,16 +484,16 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree748f409e28a1149f7546c4b1cdffb66aea132fcctargetblank748f409a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/748f409e28a1149f7546c4b1cdffb66aea132fcc" target="_blank">748f409</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7targetblank9d91c8da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7" target="_blank">9d91c8d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree748f409e28a1149f7546c4b1cdffb66aea132fcctargetblank748f409a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7targetblank9d91c8da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/748f409e28a1149f7546c4b1cdffb66aea132fcc" target="_blank">748f409</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7" target="_blank">9d91c8d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -504,6 +504,7 @@ Ignored files:
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
     Ignored:    analysis/docs/.DS_Store
+    Ignored:    analysis/figure/
     Ignored:    data/.DS_Store
     Ignored:    data/EOS_files/
     Ignored:    data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv
@@ -524,17 +525,22 @@ Ignored files:
     Ignored:    output/Files/
 
 Untracked files:
-    Untracked:  analysis/Q11-MR_paper.Rmd
-    Untracked:  data/MR-data/
-    Untracked:  data/otherInhibs- Altered by (18h) Cort113MIF, but not (or significantly less) by (18h) KH-103.csv
-    Untracked:  data/otherInhibs- Altered by (18h) Cort113MIF, but not (or significantly less) by (18h) KH-103.numbers
+    Untracked:  data/00_paper_figures/6c2a.pdf
+    Untracked:  data/00_paper_figures/6c2b.pdf
+    Untracked:  data/00_paper_figures/6c2c.pdf
+    Untracked:  data/00_paper_figures/6c2d.pdf
+    Untracked:  data/00_paper_figures/6d2a.pdf
+    Untracked:  data/00_paper_figures/6d2b.pdf
+    Untracked:  data/00_paper_figures/6d2c.pdf
+    Untracked:  data/00_paper_figures/6d2d.pdf
 
 Unstaged changes:
-    Modified:   analysis/01_Results.Rmd
     Modified:   analysis/Q1-Gene-overlap.Rmd
+    Modified:   analysis/Q11-MR_paper.Rmd
     Modified:   analysis/Q1b-Gene-overlap-2h.Rmd
+    Modified:   analysis/Q3-PROTAC-reversal.Rmd
+    Modified:   analysis/Q4-GR-binding-PROTAC-genes.Rmd
     Modified:   analysis/admin.Rmd
-    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -573,6 +579,57 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/analysis/Q1-Gene-overlap.Rmd" target="_blank">9d91c8d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-21
+</td>
+<td>
+updates september
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/42559356a81583e0cc4d967a24e31f222f9d05de/analysis/Q1-Gene-overlap.Rmd" target="_blank">4255935</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-21
+</td>
+<td>
+updates september
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/42559356a81583e0cc4d967a24e31f222f9d05de/docs/Q1-Gene-overlap.html" target="_blank">4255935</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-21
+</td>
+<td>
+updates september
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -937,6 +994,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/42559356a81583e0cc4d967a24e31f222f9d05de/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" target="_blank">4255935</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-21
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/4a4e1e6dc540ada645ce8cc331f7608414ed569a/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-3-1.png" target="_blank">4a4e1e6</a>
 </td>
 <td>
@@ -1030,8 +1098,8 @@ myCol &lt;- RColorBrewer::brewer.pal(4, &quot;Pastel2&quot;)
 venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c(&quot;Mahshid up&quot; , &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;),
-  filename = &#39;../docs/assets/1_venn_diagram.png&#39;,
-  imagetype=&quot;png&quot;,
+  filename = &#39;../docs/assets/1_venn_diagram.tiff&#39;,
+  imagetype=&quot;tiff&quot;,
   output=FALSE,
   disable.logging=TRUE,
   # Circles
@@ -1049,58 +1117,58 @@ venn.diagram(
   cat.default.pos = &quot;outer&quot;,
   cat.fontfamily = &quot;sans&quot;,
 )</code></pre>
-<pre><code>INFO [2022-09-21 15:18:17] $x
-INFO [2022-09-21 15:18:17] list(ours_up, ours_down, reddy_up, reddy_down)
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $category.names
-INFO [2022-09-21 15:18:17] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $filename
-INFO [2022-09-21 15:18:17] [1] &quot;../docs/assets/1_venn_diagram.png&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $imagetype
-INFO [2022-09-21 15:18:17] [1] &quot;png&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $output
-INFO [2022-09-21 15:18:17] [1] FALSE
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $disable.logging
-INFO [2022-09-21 15:18:17] [1] TRUE
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $lwd
-INFO [2022-09-21 15:18:17] [1] 2
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $fill
-INFO [2022-09-21 15:18:17] myCol
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cex
-INFO [2022-09-21 15:18:17] [1] 0.6
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $fontface
-INFO [2022-09-21 15:18:17] [1] &quot;bold&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $fontfamily
-INFO [2022-09-21 15:18:17] [1] &quot;sans&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.cex
-INFO [2022-09-21 15:18:17] [1] 0.6
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.fontface
-INFO [2022-09-21 15:18:17] [1] &quot;bold&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.default.pos
-INFO [2022-09-21 15:18:17] [1] &quot;outer&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] $cat.fontfamily
-INFO [2022-09-21 15:18:17] [1] &quot;sans&quot;
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] [[16]]
-INFO [2022-09-21 15:18:17] 
-INFO [2022-09-21 15:18:17] </code></pre>
+<pre><code>INFO [2022-09-22 00:28:14] $x
+INFO [2022-09-22 00:28:14] list(ours_up, ours_down, reddy_up, reddy_down)
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $category.names
+INFO [2022-09-22 00:28:14] c(&quot;Mahshid up&quot;, &quot;Mahshid down&quot;, &quot;Reddy up&quot;, &quot;Reddy down&quot;)
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $filename
+INFO [2022-09-22 00:28:14] [1] &quot;../docs/assets/1_venn_diagram.tiff&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $imagetype
+INFO [2022-09-22 00:28:14] [1] &quot;tiff&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $output
+INFO [2022-09-22 00:28:14] [1] FALSE
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $disable.logging
+INFO [2022-09-22 00:28:14] [1] TRUE
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $lwd
+INFO [2022-09-22 00:28:14] [1] 2
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $fill
+INFO [2022-09-22 00:28:14] myCol
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $cex
+INFO [2022-09-22 00:28:14] [1] 0.6
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $fontface
+INFO [2022-09-22 00:28:14] [1] &quot;bold&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $fontfamily
+INFO [2022-09-22 00:28:14] [1] &quot;sans&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $cat.cex
+INFO [2022-09-22 00:28:14] [1] 0.6
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $cat.fontface
+INFO [2022-09-22 00:28:14] [1] &quot;bold&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $cat.default.pos
+INFO [2022-09-22 00:28:14] [1] &quot;outer&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] $cat.fontfamily
+INFO [2022-09-22 00:28:14] [1] &quot;sans&quot;
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] [[16]]
+INFO [2022-09-22 00:28:14] 
+INFO [2022-09-22 00:28:14] </code></pre>
 <pre><code>[1] 1</code></pre>
-<pre class="bash"><code>cp ../docs/assets/1_venn_diagram.png ../docs/00_paper_figures/6a_venn.png</code></pre>
+<pre class="bash"><code>cp ../docs/assets/1_venn_diagram.tiff ../docs/00_paper_figures/6a1_venn.tiff</code></pre>
 <pre><code>Using .bash_profile</code></pre>
-<p><img src="assets/1_venn_diagram.png" /></p>
+<p><img src="assets/1_venn_diagram.tiff" /></p>
 </div>
 <div id="plot-logfcs-for-both-experiments-for-de-gene-union" class="section level3">
 <h3>Plot logFCs for both experiments for DE gene union</h3>
@@ -1124,8 +1192,91 @@ plot_lfc &lt;- ggplot(d_plot) +
        x=&quot;logFC Mahshid&quot;, y=&quot;logFC Reddy&quot;)
 plot_lfc</code></pre>
 <p><img src="figure/Q1-Gene-overlap.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/2_logFC_Mahshid_Reddy.png&quot;, plot_lfc)</code></pre>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/42559356a81583e0cc4d967a24e31f222f9d05de/docs/figure/Q1-Gene-overlap.Rmd/unnamed-chunk-5-1.png" target="_blank">4255935</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-21
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>ggsave(file=&quot;../docs/assets/2_logFC_Mahshid_Reddy.pdf&quot;, plot_lfc)</code></pre>
 <pre><code>Saving 7 x 5 in image</code></pre>
+<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d
+
+Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
+width unknown for character 0x2d</code></pre>
+<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
+font width unknown for character 0x2d</code></pre>
 </div>
 </div>
 <div id="save-data" class="section level1">

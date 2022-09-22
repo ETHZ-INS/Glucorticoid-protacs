@@ -16,6 +16,9 @@ suppressPackageStartupMessages({
   library(epiwraps)
   library(AnnotationHub)
 })
+
+hrbrthemes::import_roboto_condensed()
+extrafont::loadfonts()
 ```
 
 ### Question 4: Binding of GR to KH PROTAC treated DE genes?
@@ -97,12 +100,13 @@ tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
                 "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
                 "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
 signals <- signal2Matrix(tracks, peaks13g, w=5, extend=500)
+```
 
-pdf(file="../docs/assets/Q4_2_kh_peak_tracks.pdf", width=12,height=7,units="in",res=1200)
+```{r plot signal tracks 2, fig.width=12, fig.height=7}
 h1 <- plotEnrichedHeatmaps(signals, show_row_names=TRUE, row_names_side="left", row_order=order(rownames(signals[["2h-DEX"]]))) #, left_annotation=peaks13g$nearestTSS.gene_name)#, width=unit(12, "cm"))
 h1
-dev.off()
-h1
+
+ggsave(file="../docs/assets/Q4_2_kh_peak_tracks.pdf", width=12,height=7)
 ```
 
 ## Plot the signal around the TSS of each of the 13 genes (all transcripts)
@@ -118,11 +122,10 @@ mygenes.tss <-  resize(mygenes.transcripts, width=2000, fix='start')
 seqlevelsStyle(mygenes.tss) <- "UCSC"
 
 signals2 <- signal2Matrix(tracks, mygenes.tss, w=10, extend=10000)
-pdf(file="../docs/assets/Q4_3_kh_all_txs.pdf", width=12,height=7,units="in",res=1200)
 h2 <- plotEnrichedHeatmaps(signals2) #, left_annotation=peaks13g$nearestTSS.gene_name)#, width=unit(12, "cm"))
 h2
-dev.off()
-h2
+
+ggsave(file="../docs/assets/Q4_3_kh_all_txs.pdf", width=12,height=7)
 ```
 
 
@@ -136,10 +139,9 @@ mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
 names(mygenes_unique) <- mygenes_unique$gene_name
 signals3 <- signal2Matrix(tracks, mygenes_unique, w=10, extend=10000)
 
-pdf(file="../docs/assets/Q4_4_kh_unique_gene_tss.pdf", width=12,height=7,units="in",res=1200)
 h3 <- plotEnrichedHeatmaps(signals3, show_row_names=TRUE, row_names_side="left", row_order=order(rownames(signals3[["2h-DEX"]]))) 
 h3
-dev.off()
-h3
+
+ggsave(file="../docs/assets/Q4_4_kh_unique_gene_tss.pdf", width=12,height=7)
 ```
 
