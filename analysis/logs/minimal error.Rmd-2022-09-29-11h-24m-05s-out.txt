@@ -1,0 +1,86 @@
+  |                                                                              |                                                                      |   0%  |                                                                              |..                                                                    |   3%
+  ordinary text without R code
+
+  |                                                                              |.....                                                                 |   6%
+label: seed-set-by-workflowr (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |.......                                                               |  10%
+  ordinary text without R code
+
+  |                                                                              |.........                                                             |  13%
+label: setup (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |...........                                                           |  16%
+  ordinary text without R code
+
+  |                                                                              |..............                                                        |  19%
+label: unnamed-chunk-1
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
+label: q8b
+  |                                                                              |....................                                                  |  29%
+  ordinary text without R code
+
+  |                                                                              |.......................                                               |  32%
+label: 1
+  |                                                                              |.........................                                             |  35%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  39%
+label: 2
+  |                                                                              |.............................                                         |  42%
+  ordinary text without R code
+
+  |                                                                              |................................                                      |  45%
+label: 3
+  |                                                                              |..................................                                    |  48%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  52%
+label: 4a
+  |                                                                              |......................................                                |  55%
+  ordinary text without R code
+
+  |                                                                              |.........................................                             |  58%
+label: 4b
+  |                                                                              |...........................................                           |  61%
+  ordinary text without R code
+
+  |                                                                              |.............................................                         |  65%
+label: 4c1
+  |                                                                              |...............................................                       |  68%
+  ordinary text without R code
+
+  |                                                                              |..................................................                    |  71%
+label: 4c2
+  |                                                                              |....................................................                  |  74%
+  ordinary text without R code
+
+  |                                                                              |......................................................                |  77%
+label: 4d
+  |                                                                              |........................................................              |  81%
+  ordinary text without R code
+
+  |                                                                              |...........................................................           |  84%
+label: 4e
+  |                                                                              |.............................................................         |  87%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  90%
+label: 5
+  |                                                                              |.................................................................     |  94%
+  ordinary text without R code
+
+  |                                                                              |....................................................................  |  97%
+label: session-info-chunk-inserted-by-workflowr
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+/usr/local/bin/pandoc +RTS -K512m -RTS minimal-error.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output minimal-error.html --lua-filter /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --variable bs3=TRUE --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --include-before-body /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//Rtmp352FZE/rmarkdown-str17b6f1e31de.html --variable navbar=1 --variable theme=cosmo --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//Rtmp352FZE/rmarkdown-str17b675bed93.html --variable code_folding=hide --variable code_menu=1 --include-in-header /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//Rtmp352FZE/header17b6244a51ab.html --include-after-body /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//Rtmp352FZE/footer17b6b37c42a.html 

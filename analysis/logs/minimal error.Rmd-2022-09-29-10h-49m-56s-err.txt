@@ -1,0 +1,5 @@
+Error in parse(text = x, srcfile = src) : 
+  <text>:6:0: unexpected end of input
+4: } else {
+5:   mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% rownames(se0))
+  ^

@@ -162,7 +162,7 @@ combined_plot
 
 Save plots
 
-```{r}
+```{r, message=FALSE}
 ggsave(file="../docs/assets/Q2_1_pvalue_dist.pdf", plt_value)
 ggsave(file="../docs/assets/Q2_2_logfc_dist.pdf", plt_logfc)
 ggsave(file="../docs/assets/Q2_3_mahshid_reddy.pdf", combined_plot, width=12, height=8)
@@ -172,7 +172,7 @@ ggsave(file="../docs/assets/Q2_3_mahshid_reddy.pdf", combined_plot, width=12, he
 
 Each peaks was attributed to the gene of the TSS closest to the peak
 
-```{r distribution by numbers of peaks, fig.width=14}
+```{r distribution by numbers of peaks, fig.width=14, message=FALSE}
 mixed_data <- rbind(as.data.frame(res_reddy) %>% 
         tibble::rownames_to_column("Gene") %>%
         dplyr::select("Gene", "logFC", "chip_peaks", "chip_peaks.2500r") %>%
@@ -222,7 +222,7 @@ ggsave(filename="../docs/assets/Q2_4_boxplots.pdf", boxplot, width=14, height=10
 
 # Relationship between a logFC and the closest GR peak
 
-```{r logFC vs GR peak, fig.width=14, fig.height=18}
+```{r logFC vs GR peak, fig.width=14, fig.height=18, message=FALSE}
 data <- as.data.frame(peakAnno) %>%
   dplyr::select(c("nearestTSS.gene_name", "score", "signalValue", "peak", "distance2nearestTSS", "class")) %>% 
   mutate_all(na_if,"") %>% 
@@ -266,13 +266,13 @@ TSS_distances
 ggsave(filename="../docs/assets/Q2_5_TSS_distances.pdf", TSS_distances)
 ```
 
-```{r, fig.width=14, fig.height=18}
+```{r, fig.width=14, fig.height=18, message=FALSE}
 # Min distance to TSS
 min_dist_xlim <- ggplot(plt_data, aes(min_dist2tss, logFC, size=n_peaks, colour=is_significant)) +
   geom_point(alpha=0.8) +
   geom_density_2d(bins = 10, colour="green") +
   labs(title="LogFC vs minimum distance peak to TSS", subtitle="Size indicates the number of peaks for a given gene") +
-  xlim(c(0,2500))
+  xlim(c(0,100000))
 
 # Mean distance to TSS
 min_dist2_xlim <- plt_data %>%
@@ -281,7 +281,7 @@ min_dist2_xlim <- plt_data %>%
   geom_density_2d(bins = 10, colour="green") +
   labs(title="LogFC vs log(min distance peak to TSS)", subtitle="Size indicates the number of peaks for a given gene") +
   ylim(c(-3,3)) +
-  xlim(c(0,log(2500)))
+  xlim(c(0,log(100000)))
 
 TSS_distances_xlim <- ggarrange(min_dist_xlim, min_dist2_xlim, ncol=1)
 TSS_distances_xlim
@@ -291,7 +291,7 @@ ggsave(filename="../docs/00_paper_figures/6b_12h.pdf", TSS_distances_xlim)
 ```
 
 
-```{r boxplots based on class, fig.width=14}
+```{r boxplots based on class, fig.width=14, fig.height=10, message=FALSE}
 mixed_data2 <- mixed_data %>% left_join(data %>%
                                          group_by(Gene) %>%
                                          dplyr::slice(which.min(abs(distance2nearestTSS))) %>% 

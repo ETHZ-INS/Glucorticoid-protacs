@@ -1,7 +1,7 @@
-name: "GR-PROTAC-analysis"
+name: GR-PROTAC-analysis
 output_dir: ../docs
 navbar:
-  title: "GR-PROTAC-analysis"
+  title: GR-PROTAC-analysis
   left:
   - text: Home
     href: index.html

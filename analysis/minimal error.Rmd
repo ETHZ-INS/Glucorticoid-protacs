@@ -1,0 +1,206 @@
+---
+title: "minimal error"
+author: "Dominique Paul"
+date: "9/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+suppressPackageStartupMessages({
+  library(ggplot2)
+  library(biomaRt)
+  library(dplyr)
+  library(SummarizedExperiment)
+  library(edgeR)
+  library(SEtools)
+  library(grid)
+  library(VennDiagram)
+  library(hrbrthemes)
+  library(openxlsx)
+  library(stringdist)
+  library(rtracklayer)
+  library(epiwraps)
+  library(kableExtra)
+  library(EnrichedHeatmap)
+  library(AnnotationHub)
+})
+
+source("../code/helper_functions.R")
+```
+
+```{r}
+# load summarised experiment
+se <- readRDS(file="../data/results/SE.processed.rds")
+# removes the row without name
+se <- se[2:dim(se)[1]]
+```
+
+```{r q8b}
+# a function to cluster signal tracks and rna at the same time
+
+cluster_tracks_and_rna <- function(signal_tracks, summ_exp, k, assay_name="log2FC"){
+  # head(unclass(m[[1]]))
+  tracks.enrichment.score <- lapply(signal_tracks, enriched_score)
+  # playground heatmap clustering
+  mat.tracks <- matrix(unlist(tracks.enrichment.score), ncol=length(signal_tracks))
+  mat.rna <- as.matrix(assay(summ_exp[,], assay_name))
+  # concat horizontally
+  mat <- cbind(mat.tracks, mat.rna)
+  
+  # standardise by column
+  standardise <- function(x){
+    original_values <- x
+    # x is a vector of a column
+    trim <- c(0.05, 0.95)
+    q <- quantile(x, trim)
+    x[x>q[2]] <- q[2]
+    x[x<q[1]] <- q[1]
+    
+    # standardise column
+    x.mean <- mean(x)
+    std.dev <- sd(x)
+    values.standardised <-  (x - x.mean) / std.dev
+    
+    return(values.standardised)
+  }
+  
+  # standarise all rows
+  mat.standardised <- apply(mat, 2, standardise)
+  
+  # cluster rows
+  cl <- kmeans(mat.standardised, centers=k)  
+  
+  # returns a vector cluster ids
+  return(cl$cluster)
+}
+```
+
+```{r 1}
+tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
+                "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
+                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
+
+ah <- AnnotationHub()
+ensdb <- ah[["AH98047"]] # AH89211
+# all transcripts from the genome. Don't want to download this for each function call
+all.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype",
+                                                                "tx_support_level",
+                                                                "gene_id","gene_name"))
+```
+
+```{r 2}
+
+kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
+
+# Maybe if possible also including the long range enhancer info as well
+genes <- kh.protac[kh.protac$FDR < 0.05,]
+
+
+# peaks <- gr_peaks
+genes_subset <- genes$Gene
+plot_around_gene_tss <- TRUE
+tracks_subset <- c("2h-DEX", "12h-DEX")
+subset_columns <- c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO")
+show_rownames <- FALSE
+assayName <- "log2FC"
+nclusters <- NULL
+height <- 13
+```
+
+```{r 3}
+# first subset for a given selection of genes
+if (is.null(genes_subset) == FALSE & plot_around_gene_tss==FALSE) {
+  peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
+  if (length(peaks) == 0) return(paste0("No peaks found for the genes:", paste(genes_subset, collapse = ', ')))
+}
+
+se0 <- se
+if (!is.null(subset_columns)){
+    se0 <- se0[,se0$condition %in% subset_columns]
+    se0$condition <- factor(se0$condition, levels=subset_columns)
+  }
+
+if (is.null(tracks_subset)){
+  tracks_used <- tracks
+} else {
+  tracks_used <- tracks[tracks_subset]
+}
+```
+
+
+```{r 4a}
+mygenes.transcripts <- all.transcripts
+if (!is.null(genes_subset)){
+  mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% genes_subset)
+} else {
+  mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% rownames(se0))
+}
+```
+
+
+```{r 4b}
+# mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
+mygenes.tss <-  resize(mygenes.transcripts, width=1, fix='start')
+seqlevelsStyle(mygenes.tss) <- "UCSC"
+mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
+```
+
+
+```{r 4c1}
+# we need to deduplicate again, maybe some gene names describe the same region
+mygenes_unique <- mygenes_unique[!duplicated(mygenes_unique)] # 13827
+# sum(seqlengths(mygenes_unique) < 0)
+
+# idx <- GenomicRanges:::get_out_of_bound_index(mygenes_unique)
+# if (length(idx) != 0L)
+#     mygenes_unique <- mygenes_unique[-idx]
+
+# which(end(mygenes_unique) > seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
+# sometimes we might have sequences which extend beyond the genome
+mask1 <- which(end(mygenes_unique) > seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
+mask2 <- which(start(mygenes_unique) < seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
+mask <- c(mask1, mask2)
+if (length(mask) != 0) mygenes_unique <- mygenes_unique[-mask]
+#which(mygr.original != mygr.trimmed)
+# which(mygenes_unique != trim(mygenes_unique))
+
+
+```
+
+
+```{r 4c2}
+# get the signals
+signals <- signal2Matrix(tracks_used, mygenes_unique, w=5, extend=2000) # 13820
+```
+
+
+```{r 4d}
+# make sure that the rows are the same. Sometimes we can lose genes when running signal2matrix
+mygenes_unique <- mygenes_unique[mygenes_unique$tx_id %in% rownames(signals[[1]]),]
+```
+
+
+```{r 4e}
+# adjust the se2 genes to only show the ones for which we have the TSS
+genes <- mygenes_unique$gene_name
+se2 <- se0[genes,] # 13827
+```
+
+
+```{r 5}
+# cluster 
+if (!is.null(nclusters)){
+  cluster_ids <- cluster_tracks_and_rna(signals, se2, k=nclusters)
+  h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"), row_split=cluster_ids)
+} else {
+  h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"))  
+}
+set.seed(100) # for colours
+h2 <- sechm::sechm(se2, genes=row.names(se2), assayName=assayName, sortRowsOn=NULL, 
+                   cluster_rows=FALSE, width=unit(12, "cm"), top_annotation=c("condition","batch"), 
+                   gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90, height=height)
+# (For this second one it's important that rows are in the input order)
+h1 + h2
+```

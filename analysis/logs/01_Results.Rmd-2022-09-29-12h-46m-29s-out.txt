@@ -1,0 +1,250 @@
+  |                                                                              |                                                                      |   0%  |                                                                              |.                                                                     |   1%
+   inline R code fragments
+
+  |                                                                              |..                                                                    |   3%
+label: seed-set-by-workflowr (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |...                                                                   |   4%
+  ordinary text without R code
+
+  |                                                                              |....                                                                  |   5%
+label: setup (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |.....                                                                 |   7%
+  ordinary text without R code
+
+  |                                                                              |......                                                                |   8%
+label: save or load the environment
+  |                                                                              |.......                                                               |  10%
+  ordinary text without R code
+
+  |                                                                              |........                                                              |  11%
+label: extract r objects for Q1
+  |                                                                              |.........                                                             |  12%
+   inline R code fragments
+
+  |                                                                              |..........                                                            |  14%
+label: q4
+  |                                                                              |...........                                                           |  15%
+  ordinary text without R code
+
+  |                                                                              |............                                                          |  16%
+label: -1
+  |                                                                              |............                                                          |  18%
+  ordinary text without R code
+
+  |                                                                              |.............                                                         |  19%
+label: -2
+  |                                                                              |..............                                                        |  21%
+  ordinary text without R code
+
+  |                                                                              |...............                                                       |  22%
+label: -3
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |.................                                                     |  25%
+label: table with kable
+  |                                                                              |..................                                                    |  26%
+  ordinary text without R code
+
+  |                                                                              |...................                                                   |  27%
+label: q6 (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |                                                                              |....................                                                  |  29%
+  ordinary text without R code
+
+  |                                                                              |.....................                                                 |  30%
+label: q6 filtered (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |                                                                              |......................                                                |  32%
+  ordinary text without R code
+
+  |                                                                              |.......................                                               |  33%
+label: gr peak and junb (with options) 
+List of 1
+ $ results: chr "asis"
+
+  |                                                                              |........................                                              |  34%
+  ordinary text without R code
+
+  |                                                                              |.........................                                             |  36%
+label: gr and junb peak
+  |                                                                              |..........................                                            |  37%
+   inline R code fragments
+
+  |                                                                              |...........................                                           |  38%
+label: grpaks moi
+  |                                                                              |............................                                          |  40%
+   inline R code fragments
+
+  |                                                                              |.............................                                         |  41%
+label: q8a
+  |                                                                              |..............................                                        |  42%
+  ordinary text without R code
+
+  |                                                                              |...............................                                       |  44%
+label: q8b
+  |                                                                              |................................                                      |  45%
+  ordinary text without R code
+
+  |                                                                              |.................................                                     |  47%
+label: plot_signals_and_sechm function (with options) 
+List of 2
+ $ fig.width : num 12
+ $ fig.height: num 10
+
+  |                                                                              |..................................                                    |  48%
+  ordinary text without R code
+
+  |                                                                              |...................................                                   |  49%
+label: 6c.1 (with options) 
+List of 3
+ $ fig.width : num 14
+ $ fig.height: num 10
+ $ results   : chr "asis"
+
+  |                                                                              |...................................                                   |  51%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  52%
+label: 6d1 (with options) 
+List of 4
+ $ fig.width : num 8
+ $ fig.height: num 12
+ $ results   : chr "asis"
+ $ warning   : logi FALSE
+
+  |                                                                              |.....................................                                 |  53%
+  ordinary text without R code
+
+  |                                                                              |......................................                                |  55%
+label: 7b2 (with options) 
+List of 4
+ $ fig.width : num 8
+ $ fig.height: num 4
+ $ results   : chr "asis"
+ $ warning   : logi FALSE
+
+  |                                                                              |.......................................                               |  56%
+  ordinary text without R code
+
+  |                                                                              |........................................                              |  58%
+label: signaltracks plus de plot (with options) 
+List of 3
+ $ fig.width : num 22
+ $ fig.height: num 10
+ $ results   : chr "asis"
+
+  |                                                                              |.........................................                             |  59%
+  ordinary text without R code
+
+  |                                                                              |..........................................                            |  60%
+label: fig7b.1 (with options) 
+List of 3
+ $ fig.width : num 10
+ $ fig.height: num 14
+ $ results   : chr "asis"
+
+  |                                                                              |...........................................                           |  62%
+  ordinary text without R code
+
+  |                                                                              |............................................                          |  63%
+label: inhibition effects (with options) 
+List of 3
+ $ fig.width : num 22
+ $ fig.height: num 10
+ $ results   : chr "asis"
+
+  |                                                                              |.............................................                         |  64%
+  ordinary text without R code
+
+  |                                                                              |..............................................                        |  66%
+label: q9
+  |                                                                              |...............................................                       |  67%
+   inline R code fragments
+
+  |                                                                              |................................................                      |  68%
+label: tabular overview
+  |                                                                              |.................................................                     |  70%
+  ordinary text without R code
+
+  |                                                                              |..................................................                    |  71%
+label: volcano plot
+  |                                                                              |...................................................                   |  73%
+  ordinary text without R code
+
+  |                                                                              |....................................................                  |  74%
+label: signal tracks (with options) 
+List of 2
+ $ fig.width : num 8
+ $ fig.height: num 4
+
+  |                                                                              |.....................................................                 |  75%
+  ordinary text without R code
+
+  |                                                                              |......................................................                |  77%
+label: average signal plots (with options) 
+List of 2
+ $ fig.width : num 8
+ $ fig.height: num 6
+
+  |                                                                              |.......................................................               |  78%
+  ordinary text without R code
+
+  |                                                                              |........................................................              |  79%
+label: ETG interactions
+  |                                                                              |.........................................................             |  81%
+  ordinary text without R code
+
+  |                                                                              |..........................................................            |  82%
+label: table overview LRI significant DE genes
+  |                                                                              |..........................................................            |  84%
+  ordinary text without R code
+
+  |                                                                              |...........................................................           |  85%
+label: boxplot LRI
+  |                                                                              |............................................................          |  86%
+  ordinary text without R code
+
+  |                                                                              |.............................................................         |  88%
+label: peaks short
+  |                                                                              |..............................................................        |  89%
+  ordinary text without R code
+
+  |                                                                              |...............................................................       |  90%
+label: Same LRI gene as closest gene?
+  |                                                                              |................................................................      |  92%
+  ordinary text without R code
+
+  |                                                                              |.................................................................     |  93%
+label: peek table LRI
+  |                                                                              |..................................................................    |  95%
+  ordinary text without R code
+
+  |                                                                              |...................................................................   |  96%
+label: 6c1 and 6d1 (with options) 
+List of 4
+ $ fig.width : num 10
+ $ fig.height: num 10
+ $ results   : chr "asis"
+ $ warning   : logi FALSE
+
+  |                                                                              |....................................................................  |  97%
+  ordinary text without R code
+
+  |                                                                              |..................................................................... |  99%
+label: session-info-chunk-inserted-by-workflowr
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+/usr/local/bin/pandoc +RTS -K512m -RTS 01_Results.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output 01_Results.html --lua-filter /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --variable bs3=TRUE --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --include-before-body /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpEv4N1B/rmarkdown-str2e6456dfae89.html --variable navbar=1 --variable theme=cosmo --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpEv4N1B/rmarkdown-str2e64773bd0ed.html --variable code_folding=hide --variable code_menu=1 --include-in-header /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpEv4N1B/header2e647811b4c2.html --include-after-body /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpEv4N1B/footer2e6452726a23.html 

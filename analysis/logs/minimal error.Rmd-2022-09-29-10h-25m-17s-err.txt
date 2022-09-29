@@ -1,0 +1,10 @@
+Error in AnnotationHub() : could not find function "AnnotationHub"
+In addition: Warning messages:
+1: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/minimal error.Rmd'
+2: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/minimal error.Rmd'
+3: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/minimal error.Rmd'
+4: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/minimal error.Rmd'

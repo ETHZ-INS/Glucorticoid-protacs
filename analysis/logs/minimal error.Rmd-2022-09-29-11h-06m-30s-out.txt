@@ -1,0 +1,62 @@
+  |                                                                              |                                                                      |   0%  |                                                                              |..                                                                    |   3%
+  ordinary text without R code
+
+  |                                                                              |.....                                                                 |   6%
+label: seed-set-by-workflowr (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |.......                                                               |  10%
+  ordinary text without R code
+
+  |                                                                              |.........                                                             |  13%
+label: setup (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |...........                                                           |  16%
+  ordinary text without R code
+
+  |                                                                              |..............                                                        |  19%
+label: unnamed-chunk-1
+  |                                                                              |................                                                      |  23%
+  ordinary text without R code
+
+  |                                                                              |..................                                                    |  26%
+label: q8b
+  |                                                                              |....................                                                  |  29%
+  ordinary text without R code
+
+  |                                                                              |.......................                                               |  32%
+label: 1
+  |                                                                              |.........................                                             |  35%
+  ordinary text without R code
+
+  |                                                                              |...........................                                           |  39%
+label: 2
+  |                                                                              |.............................                                         |  42%
+  ordinary text without R code
+
+  |                                                                              |................................                                      |  45%
+label: 3
+  |                                                                              |..................................                                    |  48%
+  ordinary text without R code
+
+  |                                                                              |....................................                                  |  52%
+label: 4a
+  |                                                                              |......................................                                |  55%
+  ordinary text without R code
+
+  |                                                                              |.........................................                             |  58%
+label: 4b
+  |                                                                              |...........................................                           |  61%
+  ordinary text without R code
+
+  |                                                                              |.............................................                         |  65%
+label: 4c1
+  |                                                                              |...............................................                       |  68%
+  ordinary text without R code
+
+  |                                                                              |..................................................                    |  71%
+label: 4c2
+

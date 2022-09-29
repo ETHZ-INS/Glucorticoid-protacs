@@ -39,7 +39,7 @@ extrafont::loadfonts()
 
 # Overview
 
-The overall goal is to (1)understand the effect of activated glucocorticoid receptors on gene regulation and (2) relate the epigenetic data from the Reddy lab with our expression data. To this end Mahshid and developed seven initial questions which define the primary scope of the analysis. In a discussion on these results further questions arised which are answered further below. As some of these questions/answers relate to results obtained in other work by Katharina, Mahshid and Pierre-Luc the flow of questions may not be fully coherent in themselves.
+The overall goal is to (1) understand the effect of activated glucocorticoid receptors on gene regulation and (2) relate the epigenetic data from the Reddy lab with our expression data. To this end Mahshid and developed seven initial questions which define the primary scope of the analysis. In a discussion on these results further questions arose which are answered further below. As some of these questions/answers relate to results obtained in other work by Katharina, Mahshid and Pierre-Luc the flow of questions may not be fully coherent in themselves.
 
 # Question 1: Similarity of our RNA data with the Reddy data
 
@@ -61,7 +61,7 @@ n_genes_union <- length(q1_data[["union_DE_genes"]])
 
 We first inspect a Venn diagram to understand the overlap of differentially expressed genes from both datasets. **We see that a large part of the genes do overlap, while there are also many genes that are specific to the respective analyses.** However, this is only a binary comparison and so a we next take a look at how the exact log-fold changes compare.
 
-![](assets/1_venn_diagrampdf)
+![](assets/1_venn_diagram.pdf)
 
 ## Comparison via log-fold changes
 
@@ -69,7 +69,7 @@ Second, we compare the log fold changes for the union of all genes identified as
 
 **We see that the results of our differential expression (DE) analysis from the 18 DEX treatment compare well with the 12h DEX treatment DE results of the Reddy lab.**
 
-![](assets/2_logFC_Mahshid_Reddypdf)
+![](assets/2_logFC_Mahshid_Reddy.pdf)
 
 # Question 2: Binding of GR-GC complex to DE genes from our analysis {.tabset}
 
@@ -89,21 +89,21 @@ An analysis on peaks which are known to interact with distant genes (long-range 
 We select all genes that are differentially expressed - both for Mahshid's data and for the DE analysis on the Reddy data. We then split the data into two groups based on whether the Reddy data showed that the glucocorticoid receptor was found to bind near the gene or not. We plot the distributions of (a) the log fold changes in the DE analysis and (b) the p-value of the DE analysis. 
 
 
-![](assets/Q2_3_mahshid_reddypdf)
+![](assets/Q2_3_mahshid_reddy.pdf)
 
 ## Boxplots by GR peaks number
 
-![](assets/Q2_4_boxplotspdf)
+![](assets/Q2_4_boxplots.pdf)
 
 ## Boxplots by type of closest GR peak
 
 _Note:_ NA means that there was no peak for which the gene's TSS was the TSS closest to the peak.
 
-![](assets/Q2_6_boxplots_classpdf)
+![](assets/Q2_6_boxplots_class.pdf)
 
 ## logFC vs. distance to closest peak
 
-![](assets/Q2_5_TSS_distancespdf)
+![](assets/Q2_5_TSS_distances.pdf)
 
 # Question 3: Inhibition unique to protac compared to Cort and MIF {.tabset}
 
@@ -117,15 +117,15 @@ A file with the list of genes can be found in the downloads section.
 
 ## 2h > 16h
 
-![](assets/Q3_1_reversal216pdf)
+![](assets/Q3_1_reversal216.pdf)
 
 ## 16h > 2h (logFC > 0)
 
-![](assets/Q3_2_reversal162_p1pdf)
+![](assets/Q3_2_reversal162_p1.pdf)
 
 ## 16h > 2h (logFC < 0)
 
-![](assets/Q3_3_reversal162_p2pdf)
+![](assets/Q3_3_reversal162_p2.pdf)
 
 
 
@@ -139,7 +139,7 @@ The Reddy lab has collected data on where the glucocorticoid receptor (NR3C1) bi
 
 ## Table view
 
-```{r}
+```{r q4}
 kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
 
 # only keep the significant genes
@@ -149,26 +149,26 @@ kh.protac.sig[,c("Gene", "logFC", "FDR", "chip_peaks", "gc_bound")] %>%
   kableExtra::kable_styling()
 ```
 
-![](assets/Q4_1_kh_gr_bindingpdf)
+![](assets/Q4_1_kh_gr_binding.pdf)
 ## p-value vs. logFC
 
 ## Signal tracks for peaks that could be matched with the 13 genes
 
 We plot peaks for which the closest TSS was found to be one of the 13 genes. The tracks of the peaks shown are _centered at these peaks_ and _not_ at the TSS of the respective gene.
 
-![](assets/Q4_2_kh_peak_trackspdf)
+![](assets/Q4_2_kh_peak_tracks.pdf)
 
 ## Tracks around the all TSSs of the 13 genes
 
 Here we first obtain all known transcripts of the 13 genes and plot the signals _centered around the respective TSS sites_. As a gene can have multiple TSSs this plot is a bit crowded.
 
-![](assets/Q4_3_kh_all_txspdf)
+![](assets/Q4_3_kh_all_txs.pdf)
 
 ## Tracks around main TSS for each of the 13 genes
 
 To simplify the previous plot (all TSSs) we just choose a single TSS per gene (the first one in the list) and plot the signal around this TSS.
 
-![](assets/Q4_4_kh_unique_gene_tsspdf)
+![](assets/Q4_4_kh_unique_gene_tss.pdf)
 
 # Question 5: Binding to selected genes
 
@@ -217,7 +217,7 @@ peakfreq$Gene[amatch("CH25H", peakfreq$Gene, maxDist = Inf)]
 
  Lastly, we show the information we have for the two genes found in the data:
  
-```{r}
+```{r table with kable}
 plt_data %>%
   kableExtra::kable() %>%
   kableExtra::kable_styling()
@@ -281,7 +281,7 @@ regionUpset(list_of_regions_v2)
 
 Annotate GR 2h and 12h and JUNB 2h
 
-```{r, results="asis"}
+```{r gr peak and junb, results="asis"}
 library(AnnotationHub)
 ah <- AnnotationHub()
 ensdb <- ah[["AH98047"]] # AH89211 (mouse), AH98047 (human), AH95846 (rat)
@@ -341,10 +341,10 @@ Other groups have observed that a GR inhibitor activates CYP genes. CYP genes ar
 
 The PXR motif looks like this (from Hocomoco):
 
-![](assets/Q7_1_motifpdf)
+![](assets/Q7_1_motif.pdf)
 
 
-```{r}
+```{r grpaks moi}
 gr_peaks <- readRDS("../data/EOS_files/Q2_annotated_peaks.rds")
 moi <- readRDS(file="../data/EOS_files/pxr_peaks.rds")
 
@@ -355,7 +355,7 @@ moi <- readRDS(file="../data/EOS_files/pxr_peaks.rds")
 
 We can also look at the signals around the PXR motifs found in the accessible chromatin (identified using the 12h ATAC seq data from the Reddy lab)
 
-![](assets/Q7_2_signalpdf)
+![](assets/Q7_2_signal.pdf)
 
 # Q8: How do our signals compare to our differential expression results?
 
@@ -365,7 +365,7 @@ In the following we plot the signal for a subset of genes, IF these genes are as
 
 We first plot the signal tracks for all genes for the sake of completeness. We plot around the TSS of the gene, not around the centre of the peak. Reminder: The peaks are labelled with the gene name the TSS of which is closest to the peak.
 
-```{r}
+```{r q8a}
 # load summarised experiment
 se <- readRDS(file="../data/results/SE.processed.rds")
 # removes the row without name
@@ -374,7 +374,7 @@ res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 ```
 
 
-```{r}
+```{r q8b}
 # a function to cluster signal tracks and rna at the same time
 
 cluster_tracks_and_rna <- function(signal_tracks, summ_exp, k, assay_name="log2FC"){
@@ -414,7 +414,7 @@ cluster_tracks_and_rna <- function(signal_tracks, summ_exp, k, assay_name="log2F
 }
 ```
 
-```{r, fig.width=12, fig.height=10}
+```{r plot_signals_and_sechm function, fig.width=12, fig.height=10}
 dds <- readRDS("../data/results/dds.rds")
 
 tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
@@ -428,9 +428,9 @@ all.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype
                                                                 "tx_support_level",
                                                                 "gene_id","gene_name"))
 
-plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE, assayName="log2FC", nclusters=NULL){
+plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE, assayName="log2FC", nclusters=NULL, height=13){
   # first subset for a given selection of genes
-  if (is.null(genes_subset) == FALSE) {
+  if (is.null(genes_subset) == FALSE & plot_around_gene_tss==FALSE) {
     peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
     if (length(peaks) == 0) return(paste0("No peaks found for the genes:", paste(genes_subset, collapse = ', ')))
   }
@@ -438,6 +438,7 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
   se0 <- se
   if (!is.null(subset_columns)){
       se0 <- se0[,se0$condition %in% subset_columns]
+      se0$condition <- factor(se0$condition, levels=subset_columns)
     }
   
   if (is.null(tracks_subset)){
@@ -445,32 +446,49 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
   } else {
     tracks_used <- tracks[tracks_subset]
   }
-  
-  # get rid of peaks that don't have an assigned gene that was quantified
-  peaks <- sort(peaks[peaks$nearestTSS.gene_name %in% row.names(se0)])
-  # give unique names to the peaks
-  names(peaks) <- make.unique(peaks$nearestTSS.gene_name)
-  # select (and duplicate) the entries in R, and give them the names
-  se2 <- se0[as.character(peaks$nearestTSS.gene_name),]
-  row.names(se2) <- names(peaks)
-  
+
   if (plot_around_gene_tss == TRUE){
     mygenes.transcripts <- all.transcripts
     if (!is.null(genes_subset)){
       mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% genes_subset)
+    } else {
+      mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% rownames(se0))
     }
-    mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
+    # mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
     mygenes.tss <-  resize(mygenes.transcripts, width=1, fix='start')
     seqlevelsStyle(mygenes.tss) <- "UCSC"
     mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
+  
+    # we need to deduplicate again, maybe some gene names describe the same region
+    mygenes_unique <- mygenes_unique[!duplicated(mygenes_unique)] # 13827
+    
+    # sometimes we might have sequences which extend beyond the genome
+    mask1 <- which(end(mygenes_unique) > seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
+    mask2 <- which(start(mygenes_unique) < seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
+    mask <- c(mask1, mask2)
+    # only subset if mask has length > 0
+    if (length(mask) != 0) mygenes_unique <- mygenes_unique[-mask]
+  
+    # get the signals
+    signals <- signal2Matrix(tracks_used, mygenes_unique, w=5, extend=2500) # 13820
+    
+    # make sure that the rows are the same. Sometimes we can lose genes when running signal2matrix
+    mygenes_unique <- mygenes_unique[mygenes_unique$tx_id %in% rownames(signals[[1]]),]
     
     # adjust the se2 genes to only show the ones for which we have the TSS
     genes <- mygenes_unique$gene_name
-    se2 <- se0[genes,]
+    se2 <- se0[genes,] # 13827
     
-    # get the signals
-    signals <- signal2Matrix(tracks_used, mygenes_unique, w=5, extend=2500)
   } else {
+    # get rid of peaks that don't have an assigned gene that was quantified
+    # we need a peak to plot
+    peaks <- peaks[peaks$nearestTSS.gene_name %in% row.names(se0)]
+    peaks <- sort(peaks)
+    # give unique names to the peaks
+    names(peaks) <- make.unique(peaks$nearestTSS.gene_name)
+    # select (and duplicate) the entries in R, and give them the names
+    se2 <- se0[as.character(peaks$nearestTSS.gene_name),]
+    row.names(se2) <- names(peaks)
     signals <- signal2Matrix(tracks_used, peaks, w=5, extend=500)  
   }
   
@@ -484,12 +502,12 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
   set.seed(100) # for colours
   h2 <- sechm::sechm(se2, genes=row.names(se2), assayName=assayName, sortRowsOn=NULL, 
                      cluster_rows=FALSE, width=unit(12, "cm"), top_annotation=c("condition","batch"), 
-                     gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90)
+                     gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90, height=height)
   # (For this second one it's important that rows are in the input order)
   h1 + h2
 }
 
-plt <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE)
+plt <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=FALSE)
 plt
 ```
 
@@ -498,14 +516,13 @@ plt
 
 Heatmap visualizing conditions dmso, untreated, 2h dex, KH103 >2h dex, MIF>2h dex, Cort113>2h dex, also show next to it GR tracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message: KH103 if given before dex, blocks dex induced changes better than mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
 
-```{r, fig.width=10, fig.height=10, results="asis", warning=FALSE}
-reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h Cort113", "18h KH-103", "18h MIF"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
+```{r 6c.1, fig.width=14, fig.height=10, results="asis"}
+reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113"), tracks_subset=c("2h-DEX"), nclusters=3)
 reduced_view
 
 pdf("../data/00_paper_figures/6c1.pdf", width=14, height=10)
 reduced_view
 dev.off()
-
 # ggsave(filename="../data/00_paper_figures/6c1.pdf", width=10, height=10)
 ```
 
@@ -513,9 +530,9 @@ dev.off()
 
 Heatmap visualizing conditions dmso, untreated, dex 18h, 2h dex>KH103, 2h dex>MIF, 2h dex>Cort113, also show next to it GRtracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message1: KH103 if given after dex, blocks less good probably compared to mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
 
-```{r, fig.width=8, fig.height=12, results="asis", warning=FALSE}
+```{r 6d1, fig.width=8, fig.height=12, results="asis", warning=FALSE}
 reduced_view2 <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, 
-                                       subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
+                                       subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("12h-DEX"), nclusters=3)
 
 reduced_view2
 
@@ -529,13 +546,15 @@ dev.off()
 
 Heatmap of those 13 genes that are significant in KH-103 alone condition comparing with untreated/dmso/Dex2h/Dex 18h (maybe also MIF/Cort113) alongside their TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list (maybe if possible also including the long range enhancer info as well?). (message: a. these few genes that are changed in kh103 are also mostly changed in other inhibitor and dex conditions too, b. only 5 of those changed genes have direct GR mediation (except some have GR around enhancer) and c. marking up TEF and Cry2 as the only ones that are specifically changed only by KH103)
 
-```{r, fig.width=8, fig.height=4, results="asis", warning=FALSE}
+```{r 7b2, fig.width=8, fig.height=4, results="asis", warning=FALSE}
 kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
 
 # Maybe if possible also including the long range enhancer info as well
 genes <- kh.protac[kh.protac$FDR < 0.05,]
 
 fig7b <- plot_signals_and_sechm(gr_peaks, genes_subset=genes$Gene, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
+
+
 fig7b
 # ggsave(filename="../data/00_paper_figures/7b2.pdf", width=8, height=4)
 
@@ -556,9 +575,8 @@ In the following we show the same plots, but for smaller subsets of genes. We ch
 
 The signals are plotted around the gene TSS ± 25'000bp.
 
-```{r, fig.width=22, fig.height=10, results="asis"}
+```{r signaltracks plus de plot, fig.width=22, fig.height=10, results="asis"}
 se.processed <- readRDS(file="../data/results/SE.processed.rds")
-names(se.processed)
 
 # prep
 w <- se$condition2 %in% c("control","18h Cort113","18h KH-103","18h MIF")
@@ -593,16 +611,15 @@ Heatmap plot of our RNAseq next to the
 - TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list: “genes that are triggered by inhibitors but not or less by kh-103”. 
 - Visualized next to Dex 2h and Dex 18h and untreated/dmso DE genes
 
-```{r, fig.width=10, fig.height=14, results="asis"}
+```{r fig7b.1, fig.width=10, fig.height=14, results="asis"}
 cat("\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n")
 ## Genes triggered by other inhibitors and not (or less) KH-103
 mm <- model.matrix(~se$isInhibited[w]+isKh)
 fit <- glmFit(estimateDisp(dds2,mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
 rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
-plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "16h DMSO > 2h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
+plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113", "16h DMSO >\n2h DEX+DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
 plt_inhibs_not_kh
-
 
 pdf("../data/00_paper_figures/7b1.pdf", width=14, height=14)
 plt_inhibs_not_kh
@@ -664,7 +681,7 @@ plt_inhibited
 
 # Q9: What is the relation of differential expression of genes and differential binding of nearby regions? {.tabset}
 
-```{r}
+```{r q9}
 et <- readRDS(file="../data/results/differential_binding_results.rds")
 merged_peaks <- readRDS(file="../data/results/merged_peaks.rds")
 ```
@@ -675,7 +692,7 @@ An overview of the differential binding peaks is available in the downloads sect
 
 ## Tabular overview:
 
-```{r}
+```{r tabular overview}
 # print table
 et %>% 
   dplyr::select(nearestTSS.gene_name, nearestTSS, FDR,  everything()) %>% 
@@ -686,7 +703,7 @@ et %>%
 
 ## Volcano plot
 
-```{r}
+```{r volcano plot}
 ggplot(et, aes(logFC, -log10(FDR))) + geom_point() + 
   geom_hline(yintercept=-log10(0.05), linetype="dashed") +
   theme_ipsum_rc() +
@@ -699,28 +716,20 @@ ggplot(et, aes(logFC, -log10(FDR))) + geom_point() +
 
 ## Signal tracks
 
-```{r, fig.width=8, fig.height=4}
-tracks <- list("C2"="../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig",
+```{r signal tracks, fig.width=8, fig.height=4}
+tracks2 <- list("C2"="../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig",
                "C3"="../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig",
                "t12_1"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig",
                "t12_2"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig",
                "t12_3"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig")
-m <- signal2Matrix(tracks, merged_peaks)
+m <- signal2Matrix(tracks2, merged_peaks)
 plotEnrichedHeatmaps(m)
-```
-
-```{r, eval=F}
-test <- enriched_score(m[[1]])
-head(test)
-# build scores with 5 columns, each for one track
-# standardise
-head(unclass(m[[1]]))
 ```
 
 
 ## Average signal plots
 
-```{r fig.width=8, fig.height=6}
+```{r average signal plots, fig.width=8, fig.height=6}
 d1 <- meltSignals(m)
 d1$condition <- gsub("[0-9]","",d1$sample)
 d1$condition <- ifelse(d1$condition=="C", "Control", "12hDEX")
@@ -808,7 +817,7 @@ de_res %>%
   labs(title="Absolute logFC differences based on types of associated peaks", subtitle="DE genes with FDR < 0.05 only", y="Absolute logFC")
 ```
 
-```{r}
+```{r peaks short}
 ###
 # Idea 2: A table of peaks with a column containing a string. This string is the comma-separated gene names
 peaks_short <- as.data.frame(peaks) %>% 
@@ -850,14 +859,68 @@ saveWorkbook(wb, "../docs/downloads/Q10_DE_genes_long_range_interactions.xlsx", 
 de_res %>% head(20) %>% kable() %>% kable_styling()
 ```
 
+## Fig 6c.1 and 6d.1 (interaction signals)
+
+```{r 6c1 and 6d1, fig.width=10, fig.height=10, results="asis", warning=FALSE}
+# subset genes which do not have a GR peak
+# From the heatmap you're already making, extract the genes for which there's no GR binding at the TSS.
+# list of all genes
+all.genes <- rownames(se)
+# which are not closest to a peak
+gr.orphans.genes <- all.genes[!all.genes %in% gr_peaks$nearestTSS.gene_name]
 
 
+tracks.2h12h <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
+                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
+
+# prefilter for only the relevant genes
+interactions.filtered <- interactions %>%
+  dplyr::filter(symbol %in% gr.orphans.genes)
+interactions.prefiltered.gr <- makeGRangesFromDataFrame(interactions.filtered, keep.extra.columns=T)
+
+if (!file.exists("../data/EOS_files/sm_lris.rds")){
+  sm <- signal2Matrix(tracks.2h12h, interactions.prefiltered.gr)  
+  saveRDS(sm, "../data/EOS_files/sm_lris.rds")
+} else {
+  sm <- readRDS("../data/EOS_files/sm_lris.rds")
+}
+
+if (!file.exists("../data/EOS_files/sm_lris.rds")){
+  interactions.filtered$GR.score <- pmax(enriched_score(sm[[1]]), enriched_score(sm[[2]]))
+  saveRDS(interactions.filtered, "../data/EOS_files/interaction_filtered.rds")
+} else {
+  interactions.filtered <- readRDS("../data/EOS_files/interaction_filtered.rds")
+}
+
+# For these genes, find those that have an annotated distal enhancer (using the predictions I shared with you a while back).
+interactions.filtered <- interactions.filtered %>% 
+  group_by(symbol) %>% 
+  top_n(-1, wt=GR.score) %>% 
+  mutate("nearestTSS.gene_name"=symbol)
+
+interactions.filtered.granges <- makeGRangesFromDataFrame(interactions.filtered, keep.extra.columns=T)
+
+# For those, do the heatmap with these enhancers instead of the TSS. (If a gene has more than one annotated distal enhancer, use the one with the highest GR signal)
+
+### 6c1
+all.genes.enhancer.tracks6c1 <- plot_signals_and_sechm(interactions.filtered.granges, plot_around_gene_tss=FALSE, subset_columns = c("18h untreated", "18h DMSO", "16h DMSO >\n2h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
+all.genes.enhancer.tracks6c1
+
+pdf("../data/00_paper_figures/6c1b.pdf", width=14, height=10)
+all.genes.enhancer.tracks6c1
+dev.off()
 
 
+### 6d1
+all.genes.enhancer.tracks6d1 <- plot_signals_and_sechm(interactions.filtered.granges, plot_around_gene_tss=FALSE, 
+                                       subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
 
+all.genes.enhancer.tracks6d1
 
-
-
+pdf("../data/00_paper_figures/6d1b.pdf", width=14, height=10)
+all.genes.enhancer.tracks6d1
+dev.off()
+```
 
 
 #

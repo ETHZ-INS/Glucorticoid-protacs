@@ -254,11 +254,11 @@ print(down_mahshid_up_reddy)
 # Create venn diagram
 myCol <- RColorBrewer::brewer.pal(4, "Pastel2")
 
-venn.diagram(
+venn <- venn.diagram(
   x = list(ours_up, ours_down, reddy_up, reddy_down),
   category.names = c("Mahshid up" , "Mahshid down", "Reddy up", "Reddy down"),
-  filename = '../docs/assets/1_venn_diagram.tiff',
-  imagetype="tiff",
+  filename = NULL,
+  #imagetype="svg",
   output=FALSE,
   disable.logging=TRUE,
   # Circles
@@ -276,14 +276,17 @@ venn.diagram(
   cat.default.pos = "outer",
   cat.fontfamily = "sans",
 )
+
+ggsave(venn, file='../docs/assets/1_venn_diagram.pdf', device = "pdf")
+ggsave(venn, file='../docs/assets/1_venn_diagram.png', device = "png")
 ```
 
 ```{bash, engine.opts='-l'}
-cp ../docs/assets/1_venn_diagram.tiff ../docs/00_paper_figures/6a1_venn.tiff
+cp ../docs/assets/1_venn_diagram.pdf ../docs/00_paper_figures/6a1_venn.pdf
 ```
 
 
-![](assets/1_venn_diagram.tiff)
+![](assets/1_venn_diagram.png)
 
 ### Plot logFCs for both experiments for DE gene union
 

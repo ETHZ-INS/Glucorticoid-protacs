@@ -1,0 +1,14 @@
+Error in if (lostp > 5 || (verbose && lost > 0)) { : 
+  missing value where TRUE/FALSE needed
+In addition: Warning messages:
+1: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+2: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+3: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+4: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+5: call dbDisconnect() when finished working with a connection 
+6: In (function (seqlevels, genome, new_style)  :
+  cannot switch some of GRCh38's seqlevels from NCBI to UCSC style

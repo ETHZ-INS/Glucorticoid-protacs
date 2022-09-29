@@ -5,19 +5,21 @@ library(workflowr)
 
 # Question files
 workflowr::wflow_build(files=c(
-  "Q1-Gene-overlap.Rmd",
-  "Q1b-Gene-overlap-2h.Rmd",
-  "Q2-TF-Binding-to-DE-genes.Rmd",
-  "Q2b-TF-Binding-to-DE-genes-2h.Rmd",
-  "Q3-PROTAC-reversal.Rmd",
+  # "Q1-Gene-overlap.Rmd",
+  # "Q1b-Gene-overlap-2h.Rmd",
+  # "Q2-TF-Binding-to-DE-genes.Rmd",
+  # "Q2b-TF-Binding-to-DE-genes-2h.Rmd",
+  # "Q3-PROTAC-reversal.Rmd",
   # "Q4-GR-binding-PROTAC-genes.Rmd",
   # "Q7-PRX-sequences.Rmd",
   # "Q9-Differential_binding.Rmd",
   # "Q11-MR_paper.Rmd",
   "01_Results.Rmd",
+  # "minimal error.Rmd",
   # "00_Download_files.Rmd",
-  "index.Rmd"), 
-  verbose=TRUE)
+  "index.Rmd"),
+  verbose=TRUE,
+  log_dir="logs")
 
 # Push changes to github
 # wflow_publish(".", "Small changes to differential binding")
