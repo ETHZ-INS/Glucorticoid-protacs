@@ -24,6 +24,7 @@ suppressPackageStartupMessages({
   library(epiwraps)
   library(kableExtra)
   library(EnrichedHeatmap)
+  library(AnnotationHub)
 })
 
 source("../code/helper_functions.R")
@@ -282,7 +283,6 @@ regionUpset(list_of_regions_v2)
 Annotate GR 2h and 12h and JUNB 2h
 
 ```{r gr peak and junb, results="asis"}
-library(AnnotationHub)
 ah <- AnnotationHub()
 ensdb <- ah[["AH98047"]] # AH89211 (mouse), AH98047 (human), AH95846 (rat)
 gr_peaks_annotated_2h <- annotateRegions(peaks_gr_2h, ensdb)
@@ -414,7 +414,7 @@ cluster_tracks_and_rna <- function(signal_tracks, summ_exp, k, assay_name="log2F
 }
 ```
 
-```{r plot_signals_and_sechm function, fig.width=12, fig.height=10}
+```{r plot_signals_and_sechm function, fig.width=18, fig.height=10}
 dds <- readRDS("../data/results/dds.rds")
 
 tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
@@ -428,7 +428,7 @@ all.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype
                                                                 "tx_support_level",
                                                                 "gene_id","gene_name"))
 
-plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE, assayName="log2FC", nclusters=NULL, height=13){
+plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE, assayName="log2FC", nclusters=NULL){
   # first subset for a given selection of genes
   if (is.null(genes_subset) == FALSE & plot_around_gene_tss==FALSE) {
     peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
@@ -502,9 +502,10 @@ plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_ts
   set.seed(100) # for colours
   h2 <- sechm::sechm(se2, genes=row.names(se2), assayName=assayName, sortRowsOn=NULL, 
                      cluster_rows=FALSE, width=unit(12, "cm"), top_annotation=c("condition","batch"), 
-                     gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90, height=height)
+                     gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90)
   # (For this second one it's important that rows are in the input order)
-  h1 + h2
+  obj <- h1 + h2
+  draw(obj, padding = unit(c(1, 1, 2, 1), "cm"))
 }
 
 plt <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=FALSE)
@@ -512,12 +513,13 @@ plt
 ```
 
 
+
 ## Fig 6c.1 (Q8).
 
 Heatmap visualizing conditions dmso, untreated, 2h dex, KH103 >2h dex, MIF>2h dex, Cort113>2h dex, also show next to it GR tracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message: KH103 if given before dex, blocks dex induced changes better than mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
 
 ```{r 6c.1, fig.width=14, fig.height=10, results="asis"}
-reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113"), tracks_subset=c("2h-DEX"), nclusters=3)
+reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "16h DMSO >\n2h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113"), tracks_subset=c("2h-DEX"), nclusters=3)
 reduced_view
 
 pdf("../data/00_paper_figures/6c1.pdf", width=14, height=10)
@@ -530,7 +532,7 @@ dev.off()
 
 Heatmap visualizing conditions dmso, untreated, dex 18h, 2h dex>KH103, 2h dex>MIF, 2h dex>Cort113, also show next to it GRtracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message1: KH103 if given after dex, blocks less good probably compared to mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
 
-```{r 6d1, fig.width=8, fig.height=12, results="asis", warning=FALSE}
+```{r 6d1, fig.width=14, fig.height=12, results="asis", warning=FALSE}
 reduced_view2 <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, 
                                        subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("12h-DEX"), nclusters=3)
 
@@ -546,13 +548,13 @@ dev.off()
 
 Heatmap of those 13 genes that are significant in KH-103 alone condition comparing with untreated/dmso/Dex2h/Dex 18h (maybe also MIF/Cort113) alongside their TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list (maybe if possible also including the long range enhancer info as well?). (message: a. these few genes that are changed in kh103 are also mostly changed in other inhibitor and dex conditions too, b. only 5 of those changed genes have direct GR mediation (except some have GR around enhancer) and c. marking up TEF and Cry2 as the only ones that are specifically changed only by KH103)
 
-```{r 7b2, fig.width=8, fig.height=4, results="asis", warning=FALSE}
+```{r 7b2, fig.width=14, fig.height=4, results="asis", warning=FALSE}
 kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
 
 # Maybe if possible also including the long range enhancer info as well
 genes <- kh.protac[kh.protac$FDR < 0.05,]
 
-fig7b <- plot_signals_and_sechm(gr_peaks, genes_subset=genes$Gene, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
+fig7b <- plot_signals_and_sechm(gr_peaks, genes_subset=genes$Gene, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h KH-103", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"), show_rownames=TRUE)
 
 
 fig7b
@@ -565,8 +567,6 @@ dev.off()
 
 ## stop here
 ```
-
-
 
 
 ## Signaltracks + DE plot for Side effects of the inhibitors {.tabset}
@@ -611,14 +611,14 @@ Heatmap plot of our RNAseq next to the
 - TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list: “genes that are triggered by inhibitors but not or less by kh-103”. 
 - Visualized next to Dex 2h and Dex 18h and untreated/dmso DE genes
 
-```{r fig7b.1, fig.width=10, fig.height=14, results="asis"}
+```{r fig7b.1, fig.width=18, fig.height=14, results="asis"}
 cat("\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n")
 ## Genes triggered by other inhibitors and not (or less) KH-103
 mm <- model.matrix(~se$isInhibited[w]+isKh)
 fit <- glmFit(estimateDisp(dds2,mm),mm)
 res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
 rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
-plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113", "16h DMSO >\n2h DEX+DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"))
+plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h KH-103", "18h MIF", "18h Cort113", "16h DMSO >\n2h DEX+DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("12h-DEX"))
 plt_inhibs_not_kh
 
 pdf("../data/00_paper_figures/7b1.pdf", width=14, height=14)
@@ -861,7 +861,7 @@ de_res %>% head(20) %>% kable() %>% kable_styling()
 
 ## Fig 6c.1 and 6d.1 (interaction signals)
 
-```{r 6c1 and 6d1, fig.width=10, fig.height=10, results="asis", warning=FALSE}
+```{r 6c1 and 6d1, fig.width=18, fig.height=10, results="asis", warning=FALSE}
 # subset genes which do not have a GR peak
 # From the heatmap you're already making, extract the genes for which there's no GR binding at the TSS.
 # list of all genes

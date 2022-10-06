@@ -1,0 +1,55 @@
+  |                                                                              |                                                                      |   0%  |                                                                              |....                                                                  |   6%
+   inline R code fragments
+
+  |                                                                              |........                                                              |  12%
+label: seed-set-by-workflowr (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |                                                                              |............                                                          |  18%
+  ordinary text without R code
+
+  |                                                                              |................                                                      |  24%
+label: setup (with options) 
+List of 1
+ $ include: logi FALSE
+
+  |                                                                              |.....................                                                 |  29%
+  ordinary text without R code
+
+  |                                                                              |.........................                                             |  35%
+label: load peaks
+  |                                                                              |.............................                                         |  41%
+  ordinary text without R code
+
+  |                                                                              |.................................                                     |  47%
+label: scan peaks for PXR sequence
+  |                                                                              |.....................................                                 |  53%
+  ordinary text without R code
+
+  |                                                                              |.........................................                             |  59%
+label: motif
+  |                                                                              |.............................................                         |  65%
+  ordinary text without R code
+
+  |                                                                              |.................................................                     |  71%
+label: percentage pxr
+  |                                                                              |......................................................                |  76%
+  ordinary text without R code
+
+  |                                                                              |..........................................................            |  82%
+label: signal tracks (with options) 
+List of 2
+ $ fig.width : num 7
+ $ fig.height: num 7
+
+  |                                                                              |..............................................................        |  88%
+  ordinary text without R code
+
+  |                                                                              |..................................................................    |  94%
+label: session-info-chunk-inserted-by-workflowr
+  |                                                                              |......................................................................| 100%
+  ordinary text without R code
+
+
+/usr/local/bin/pandoc +RTS -K512m -RTS Q7-PRX-sequences.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output Q7-PRX-sequences.html --lua-filter /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmarkdown/lua/latex-div.lua --variable bs3=TRUE --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --variable toc_print=1 --template /Library/Frameworks/R.framework/Versions/4.1/Resources/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --include-before-body /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpmI6wdW/rmarkdown-str10d907cef4a43.html --variable navbar=1 --variable theme=cosmo --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpmI6wdW/rmarkdown-str10d9041f4b4c9.html --variable code_folding=hide --variable code_menu=1 --include-in-header /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpmI6wdW/header10d90288919f3.html --include-after-body /var/folders/1y/bxr6rnvn3cxbn5j2rd5mbxwm0000gn/T//RtmpmI6wdW/footer10d904106b54f.html 

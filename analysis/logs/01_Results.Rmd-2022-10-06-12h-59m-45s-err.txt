@@ -1,0 +1,35 @@
+Error in plot_signals_and_sechm(gr_peaks, genes_subset = genes$Gene, plot_around_gene_tss = TRUE,  : 
+  unused argument (height = unit(20, "cm"))
+In addition: Warning messages:
+1: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+2: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+3: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+4: In readLines(input) :
+  incomplete final line found on '/Users/dominiquepaul/xETH/04_SS22/Epigenetics/Project/GR-PROTAC-analysis/analysis/01_Results.Rmd'
+5: call dbDisconnect() when finished working with a connection 
+6: In (function (seqlevels, genome, new_style)  :
+  cannot switch some of GRCh38's seqlevels from NCBI to UCSC style
+7: In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 2 out-of-bound ranges located on sequence chrM.
+  Note that ranges located on a sequence whose length is unknown (NA) or
+  on a circular sequence are not considered out-of-bound (use
+  seqlengths() and isCircular() to get the lengths and circularity flags
+  of the underlying sequences). You can use trim() to trim these ranges.
+  See ?`trim,GenomicRanges-method` for more information.
+8: In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 2 out-of-bound ranges located on sequence chrM.
+  Note that ranges located on a sequence whose length is unknown (NA) or
+  on a circular sequence are not considered out-of-bound (use
+  seqlengths() and isCircular() to get the lengths and circularity flags
+  of the underlying sequences). You can use trim() to trim these ranges.
+  See ?`trim,GenomicRanges-method` for more information.
+9: In valid.GenomicRanges.seqinfo(x, suggest.trim = TRUE) :
+  GRanges object contains 2 out-of-bound ranges located on sequence chrM.
+  Note that ranges located on a sequence whose length is unknown (NA) or
+  on a circular sequence are not considered out-of-bound (use
+  seqlengths() and isCircular() to get the lengths and circularity flags
+  of the underlying sequences). You can use trim() to trim these ranges.
+  See ?`trim,GenomicRanges-method` for more information.

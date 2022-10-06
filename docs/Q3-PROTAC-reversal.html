@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dominique Paul" />
 
-<meta name="date" content="2022-09-27" />
+<meta name="date" content="2022-10-06" />
 
 <title>Q3: PROTAC reversal</title>
 
@@ -368,14 +368,16 @@ div.tocify {
 
 <h1 class="title toc-ignore">Q3: PROTAC reversal</h1>
 <h4 class="author">Dominique Paul</h4>
-<h4 class="date">2022-09-27</h4>
+<h4 class="date">2022-10-06</h4>
 
 </div>
 
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -384,7 +386,9 @@ div.tocify {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -393,17 +397,28 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2022-09-27
+<strong>Last updated:</strong> 2022-10-06
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
 </p>
 <p>
-<strong>Knit directory:</strong> <code>GR-PROTAC-analysis/analysis/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+<strong>Knit directory:</strong>
+<code>GR-PROTAC-analysis/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
 </p>
 <p>
-This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
-  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
 </p>
 <hr>
 </div>
@@ -412,98 +427,147 @@ This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysi
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
 <div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220515code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220515)</code> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220515code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20220515)</code> </a>
 </p>
 </div>
-<div id="strongSeedstrongcodesetseed20220515code" class="panel-collapse collapse">
+<div id="strongSeedstrongcodesetseed20220515code"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20220515)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20220515)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
 </p>
 </div>
-<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
 </p>
 </div>
 <div id="strongCachestrongnone" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
 </p>
 </div>
 <div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree15c3919a15b917c0e8231c668f097e969f7c2b69targetblank15c3919a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/15c3919a15b917c0e8231c668f097e969f7c2b69" target="_blank">15c3919</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree035345d534d39427dc9a550cb99a4d3b9d23f114targetblank035345da">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/035345d534d39427dc9a550cb99a4d3b9d23f114" target="_blank">035345d</a>
+</a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree15c3919a15b917c0e8231c668f097e969f7c2b69targetblank15c3919a" class="panel-collapse collapse">
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomDominiquePaulGlucorticoidprotacstree035345d534d39427dc9a550cb99a4d3b9d23f114targetblank035345da"
+class="panel-collapse collapse">
 <div class="panel-body">
 <p>
-Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/15c3919a15b917c0e8231c668f097e969f7c2b69" target="_blank">15c3919</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/tree/035345d534d39427dc9a550cb99a4d3b9d23f114" target="_blank">035345d</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
 </p>
 <p>
-Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
 </p>
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    analysis/.DS_Store
     Ignored:    analysis/.Rhistory
-    Ignored:    analysis/docs/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/00_paper_figures/.DS_Store
     Ignored:    data/EOS_files/
@@ -525,23 +589,27 @@ Ignored files:
     Ignored:    output/Files/
 
 Untracked files:
-    Untracked:  analysis/myEnvironment.RData
-    Untracked:  data/00_paper_figures/6d1b.pdf
+    Untracked:  analysis/logs/01_Results.Rmd-2022-10-04-22h-07m-55s-err.txt
+    Untracked:  analysis/logs/01_Results.Rmd-2022-10-04-22h-07m-55s-out.txt
+    Untracked:  analysis/logs/Q3-PROTAC-reversal.Rmd-2022-10-04-22h-06m-49s-err.txt
+    Untracked:  analysis/logs/Q3-PROTAC-reversal.Rmd-2022-10-04-22h-06m-49s-out.txt
+    Untracked:  analysis/logs/Q3-PROTAC-reversal.Rmd-2022-10-06-12h-58m-10s-err.txt
+    Untracked:  analysis/logs/Q3-PROTAC-reversal.Rmd-2022-10-06-12h-58m-10s-out.txt
+    Untracked:  analysis/logs/index.Rmd-2022-10-04-22h-35m-48s-err.txt
+    Untracked:  analysis/logs/index.Rmd-2022-10-04-22h-35m-48s-out.txt
 
 Unstaged changes:
     Modified:   analysis/01_Results.Rmd
-    Modified:   analysis/Q1-Gene-overlap.Rmd
-    Modified:   analysis/Q1b-Gene-overlap-2h.Rmd
-    Modified:   analysis/Q2-TF-Binding-to-DE-genes.Rmd
-    Modified:   analysis/Q2b-TF-Binding-to-DE-genes-2h.Rmd
     Modified:   analysis/Q3-PROTAC-reversal.Rmd
     Modified:   analysis/admin.Rmd
     Modified:   data/00_paper_figures/6c1.pdf
+    Modified:   data/00_paper_figures/6c1b.pdf
     Modified:   data/00_paper_figures/6c2a.pdf
     Modified:   data/00_paper_figures/6c2b.pdf
     Modified:   data/00_paper_figures/6c2c.pdf
     Modified:   data/00_paper_figures/6c2d.pdf
     Modified:   data/00_paper_figures/6d1.pdf
+    Modified:   data/00_paper_figures/6d1b.pdf
     Modified:   data/00_paper_figures/6d2a.pdf
     Modified:   data/00_paper_figures/6d2b.pdf
     Modified:   data/00_paper_figures/6d2c.pdf
@@ -551,7 +619,9 @@ Unstaged changes:
 
 </code></pre>
 <p>
-Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
 </p>
 </div>
 </div>
@@ -562,7 +632,12 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/Q3-PROTAC-reversal.Rmd</code>) and HTML (<code>docs/Q3-PROTAC-reversal.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/Q3-PROTAC-reversal.Rmd</code>)
+and HTML (<code>docs/Q3-PROTAC-reversal.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -586,6 +661,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/analysis/Q3-PROTAC-reversal.Rmd" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+<td>
+updates september
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/DominiquePaul/Glucorticoid-protacs/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/Q3-PROTAC-reversal.html" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+<td>
+updates september
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -833,9 +942,20 @@ added question 3
 </div>
 <div id="question-3" class="section level1">
 <h1>Question 3:</h1>
-<p>Our RNA: are there any genes that treated by the PROTAC before/after DEX that could be reversed but which could not by the inhibitors or vice versa?</p>
-<p>We have performed experiments where we first exposed cells to either (1) DEX, (2) inhibitors, or (3) KH PROTAC for a substantial time and then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2) and (3). We would like to see whether the genes which were activated by DEX but then returned to a normal expression by the KH PROTAC, where a similar treatment by the inhibitors could not lead to such an effect and vice versa.</p>
-<p>In our RNAseq, are there any genes that Protac after dex or before dex could reverse or partially reverse that cort113 or mifepristone could not? do these gene show GR binding according to Reddy’s chip data?</p>
+<p>Our RNA: are there any genes that treated by the PROTAC before/after
+DEX that could be reversed but which could not by the inhibitors or vice
+versa?</p>
+<p>We have performed experiments where we first exposed cells to either
+(1) DEX, (2) inhibitors, or (3) KH PROTAC for a substantial time and
+then added inhibitors or the KH PROTAC in case (1) or DEX in cases (2)
+and (3). We would like to see whether the genes which were activated by
+DEX but then returned to a normal expression by the KH PROTAC, where a
+similar treatment by the inhibitors could not lead to such an effect and
+vice versa.</p>
+<p>In our RNAseq, are there any genes that Protac after dex or before
+dex could reverse or partially reverse that cort113 or mifepristone
+could not? do these gene show GR binding according to Reddy’s chip
+data?</p>
 <pre class="r"><code>res_int_all &lt;- readRDS(file=&quot;../data/results/DE_our_data.rds&quot;)
 names(res_int_all)</code></pre>
 <pre><code> [1] &quot;16h Cort113 &gt; 2h DEX+Cort113&quot; &quot;16h DMSO &gt; 2h DEX+DMSO&quot;      
@@ -855,7 +975,9 @@ control162 &lt;- res_int_all[[&quot;16h DMSO &gt; 2h DEX+DMSO&quot;]]</code></pr
 <h1>figure 6d</h1>
 <div id="h-16h-18h-dex" class="section level2">
 <h2>2h &gt; 16h (18h dex)</h2>
-<p><em>Def. 1:</em> We consider “reversed by inhibitor” to mean: “Is DE in ‘2h DEX &gt; 16h DEX+DMSO’ but not in ‘2h DEX &gt; 16h DEX+Cort113’”. We look at both inhibitors and the PROTAC</p>
+<p><em>Def. 1:</em> We consider “reversed by inhibitor” to mean: “Is DE
+in ‘2h DEX &gt; 16h DEX+DMSO’ but not in ‘2h DEX &gt; 16h DEX+Cort113’”.
+We look at both inhibitors and the PROTAC</p>
 <pre class="r"><code># Load inhibitors/Protac data
 cort216 &lt;- res_int_all[[&quot;2h DEX &gt; 16h DEX+Cort113&quot;]]
 mif216 &lt;- res_int_all[[&quot;2h DEX &gt; 16h DEX+MIF&quot;]]
@@ -931,6 +1053,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-1-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-1-1.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -956,55 +1089,13 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_reversal216.pdf&quot;, plt1, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 <div id="sign-flips-reversals" class="section level3">
 <h3>Sign flips / reversals</h3>
-<p>We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the control as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the control experiment.</p>
+<p>We search for cases where an inhibitor or the protac has flipped the
+sign of a logFC. We filter for genes where the gene was DE in both the
+comparison with Dex 18h as well as inhibitor/protac. We apply the
+additional filter than the sign of the logFC has changed with reference
+to the Dex 18h experiment.</p>
 <pre class="r"><code># Check for flips in sign
 merged216$cort_flipped &lt;- ifelse(merged216$FDR &lt; 0.05 &amp; merged216$FDR_cort &lt; 0.05 &amp; 
                                    ((merged216$logFC * merged216$logFC_cort) &lt; 0), TRUE, FALSE)
@@ -1035,194 +1126,11 @@ plt_flipped_mif &lt;- plot_logFCs_216(rnames_flipped_mif, &quot;Genes flipped by
 plt_flipped_kh &lt;- plot_logFCs_216(rnames_flipped_kh, &quot;Genes flipped by KH&quot;)
 
 # Save all plots
-ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_216.pdf&quot;, plt_flipped_cort, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_216.pdf&quot;, plt_flipped_cort, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_216.pdf&quot;, plt_flipped_mif, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_216.pdf&quot;, plt_flipped_kh, width=12, height=7)
 
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d
-
-Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_216.pdf&quot;, plt_flipped_mif, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_216.pdf&quot;, plt_flipped_kh, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code># Show all plots
+# Show all plots
 cat(&quot;\n\n### Flipped effects {.tabset} \n\n&quot;)</code></pre>
 </div>
 <div id="flipped-effects" class="section level3 tabset">
@@ -1254,6 +1162,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-1.png" target="_blank">fd8956d</a>
@@ -1299,6 +1218,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-2.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-2.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -1342,6 +1272,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-3.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-3.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -1365,153 +1306,16 @@ plt_flipped_mif_only &lt;- plot_logFCs_216(rnames_flipped_mif_only, &quot;Genes 
 plt_flipped_kh_only &lt;- plot_logFCs_216(rnames_flipped_kh_only, &quot;Genes flipped by KH only&quot;)
 
 # Save all plots
-ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_only_216.pdf&quot;, plt_flipped_cort_only, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d
-
-Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_only_216.pdf&quot;, plt_flipped_mif_only, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_only_216.pdf&quot;, plt_flipped_kh_only, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_only_216.pdf&quot;, plt_flipped_cort_only, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_only_216.pdf&quot;, plt_flipped_mif_only, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_only_216.pdf&quot;, plt_flipped_kh_only, width=12, height=7)
 
 # Show all plots
 cat(&quot;\n\n### Flipped effects with unique genes per treatment {.tabset} \n\n&quot;)</code></pre>
 </div>
 </div>
-<div id="flipped-effects-with-unique-genes-per-treatment" class="section level3 tabset">
+<div id="flipped-effects-with-unique-genes-per-treatment"
+class="section level3 tabset">
 <h3 class="tabset">Flipped effects with unique genes per treatment</h3>
 <pre class="r"><code>cat(&quot;\n\n#### Cort \n\n&quot;)</code></pre>
 <div id="cort-1" class="section level4">
@@ -1540,6 +1344,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-4.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-4.png" target="_blank">fd8956d</a>
@@ -1585,6 +1400,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-5.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-5.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -1628,6 +1454,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-6.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-2-6.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -1647,8 +1484,12 @@ dominique-paul-uzh
 <div id="plots-from-mahshids-summary" class="section level2">
 <h2>Plots from Mahshids summary</h2>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-18h-ns-in-2hkh103-but-are-significant-in-the-same-direction---as-dex-18h-in-2h-dexmif-and-2h-dexcort113" class="section level2">
-<h2>1. Only those genes which are significant in Dex 18h, ns in 2h&gt;KH103 but are significant in the same direction (+/-) as Dex 18h in 2h dex&gt;mif and 2h dex&gt;cort113</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-18h-ns-in-2hkh103-but-are-significant-in-the-same-direction---as-dex-18h-in-2h-dexmif-and-2h-dexcort113"
+class="section level2">
+<h2>1. Only those genes which are significant in Dex 18h, ns in
+2h&gt;KH103 but are significant in the same direction (+/-) as Dex 18h
+in 2h dex&gt;mif and 2h dex&gt;cort113</h2>
 <pre class="r"><code>merged216$category1 &lt;- (merged216$FDR &lt; 0.05) &amp; 
   (merged216$FDR_KH &gt; 0.05) &amp; 
   (merged216$FDR_MIF &lt; 0.05) &amp; (merged216$FDR_cort &lt; 0.05) &amp; 
@@ -1682,6 +1523,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-3-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-3-1.png" target="_blank">9d91c8d</a>
@@ -1720,55 +1572,13 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6d2a.pdf&quot;, width = 14, height=5)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-18h-ns-in-2h-dex-kh103-but-are-significant-in-the-opposite-direction-as-dex-18h-in-2h-dexmif-and-2h-dex-cort113" class="section level2">
-<h2>2. Only those genes which are significant in Dex 18h, ns in 2h dex&gt; KH103 but are significant in the opposite direction as Dex 18h in 2h dex&gt;mif and 2h dex &gt; cort113</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-18h-ns-in-2h-dex-kh103-but-are-significant-in-the-opposite-direction-as-dex-18h-in-2h-dexmif-and-2h-dex-cort113"
+class="section level2">
+<h2>2. Only those genes which are significant in Dex 18h, ns in 2h
+dex&gt; KH103 but are significant in the opposite direction as Dex 18h
+in 2h dex&gt;mif and 2h dex &gt; cort113</h2>
 <pre class="r"><code>merged216$category2 &lt;- (merged216$FDR &lt; 0.05) &amp; 
   (merged216$FDR_KH &gt; 0.05) &amp; 
   (merged216$FDR_MIF &lt; 0.05) &amp; (merged216$FDR_cort &lt; 0.05) &amp; 
@@ -1804,6 +1614,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-4-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-4-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -1818,58 +1639,17 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6d2b.pdf&quot;, width = 7, height=5)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-18h-and-are-ns-or-significant-in-the-same-direction-as-dex-18h-for-2h-dexmif-and-2h-dexcort113-but-are-significant-in-the-opposite-direction-as-dex-18h-in-2h-dexkh-103" class="section level2">
-<h2>3. Only those genes which are significant in Dex 18h, and are ns or significant in the same direction as Dex 18h for 2h dex&gt;mif and 2h dex&gt;cort113 but are significant in the opposite direction as Dex 18h in 2h dex&gt;KH-103</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-18h-and-are-ns-or-significant-in-the-same-direction-as-dex-18h-for-2h-dexmif-and-2h-dexcort113-but-are-significant-in-the-opposite-direction-as-dex-18h-in-2h-dexkh-103"
+class="section level2">
+<h2>3. Only those genes which are significant in Dex 18h, and are ns or
+significant in the same direction as Dex 18h for 2h dex&gt;mif and 2h
+dex&gt;cort113 but are significant in the opposite direction as Dex 18h
+in 2h dex&gt;KH-103</h2>
 <pre class="r"><code>merged216$category3 &lt;- (merged216$FDR &lt; 0.05) &amp; 
-  ((merged216$FDR_MIF &lt; 0.05) | (merged216$logFC * merged216$logFC_MIF &gt; 0)) &amp; # 18h DEX and MIF point in same direction
-  ((merged216$FDR_cort &lt; 0.05) | (merged216$logFC * merged216$logFC_cort &gt; 0)) &amp; # 18h DEX and MIF point in same direction
+  ((merged216$FDR_MIF &gt; 0.05) | ((merged216$FDR_MIF &lt; 0.05) &amp; (merged216$logFC * merged216$logFC_MIF &gt; 0))) &amp; # 18h DEX and MIF point in same direction
+  ((merged216$FDR_cort &gt; 0.05) | ((merged216$FDR_cort &lt; 0.05) &amp; (merged216$logFC * merged216$logFC_cort &gt; 0))) &amp; # 18h DEX and MIF point in same direction
   ((merged216$FDR_KH &lt; 0.05) &amp; (merged216$logFC * merged216$logFC_KH &lt; 0)) # 18h DEX and KH have different logFC signs while KH is significant
 
 rnames_flipped_cat3 &lt;- merged216 %&gt;% dplyr::filter(category3 == TRUE) %&gt;% pull(rowname)
@@ -1901,6 +1681,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-5-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-5-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -1927,8 +1718,12 @@ dominique-paul-uzh
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6d2c.pdf&quot;, width = 7, height=5)</code></pre>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-18h-and-are-significant-in-the-opposite-direction-as-dex-18h-in-all-three-conditions-of-2h-dexkh-103-2h-dexmif-2h-dexcort113" class="section level2">
-<h2>4. Only those genes which are significant in Dex 18h, and are significant in the opposite direction as Dex 18h in all three conditions of 2h dex&gt;KH-103, 2h dex&gt;MIF, 2h dex&gt;Cort113</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-18h-and-are-significant-in-the-opposite-direction-as-dex-18h-in-all-three-conditions-of-2h-dexkh-103-2h-dexmif-2h-dexcort113"
+class="section level2">
+<h2>4. Only those genes which are significant in Dex 18h, and are
+significant in the opposite direction as Dex 18h in all three conditions
+of 2h dex&gt;KH-103, 2h dex&gt;MIF, 2h dex&gt;Cort113</h2>
 <pre class="r"><code>merged216$category4 &lt;- (merged216$FDR &lt; 0.05) &amp; 
   (merged216$logFC * merged216$logFC_KH &lt; 0) &amp; (merged216$FDR_KH &lt; 0.05) &amp; # KH is significant in other direction as 2h DEX
   (merged216$logFC * merged216$logFC_MIF &lt; 0) &amp; (merged216$FDR_MIF &lt; 0.05) &amp; # MIF is significant in other direction as 2h DEX
@@ -1963,6 +1758,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-6-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-6-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -1983,7 +1789,8 @@ dominique-paul-uzh
 <h1>Figure 6c</h1>
 <div id="h-2h-2h-dex" class="section level2">
 <h2>16h &gt; 2h (2h dex)</h2>
-<p><em>Def. 2:</em> “Is DE from 16h DEX &gt; 2h DEX+DMSO but is not DE in 16h DEX &gt; 2h DEX+Cort113 experiment”</p>
+<p><em>Def. 2:</em> “Is DE from 16h DEX &gt; 2h DEX+DMSO but is not DE
+in 16h DEX &gt; 2h DEX+Cort113 experiment”</p>
 <pre class="r"><code># Load inhibitors/Protac data
 cort162 &lt;- res_int_all[[&quot;16h Cort113 &gt; 2h DEX+Cort113&quot;]]
 mif162 &lt;- res_int_all[[ &quot;16h MIF  &gt; 2h DEX+MIF&quot;]]
@@ -2025,7 +1832,9 @@ rnames_kh_reversal &lt;- merged216[merged162$KH_reversed == TRUE &amp;
                                   merged162$MIF_reversed == F,&quot;rowname&quot;]
 
 merged162[merged162$rowname %in% rnames_kh_reversal,&quot;KH_reversed&quot;] &lt;- TRUE</code></pre>
-<p>Because we have a lot of genes to show in one plot for the 16h &gt; 2h experiment, we split them into two groups. One plot shows the genes for which the control logFC is &gt;0 and the other &lt;0.</p>
+<p>Because we have a lot of genes to show in one plot for the 16h &gt;
+2h experiment, we split them into two groups. One plot shows the genes
+for which the Dex 2h logFC is &gt;0 and the other &lt;0.</p>
 <pre class="r"><code># split the long formatted dataset into two groups
 data_plt &lt;- merged162_long[merged162_long$rowname %in% rnames_kh_reversal,]
 data &lt;- data_plt[data_plt$Group == &quot;DEX.2h&quot;,]
@@ -2079,6 +1888,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/plots-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/plots-1.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -2129,6 +1949,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/plots-2.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/fd8956d244119afeedefa8cf31c9eddca56d6014/docs/figure/Q3-PROTAC-reversal.Rmd/plots-2.png" target="_blank">fd8956d</a>
 </td>
 <td>
@@ -2155,143 +1986,13 @@ dominique-paul-uzh
 </div>
 <pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_2_reversal162_p1.pdf&quot;, plt2_1, width=24, height=8)
 ggsave(file=&quot;../docs/assets/Q3_3_reversal162_p2.pdf&quot;, plt2_2, width=24, height=8)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d
-
-Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 <div id="sign-flips-reversals-1" class="section level3">
 <h3>Sign flips / reversals</h3>
-<p>We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the control as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the control experiment.</p>
+<p>We search for cases where an inhibitor or the protac has flipped the
+sign of a logFC. We filter for genes where the gene was DE in both the
+comparison with the Dex 2h as well as inhibitor/protac. We apply the
+additional filter than the sign of the logFC has changed with reference
+to the Dex 2h experiment.</p>
 <pre class="r"><code># Check for flips in sign
 merged162$cort_flipped &lt;- ifelse(merged162$FDR &lt; 0.05 &amp; merged162$FDR_cort &lt; 0.05 &amp; 
                                    ((merged162$logFC * merged162$logFC_cort) &lt; 0), TRUE, FALSE)
@@ -2364,194 +2065,11 @@ plt_flipped_mif &lt;- plot_logFCs_162(rnames_flipped_mif, &quot;Genes flipped by
 plt_flipped_kh &lt;- plot_logFCs_162(rnames_flipped_kh, &quot;Genes flipped by KH&quot;)
 
 # Save all plots
-ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_216.pdf&quot;, plt_flipped_cort, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_216.pdf&quot;, plt_flipped_cort, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_216.pdf&quot;, plt_flipped_mif, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_216.pdf&quot;, plt_flipped_kh, width=12, height=7)
 
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_216.pdf&quot;, plt_flipped_mif, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d
-
-Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_216.pdf&quot;, plt_flipped_kh, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code># Show all plots
+# Show all plots
 cat(&quot;\n\n### Flipped effects {.tabset} \n\n&quot;)</code></pre>
 </div>
 <div id="flipped-effects-1" class="section level3 tabset">
@@ -2583,6 +2101,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-1.png" target="_blank">9d91c8d</a>
@@ -2628,6 +2157,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-2.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-2.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -2669,6 +2209,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-3.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-3.png" target="_blank">9d91c8d</a>
@@ -2736,153 +2287,16 @@ plt_flipped_mif_only &lt;- plot_logFCs_162(rnames_flipped_mif_only, &quot;Genes 
 plt_flipped_kh_only &lt;- plot_logFCs_162(rnames_flipped_kh_only, &quot;Genes flipped by KH only&quot;)
 
 # Save all plots
-ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_only_216.pdf&quot;, plt_flipped_cort_only, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_only_216.pdf&quot;, plt_flipped_mif_only, width=12, height=7)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d
-
-Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
-<pre class="r"><code>ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_only_216.pdf&quot;, plt_flipped_kh_only, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_cort_only_216.pdf&quot;, plt_flipped_cort_only, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_mif_only_216.pdf&quot;, plt_flipped_mif_only, width=12, height=7)
+ggsave(file=&quot;../docs/assets/Q3_1_flipped_kh_only_216.pdf&quot;, plt_flipped_kh_only, width=12, height=7)
 
 # Show all plots
 cat(&quot;\n\n### Flipped effects with unique genes per treatment {.tabset} \n\n&quot;)</code></pre>
 </div>
 </div>
-<div id="flipped-effects-with-unique-genes-per-treatment-1" class="section level3 tabset">
+<div id="flipped-effects-with-unique-genes-per-treatment-1"
+class="section level3 tabset">
 <h3 class="tabset">Flipped effects with unique genes per treatment</h3>
 <pre class="r"><code>cat(&quot;\n\n#### Cort \n\n&quot;)</code></pre>
 <div id="cort-3" class="section level4">
@@ -2911,6 +2325,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-4.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-4.png" target="_blank">9d91c8d</a>
@@ -2956,6 +2381,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-5.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-5.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -2999,6 +2435,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-6.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-7-6.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -3018,8 +2465,12 @@ dominique-paul-uzh
 <div id="plots-according-to-document" class="section level2">
 <h2>Plots according to document</h2>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-2h-ns-in-kh1032h-dex-but-are-significant-in-the-same-direction---as-dex-2h-in-mif2h-dex-and-cort2h-dex" class="section level2">
-<h2>1. Only those genes which are significant in Dex 2h, ns in KH103&gt;2h dex but are significant in the same direction (+/-) as Dex 2h in mif&gt;2h dex and cort&gt;2h dex</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-2h-ns-in-kh1032h-dex-but-are-significant-in-the-same-direction---as-dex-2h-in-mif2h-dex-and-cort2h-dex"
+class="section level2">
+<h2>1. Only those genes which are significant in Dex 2h, ns in
+KH103&gt;2h dex but are significant in the same direction (+/-) as Dex
+2h in mif&gt;2h dex and cort&gt;2h dex</h2>
 <pre class="r"><code>merged162$category1 &lt;- (merged162$FDR &lt; 0.05) &amp; 
   (merged162$FDR_KH &gt; 0.05) &amp; 
   (merged162$FDR_MIF &lt; 0.05) &amp; (merged162$FDR_cort &lt; 0.05) &amp; 
@@ -3055,6 +2506,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-8-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-8-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -3069,49 +2531,13 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6c2a.pdf&quot;, width = 18, height=5)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-2h-ns-in-kh1032h-dex-but-are-significant-in-the-opposite-direction-as-dex-2h-in-mif2h-dex-and-cort1132h-dex" class="section level2">
-<h2>2. Only those genes which are significant in Dex 2h, ns in KH103&gt;2h dex but are significant in the opposite direction as Dex 2h in mif&gt;2h dex and cort113&gt;2h dex</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-2h-ns-in-kh1032h-dex-but-are-significant-in-the-opposite-direction-as-dex-2h-in-mif2h-dex-and-cort1132h-dex"
+class="section level2">
+<h2>2. Only those genes which are significant in Dex 2h, ns in
+KH103&gt;2h dex but are significant in the opposite direction as Dex 2h
+in mif&gt;2h dex and cort113&gt;2h dex</h2>
 <pre class="r"><code>merged162$category2 &lt;- (merged162$FDR &lt; 0.05) &amp; 
   (merged162$FDR_KH &gt; 0.05) &amp; 
   (merged162$FDR_MIF &lt; 0.05) &amp; (merged162$FDR_cort &lt; 0.05) &amp; 
@@ -3147,6 +2573,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-9-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-9-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -3161,106 +2598,17 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6c2b.pdf&quot;, width = 7, height=5)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d
-
-Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-2h-ns-or-significant-in-same-direction-as-dex-2h-for-mif2h-dex-and-cort1132h-dex-but-are-significant-in-the-opposite-direction-as-dex-2h-in-kh-1032h-dex" class="section level2">
-<h2>3. Only those genes which are significant in Dex 2h, ns or significant in same direction as Dex 2h for mif&gt;2h dex and cort113&gt;2h dex but are significant in the opposite direction as Dex 2h in KH-103&gt;2h dex</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-2h-ns-or-significant-in-same-direction-as-dex-2h-for-mif2h-dex-and-cort1132h-dex-but-are-significant-in-the-opposite-direction-as-dex-2h-in-kh-1032h-dex"
+class="section level2">
+<h2>3. Only those genes which are significant in Dex 2h, ns or
+significant in same direction as Dex 2h for mif&gt;2h dex and
+cort113&gt;2h dex but are significant in the opposite direction as Dex
+2h in KH-103&gt;2h dex</h2>
 <pre class="r"><code>merged162$category3 &lt;- (merged162$FDR &lt; 0.05) &amp; 
-  ((merged162$FDR_MIF &lt; 0.05) | (merged162$logFC * merged162$logFC_MIF &gt; 0)) &amp; # 2h DEX and MIF point in same direction
-  ((merged162$FDR_cort &lt; 0.05) | (merged162$logFC * merged162$logFC_cort &gt; 0)) &amp; # 2h DEX and MIF point in same direction
+  ((merged162$FDR_MIF &gt; 0.05) | ((merged162$FDR_MIF &lt; 0.05) &amp; (merged162$logFC * merged162$logFC_MIF &gt; 0))) &amp; # 2h DEX and MIF point in same direction
+  ((merged162$FDR_cort &gt; 0.05) | ((merged162$FDR_cort &lt; 0.05) &amp; (merged162$logFC * merged162$logFC_cort &gt; 0))) &amp; # 2h DEX and MIF point in same direction
   ((merged162$FDR_KH &lt; 0.05) &amp; (merged162$logFC * merged162$logFC_KH &lt; 0)) # 2h DEX and KH have different logFC signs while KH is significant
 
 rnames_flipped_cat3 &lt;- merged162 %&gt;% dplyr::filter(category3 == TRUE) %&gt;% pull(rowname)
@@ -3292,6 +2640,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-10-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-10-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -3306,55 +2665,13 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6c2c.pdf&quot;, width = 10, height=5)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 </div>
-<div id="only-those-genes-which-are-significant-in-dex-2h-and-are-significant-in-the-opposite-direction-as-dex-2h-in-all-three-conditions-of-kh-1032h-dex-mif2h-dex-cort1132h-dex" class="section level2">
-<h2>4. Only those genes which are significant in Dex 2h, and are significant in the opposite direction as Dex 2h in all three conditions of KH-103&gt;2h dex, MIF&gt;2h dex, Cort113&gt;2h dex</h2>
+<div
+id="only-those-genes-which-are-significant-in-dex-2h-and-are-significant-in-the-opposite-direction-as-dex-2h-in-all-three-conditions-of-kh-1032h-dex-mif2h-dex-cort1132h-dex"
+class="section level2">
+<h2>4. Only those genes which are significant in Dex 2h, and are
+significant in the opposite direction as Dex 2h in all three conditions
+of KH-103&gt;2h dex, MIF&gt;2h dex, Cort113&gt;2h dex</h2>
 <pre class="r"><code>merged162$category4 &lt;- (merged162$FDR &lt; 0.05) &amp; 
   (merged162$logFC * merged162$logFC_KH &lt; 0) &amp; (merged162$FDR_KH &lt; 0.05) &amp; # KH is significant in other direction as 2h DEX
   (merged162$logFC * merged162$logFC_MIF &lt; 0) &amp; (merged162$FDR_MIF &lt; 0.05) &amp; # MIF is significant in other direction as 2h DEX
@@ -3389,6 +2706,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/035345d534d39427dc9a550cb99a4d3b9d23f114/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-11-1.png" target="_blank">035345d</a>
+</td>
+<td>
+dominique-paul-uzh
+</td>
+<td>
+2022-09-29
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/DominiquePaul/Glucorticoid-protacs/blob/9d91c8d7b54856de5a773a3a2fc6f6047bdb01f7/docs/figure/Q3-PROTAC-reversal.Rmd/unnamed-chunk-11-1.png" target="_blank">9d91c8d</a>
 </td>
 <td>
@@ -3403,52 +2731,6 @@ dominique-paul-uzh
 </div>
 </div>
 <pre class="r"><code>ggsave(filename=&quot;../data/00_paper_figures/6c2d.pdf&quot;, width = 7, height=5)</code></pre>
-<pre><code>Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d
-
-Warning in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y, : font
-width unknown for character 0x2d</code></pre>
-<pre><code>Warning in grid.Call.graphics(C_text, as.graphicsAnnot(x$label), x$x, x$y, :
-font width unknown for character 0x2d</code></pre>
 <div id="save-file-to-excel" class="section level3">
 <h3>Save file to excel</h3>
 <pre class="r"><code># setup excel file
@@ -3463,7 +2745,8 @@ saveWorkbook(wb, &quot;../docs/downloads/Q3_protac_flipped_DE.xlsx&quot;, overwr
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
-<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
 </button>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">

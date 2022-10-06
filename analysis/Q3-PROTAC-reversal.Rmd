@@ -91,7 +91,7 @@ merged216[merged216$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
 ```
 
 
-```{r, fig.width=10, fig.height=7, message=FALSE}
+```{r, fig.width=10, fig.height=7, message=FALSE, warning=FALSE}
 plt1 <- ggplot(merged216_long[merged216_long$rowname %in% rnames_kh_reversal,]) +
   geom_point(aes(x=rowname, y=value, color=Group)) +
   theme_ipsum_rc() +
@@ -107,9 +107,9 @@ ggsave(file="../docs/assets/Q3_1_reversal216.pdf", plt1, width=12, height=7)
 
 ### Sign flips / reversals
 
-We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the control as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the control experiment.
+We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with Dex 18h as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the Dex 18h experiment.
 
-```{r, fig.width=10, fig.height=7, results="asis"}
+```{r, fig.width=10, fig.height=7, results="asis", warning=FALSE}
 # Check for flips in sign
 merged216$cort_flipped <- ifelse(merged216$FDR < 0.05 & merged216$FDR_cort < 0.05 & 
                                    ((merged216$logFC * merged216$logFC_cort) < 0), TRUE, FALSE)
@@ -181,7 +181,7 @@ plt_flipped_kh_only
 
 ## 1. Only those genes which are significant in Dex 18h, ns in 2h>KH103 but are significant in the same direction (+/-) as Dex 18h in 2h dex>mif and 2h dex>cort113
 
-```{r, fig.width=14, fig.height=5}
+```{r, fig.width=14, fig.height=5, warning=FALSE}
 merged216$category1 <- (merged216$FDR < 0.05) & 
   (merged216$FDR_KH > 0.05) & 
   (merged216$FDR_MIF < 0.05) & (merged216$FDR_cort < 0.05) & 
@@ -197,7 +197,7 @@ ggsave(filename="../data/00_paper_figures/6d2a.pdf", width = 14, height=5)
 
 ## 2. Only those genes which are significant in Dex 18h, ns in 2h dex> KH103 but are significant in the opposite direction as Dex 18h in 2h dex>mif and 2h dex > cort113
 
-```{r, fig.width=7, fig.height=5}
+```{r, fig.width=7, fig.height=5, message=FALSE, warning=FALSE}
 merged216$category2 <- (merged216$FDR < 0.05) & 
   (merged216$FDR_KH > 0.05) & 
   (merged216$FDR_MIF < 0.05) & (merged216$FDR_cort < 0.05) & 
@@ -214,10 +214,10 @@ ggsave(filename="../data/00_paper_figures/6d2b.pdf", width = 7, height=5)
 ## 3. Only those genes which are significant in Dex 18h, and are ns or significant in the same direction as Dex 18h for 2h dex>mif and 2h dex>cort113 but are significant in the opposite direction as Dex 18h in 2h dex>KH-103
 
 
-```{r, fig.width=7, fig.height=5}
+```{r, fig.width=7, fig.height=5, warning=FALSE}
 merged216$category3 <- (merged216$FDR < 0.05) & 
-  ((merged216$FDR_MIF < 0.05) | (merged216$logFC * merged216$logFC_MIF > 0)) & # 18h DEX and MIF point in same direction
-  ((merged216$FDR_cort < 0.05) | (merged216$logFC * merged216$logFC_cort > 0)) & # 18h DEX and MIF point in same direction
+  ((merged216$FDR_MIF > 0.05) | ((merged216$FDR_MIF < 0.05) & (merged216$logFC * merged216$logFC_MIF > 0))) & # 18h DEX and MIF point in same direction
+  ((merged216$FDR_cort > 0.05) | ((merged216$FDR_cort < 0.05) & (merged216$logFC * merged216$logFC_cort > 0))) & # 18h DEX and MIF point in same direction
   ((merged216$FDR_KH < 0.05) & (merged216$logFC * merged216$logFC_KH < 0)) # 18h DEX and KH have different logFC signs while KH is significant
 
 rnames_flipped_cat3 <- merged216 %>% dplyr::filter(category3 == TRUE) %>% pull(rowname)
@@ -231,7 +231,7 @@ ggsave(filename="../data/00_paper_figures/6d2c.pdf", width = 7, height=5)
 ## 4. Only those genes which are significant in Dex 18h, and are significant in the opposite direction as Dex 18h in all three conditions of 2h dex>KH-103, 2h dex>MIF, 2h dex>Cort113
 
 
-```{r, fig.width=14, fig.height=5}
+```{r, fig.width=14, fig.height=5, warning=FALSE}
 merged216$category4 <- (merged216$FDR < 0.05) & 
   (merged216$logFC * merged216$logFC_KH < 0) & (merged216$FDR_KH < 0.05) & # KH is significant in other direction as 2h DEX
   (merged216$logFC * merged216$logFC_MIF < 0) & (merged216$FDR_MIF < 0.05) & # MIF is significant in other direction as 2h DEX
@@ -295,9 +295,9 @@ rnames_kh_reversal <- merged216[merged162$KH_reversed == TRUE &
 merged162[merged162$rowname %in% rnames_kh_reversal,"KH_reversed"] <- TRUE
 ``` 
 
-Because we have a lot of genes to show in one plot for the 16h > 2h experiment, we split them into two groups. One plot shows the genes for which the control logFC is >0 and the other <0.
+Because we have a lot of genes to show in one plot for the 16h > 2h experiment, we split them into two groups. One plot shows the genes for which the Dex 2h logFC is >0 and the other <0.
 
-```{r plots, fig.width=14, fig.height=5}
+```{r plots, fig.width=14, fig.height=5, warning=FALSE}
 # split the long formatted dataset into two groups
 data_plt <- merged162_long[merged162_long$rowname %in% rnames_kh_reversal,]
 data <- data_plt[data_plt$Group == "DEX.2h",]
@@ -335,9 +335,9 @@ ggsave(file="../docs/assets/Q3_3_reversal162_p2.pdf", plt2_2, width=24, height=8
 
 ### Sign flips / reversals
 
-We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the control as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the control experiment.
+We search for cases where an inhibitor or the protac has flipped the sign of a logFC. We filter for genes where the gene was DE in both the comparison with the Dex 2h as well as inhibitor/protac. We apply the additional filter than the sign of the logFC has changed with reference to the Dex 2h experiment.
 
-```{r, fig.width=10, fig.height=7, results="asis"}
+```{r, fig.width=10, fig.height=7, results="asis", warning=FALSE}
 # Check for flips in sign
 merged162$cort_flipped <- ifelse(merged162$FDR < 0.05 & merged162$FDR_cort < 0.05 & 
                                    ((merged162$logFC * merged162$logFC_cort) < 0), TRUE, FALSE)
@@ -420,7 +420,7 @@ plt_flipped_kh_only
 
 ## 1. Only those genes which are significant in Dex 2h, ns in KH103>2h dex but are significant in the same direction (+/-) as Dex 2h in mif>2h dex and cort>2h dex
 
-```{r, fig.width=14, fig.height=5}
+```{r, fig.width=14, fig.height=5, warning=FALSE}
 merged162$category1 <- (merged162$FDR < 0.05) & 
   (merged162$FDR_KH > 0.05) & 
   (merged162$FDR_MIF < 0.05) & (merged162$FDR_cort < 0.05) & 
@@ -438,7 +438,7 @@ ggsave(filename="../data/00_paper_figures/6c2a.pdf", width = 18, height=5)
 
 ## 2. Only those genes which are significant in Dex 2h, ns in KH103>2h dex but are significant in the opposite direction as Dex 2h in mif>2h dex and cort113>2h dex
 
-```{r, fig.width=7, fig.height=5}
+```{r, fig.width=7, fig.height=5, warning=FALSE}
 merged162$category2 <- (merged162$FDR < 0.05) & 
   (merged162$FDR_KH > 0.05) & 
   (merged162$FDR_MIF < 0.05) & (merged162$FDR_cort < 0.05) & 
@@ -455,10 +455,10 @@ ggsave(filename="../data/00_paper_figures/6c2b.pdf", width = 7, height=5)
 
 ## 3. Only those genes which are significant in Dex 2h, ns or significant in same direction as Dex 2h for mif>2h dex and cort113>2h dex but are significant in the opposite direction as Dex 2h in KH-103>2h dex
 
-```{r, fig.width=10, fig.height=5}
+```{r, fig.width=10, fig.height=5, warning=FALSE}
 merged162$category3 <- (merged162$FDR < 0.05) & 
-  ((merged162$FDR_MIF < 0.05) | (merged162$logFC * merged162$logFC_MIF > 0)) & # 2h DEX and MIF point in same direction
-  ((merged162$FDR_cort < 0.05) | (merged162$logFC * merged162$logFC_cort > 0)) & # 2h DEX and MIF point in same direction
+  ((merged162$FDR_MIF > 0.05) | ((merged162$FDR_MIF < 0.05) & (merged162$logFC * merged162$logFC_MIF > 0))) & # 2h DEX and MIF point in same direction
+  ((merged162$FDR_cort > 0.05) | ((merged162$FDR_cort < 0.05) & (merged162$logFC * merged162$logFC_cort > 0))) & # 2h DEX and MIF point in same direction
   ((merged162$FDR_KH < 0.05) & (merged162$logFC * merged162$logFC_KH < 0)) # 2h DEX and KH have different logFC signs while KH is significant
 
 rnames_flipped_cat3 <- merged162 %>% dplyr::filter(category3 == TRUE) %>% pull(rowname)
@@ -471,7 +471,7 @@ ggsave(filename="../data/00_paper_figures/6c2c.pdf", width = 10, height=5)
 
 ## 4. Only those genes which are significant in Dex 2h, and are significant in the opposite direction as Dex 2h in all three conditions of KH-103>2h dex, MIF>2h dex, Cort113>2h dex
 
-```{r, fig.width=7, fig.height=5}
+```{r, fig.width=7, fig.height=5, warning=FALSE}
 merged162$category4 <- (merged162$FDR < 0.05) & 
   (merged162$logFC * merged162$logFC_KH < 0) & (merged162$FDR_KH < 0.05) & # KH is significant in other direction as 2h DEX
   (merged162$logFC * merged162$logFC_MIF < 0) & (merged162$FDR_MIF < 0.05) & # MIF is significant in other direction as 2h DEX
