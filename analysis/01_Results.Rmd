@@ -370,557 +370,302 @@ We first plot the signal tracks for all genes for the sake of completeness. We p
 se <- readRDS(file="../data/results/SE.processed.rds")
 # removes the row without name
 se <- se[2:dim(se)[1]]
+se <- se[,order(se$condType, se$condition, se$batch)]
+# change order of conditions
+se$condition <- factor(se$condition,
+                       c("18h untreated", "18h DMSO", "18h MIF", "18h Cort113", "18h KH-103", 
+                  "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113", 
+                  "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+DMSO",
+                  "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113", 
+                  "16h KH-103 >\n2h DEX+KH-103", "16h DMSO >\n2h DEX+DMSO" ))
+)
 res_int_all <- readRDS(file="../data/results/DE_our_data.rds")
 ```
 
 
-```{r q8b}
-# a function to cluster signal tracks and rna at the same time
-
-cluster_tracks_and_rna <- function(signal_tracks, summ_exp, k, assay_name="log2FC"){
-  # head(unclass(m[[1]]))
-  tracks.enrichment.score <- lapply(signal_tracks, enriched_score)
-  # playground heatmap clustering
-  mat.tracks <- matrix(unlist(tracks.enrichment.score), ncol=length(signal_tracks))
-  mat.rna <- as.matrix(assay(summ_exp[,], assay_name))
-  # concat horizontally
-  mat <- cbind(mat.tracks, mat.rna)
-  
-  # standardise by column
-  standardise <- function(x){
-    original_values <- x
-    # x is a vector of a column
-    trim <- c(0.05, 0.95)
+```{r}
+#' plotSigAndRNA
+#' 
+#' Plot joint chromatin signals and RNA heatmap
+#'
+#' @param x Either a list of genes (requires `ensdb` to be given) or a GRanges
+#'   with regions of interest, and with the `gene_name` mcol.
+#' @param tracks A (named) vector of paths to bigwig files.
+#' @param SE A SummarizedExperiment objects with gene names as rows.
+#' @param assayName The assay to use in `SE`
+#' @param ensdb An `EnsDb` object, ignored if `x` is already a GRanges
+#' @param k The optional number of clusters
+#' @param extend How much to extend on each side of (the center of) the given regions
+#' @param trim Trimming passed to `plotEnrichedHeatmaps`
+#' @param seed Seed (for clustering)
+#' @param forceSeqlevelsStyle Optional seqLevelStyle to which to force the GRanges
+#' @param rna_top_annotation Top annotation for the `SE` object (see `sechm`)
+#' @param gaps_at Passed to `sechm`
+#' @param widths Respective widths, in centimeters, of the signal and RNA heatmaps
+#' @param nf Optional normalization factors for the tracks
+#' @param recenterOnPeaks An optional GRanges of peaks on which to recenter when
+#'   plotting promoters
+#' @param breaks Passed to `sechm`
+#' @param mergeDist Distance below which to merge TSS
+#' @param retList Logical, whether to return a list of heatmaps instead of hte merge
+#' @param ... Passed to `plotEnrichedHeatmaps`
+#'
+#' @return A HeatmapList
+#' @export
+plotSigAndRNA <- function(x, tracks, SE, assayName="scaledLFC", ensdb=NULL, k=NULL, 
+                          extend=2000, trim=0.99, seed=123, forceSeqlevelsStyle=NULL,
+                          rna_top_annotation=c(), gaps_at=NULL, widths=NULL, nf=NULL,
+                          recenterOnPeaks=NULL, breaks=NULL, mergeDist=500, use_raster=TRUE,
+                          retList=FALSE, ...){
+  if(is.character(x)){
+    d <- as.integer(floor(mergeDist/2))
+    stopifnot(is(ensdb, "EnsDb"))
+    x <- intersect(x, row.names(SE))
+    all.txs <-  transcripts(ensdb, columns=c("gene_name"))
+    x <- promoters(all.txs[which(all.txs$gene_name %in% x)], upstream=d, downstream=d)
+    x <- x[!duplicated(granges(x))]
+    x <- reduce(split(x,x$gene_name))
+    gn <- rep(names(x),lengths(x))
+    x <- unlist(x)
+    x$gene_name <- gn
+    x <- keepSeqlevels(x, seqlevelsInUse(x), pruning.mode = "coarse")
+    SE <- SE[as.character(x$gene_name),]
+    row.names(SE) <- names(x) <- make.unique(x$gene_name)
+    if(!is.null(recenterOnPeaks)){
+      if(!is.null(forceSeqlevelsStyle) && forceSeqlevelsStyle=="chr"){
+        # bad workaround for the bug of older GenomeInfoDb versions
+        seqlevels(recenterOnPeaks) <- gsub("chrchr","chr",paste0("chr",seqlevels(recenterOnPeaks)))
+      }
+      d <- distanceToNearest(resize(x,width=1L,fix="center"), resize(recenterOnPeaks,width=1L,fix="center"))
+      d2 <- rep(0L,length(x))
+      d2[from(d)] <- mcols(d)$distance
+      d2[which(abs(d2)>min(abs(extend)))] <- 0L
+      x <- shift(x, d2+1L)
+    }
+    if(!is.null(forceSeqlevelsStyle) && forceSeqlevelsStyle=="chr"){ ##
+      seqlevels(x) <- gsub("chrchr","chr",paste0("chr",seqlevels(x)))
+    }
+  }else{
+    stopifnot(is(x, "GRanges") && !is.null(x$gene_name))
+    x <- x[!is.na(x$gene_name)]
+    if(is.null(names(x))) names(x) <- paste0("r",seq_along(x))
+    SE <- SE[x$gene_name]
+    row.names(SE) <- names(x)
+  }
+  if(!is.null(forceSeqlevelsStyle) && forceSeqlevelsStyle!="chr")
+    seqlevelsStyle(x) <- forceSeqlevelsStyle
+  set.seed(seed)
+  mat.sig <- signal2Matrix(tracks, x, extend=extend)
+  if(!is.null(nf)) mat.sig <- rescaleSignalMatrices(mat.sig, nf)
+  SE <- SE[row.names(mat.sig[[1]]),]
+  mat.sig <- lapply(mat.sig, FUN=function(x){
+    if(length(trim)==1) trim <- sort(c(1-trim, trim))
     q <- quantile(x, trim)
     x[x>q[2]] <- q[2]
     x[x<q[1]] <- q[1]
-    
-    # standardise column
-    x.mean <- mean(x)
-    std.dev <- sd(x)
-    values.standardised <-  (x - x.mean) / std.dev
-    
-    return(values.standardised)
+    x
+  })
+  mat.rna <- assays(SE)[[assayName]]
+  
+  cl <- NULL
+  if(!is.null(k) && k>1){
+    sig.en <- matrix(unlist(lapply(mat.sig, enriched_score)), ncol=length(tracks))
+    sig.en <- sechm::safescale(sig.en,byRow=TRUE)
+    m <- cbind(sig.en, sechm::safescale(mat.rna,byRow=TRUE))
+    cl <- kmeans(m, centers=k, nstart=3)$cluster
   }
-  
-  # standarise all rows
-  mat.standardised <- apply(mat, 2, standardise)
-  
-  # cluster rows
-  cl <- kmeans(mat.standardised, centers=k)  
-  
-  # returns a vector cluster ids
-  return(cl$cluster)
-}
-```
-
-```{r plot_signals_and_sechm function, fig.width=18, fig.height=10}
-dds <- readRDS("../data/results/dds.rds")
-
-tracks <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
-                "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
-                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
-
-ah <- AnnotationHub()
-ensdb <- ah[["AH98047"]] # AH89211
-# all transcripts from the genome. Don't want to download this for each function call
-all.transcripts <-  transcripts(ensdb, columns=c("tx_id", "tx_name", "tx_biotype",
-                                                                "tx_support_level",
-                                                                "gene_id","gene_name"))
-
-plot_signals_and_sechm <- function(peaks, genes_subset=NULL, plot_around_gene_tss=FALSE, tracks_subset=NULL, subset_columns=NULL, show_rownames=FALSE, assayName="log2FC", nclusters=NULL){
-  # first subset for a given selection of genes
-  if (is.null(genes_subset) == FALSE & plot_around_gene_tss==FALSE) {
-    peaks <- peaks[peaks$nearestTSS.gene_name %in% genes_subset]
-    if (length(peaks) == 0) return(paste0("No peaks found for the genes:", paste(genes_subset, collapse = ', ')))
-  }
-  
-  se0 <- se
-  if (!is.null(subset_columns)){
-      se0 <- se0[,se0$condition %in% subset_columns]
-      se0$condition <- factor(se0$condition, levels=subset_columns)
-    }
-  
-  if (is.null(tracks_subset)){
-    tracks_used <- tracks
-  } else {
-    tracks_used <- tracks[tracks_subset]
+  if(is.null(widths)){
+    widths <- list(NULL,NULL)
+  }else if(!is.list(widths) && is.numeric(widths)){
+    widths <- lapply(widths, units="cm", FUN=unit)
   }
 
-  if (plot_around_gene_tss == TRUE){
-    mygenes.transcripts <- all.transcripts
-    if (!is.null(genes_subset)){
-      mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% genes_subset)
-    } else {
-      mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% rownames(se0))
-    }
-    # mygenes.transcripts <- subset(mygenes.transcripts, gene_name %in% peaks$nearestTSS.gene_name)
-    mygenes.tss <-  resize(mygenes.transcripts, width=1, fix='start')
-    seqlevelsStyle(mygenes.tss) <- "UCSC"
-    mygenes_unique <- mygenes.tss[!duplicated(mygenes.tss$gene_name),]
-  
-    # we need to deduplicate again, maybe some gene names describe the same region
-    mygenes_unique <- mygenes_unique[!duplicated(mygenes_unique)] # 13827
-    
-    # sometimes we might have sequences which extend beyond the genome
-    mask1 <- which(end(mygenes_unique) > seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
-    mask2 <- which(start(mygenes_unique) < seqlengths(ensdb)[as.character(seqnames(mygenes_unique))])
-    mask <- c(mask1, mask2)
-    # only subset if mask has length > 0
-    if (length(mask) != 0) mygenes_unique <- mygenes_unique[-mask]
-  
-    # get the signals
-    signals <- signal2Matrix(tracks_used, mygenes_unique, w=5, extend=2500) # 13820
-    
-    # make sure that the rows are the same. Sometimes we can lose genes when running signal2matrix
-    mygenes_unique <- mygenes_unique[mygenes_unique$tx_id %in% rownames(signals[[1]]),]
-    
-    # adjust the se2 genes to only show the ones for which we have the TSS
-    genes <- mygenes_unique$gene_name
-    se2 <- se0[genes,] # 13827
-    
-  } else {
-    # get rid of peaks that don't have an assigned gene that was quantified
-    # we need a peak to plot
-    peaks <- peaks[peaks$nearestTSS.gene_name %in% row.names(se0)]
-    peaks <- sort(peaks)
-    # give unique names to the peaks
-    names(peaks) <- make.unique(peaks$nearestTSS.gene_name)
-    # select (and duplicate) the entries in R, and give them the names
-    se2 <- se0[as.character(peaks$nearestTSS.gene_name),]
-    row.names(se2) <- names(peaks)
-    signals <- signal2Matrix(tracks_used, peaks, w=5, extend=500)  
-  }
-  
-  # cluster 
-  if (!is.null(nclusters)){
-    cluster_ids <- cluster_tracks_and_rna(signals, se2, k=nclusters)
-    h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"), row_split=cluster_ids)
-  } else {
-    h1 <- plotEnrichedHeatmaps(signals, width=unit(8, "cm"))  
-  }
-  set.seed(100) # for colours
-  h2 <- sechm::sechm(se2, genes=row.names(se2), assayName=assayName, sortRowsOn=NULL, 
-                     cluster_rows=FALSE, width=unit(12, "cm"), top_annotation=c("condition","batch"), 
-                     gaps_at="condition", column_title_gp=gpar(fontsize=10), column_title_rot=90)
-  # (For this second one it's important that rows are in the input order)
-  obj <- h1 + h2
-  draw(obj, padding = unit(c(1, 1, 2, 1), "cm"))
+  h1 <- plotEnrichedHeatmaps(mat.sig, ..., row_split=cl, width=widths[[1]], use_raster=use_raster)
+  h2 <- sechm::sechm(SE, row.names(SE), assayName=assayName, sortRowsOn=NULL, breaks=breaks, use_raster=use_raster,
+                     cluster_rows=FALSE, width=widths[[2]], top_annotation=rna_top_annotation, 
+                     gaps_at=gaps_at, column_title_gp=gpar(fontsize=10), column_title_rot=90)
+  if(retList) return(list(h1,h2))
+  h1 + h2
 }
 
-plt <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=FALSE)
-plt
+selectBestEnhancer <- function(et, peaks){
+  et$hasPeak <- overlapsAny(et, peaks)
+  et <- et[order(!et$hasPeak, abs(et$distance))]
+  et[!duplicated(et$gene_name)]
+}
+
+selectBestTSS <- function(genes=NULL, peaks, ensdb, forceSeqlevelsStyle="chr"){
+  all.txs <-  transcripts(ensdb, columns=c("gene_name"))
+  if(!is.null(genes)) all.txs <- all.txs[which(all.txs$gene_name %in% genes)]
+  x <- promoters(all.txs, upstream=1, downstream=1)
+  if(!is.null(forceSeqlevelsStyle)){
+    if(forceSeqlevelsStyle=="chr"){
+      seqlevels(x) <- gsub("chrchr","chr",paste0("chr",seqlevels(x)))
+    }else{
+      seqlevelsStyle(x) <- forceSeqlevelsStyle
+    }
+  }
+  x <- keepSeqlevels(x, seqlevelsInUse(x), pruning.mode = "coarse")
+  d <- distanceToNearest(x, peaks)
+  x$dist <- Inf
+  x$dist[from(d)] <- mcols(d)$distance
+  x <- x[order(abs(x$dist))]
+  x <- x[!duplicated(x$gene_name)]
+  sort(x)
+}
+
+
 ```
-
-
 
 ## Fig 6c.1 (Q8).
 
 Heatmap visualizing conditions dmso, untreated, 2h dex, KH103 >2h dex, MIF>2h dex, Cort113>2h dex, also show next to it GR tracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message: KH103 if given before dex, blocks dex induced changes better than mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
 
-```{r 6c.1, fig.width=14, fig.height=10, results="asis"}
-reduced_view <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "16h DMSO >\n2h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113"), tracks_subset=c("2h-DEX"), nclusters=3)
-reduced_view
+```{r plot_signals_and_sechm function, fig.width=8, fig.height=6}
+#ah <- AnnotationHub(cache = "/common/AnnotationHub/", localHub = TRUE)
+ah <- AnnotationHub()
+ensdb <- ah[["AH89426"]]
 
-pdf("../data/00_paper_figures/6c1.pdf", width=14, height=10)
-reduced_view
+peaks <- lapply(c("../data/reddy_bed_DEX2h_r123.bed.gz",
+                  "../data/reddy_bed_DEX6h_r123.bed.gz"),
+                FUN=function(x) import(x, format="NarrowPeak"))
+peaks2h <- peaks[[1]]
+peaks <- reduce(unlist(GRangesList(peaks)))
+tss <- selectBestTSS(NULL, peaks, ensdb)
+names(tss) <- tss$gene_name
+
+d <- distanceToNearest(peaks2h, tss)
+peaks2h$gene_name <- NA_character_
+peaks2h$gene_name[from(d)] <- tss[to(d)]$gene_name
+
+
+
+tracks <-  list("Control"="../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig",
+                "30min-DEX"="../data/reddy_bed_DEX30min_r123.bigWig",
+                "2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
+                "6h-DEX"="../data/reddy_bigwig_DEX6h_r123.bigWig",
+                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
+
+nf <- bwNormFactors(tracks)
+
+
+et <- read.delim("../data/enhancerTargets.tsv.gz")
+et <- et[which(et$log2.pval.adapt>1),]
+et <- GRanges(et$chr, IRanges(et$start, et$end), gene_name=et$symbol, distance=et$distance)
+enh <- selectBestEnhancer(et, peaks)
+names(enh) <- enh$gene_name
+
+dea2h <- rowData(se)[["DEA.16h DMSO > 2h DEX+DMSO"]]
+degs2h <- row.names(dea2h)[abs(dea2h$logFC)>log2(1.2) & dea2h$FDR<0.05]
+degs2h <- intersect(degs2h[!is.na(degs2h)], intersect(names(tss),names(enh)))
+
+cond_subset <- c("18h untreated", "18h DMSO", "16h DMSO >\n2h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113")
+se2 <- se[,se$condition %in% cond_subset]
+
+
+hmWrap <- function(x, i=1:3, se2, do.draw=FALSE, trim=c(0,0.99), ...){
+  x <- intersect(x, intersect(names(enh),names(tss)))
+  h1 <- plotSigAndRNA(enh[x], tracks=tracks[i], top_annotation=FALSE, SE=se2, ensdb = ensdb, widths=list(1,3), nf=nf[i], forceSeqlevelsStyle = "chr", trim=trim, extend=2500, rna_top_annotation=NA, gaps_at="condition", ..., retList=TRUE, axis_name_rot=90, scale_title="Enhancer")
+  h2 <- plotSigAndRNA(tss[x], tracks=tracks[i], top_annotation=FALSE, SE=se2, ensdb = ensdb, widths=list(1,3), nf=nf[i], forceSeqlevelsStyle = "chr", axis_name="TSS", trim=trim, extend=2500, rna_top_annotation=NA, gaps_at="condition", ..., retList=TRUE, scale_title="TSS", axis_name_rot=90, breaks=0.99)
+  h <- h1[[1]]+h2[[1]]+h2[[2]]
+  if(do.draw!=TRUE) return(h)
+  draw(h, padding = unit(c(1, 1, 2, 1), "cm"), merge=TRUE)  
+}
+
+h1 <- hmWrap(degs2h, se2=se2, k=4, row_title="Altered after 2h DEX", assayName = "log2FC")
+pdf("../data/00_paper_figures/6c1.pdf", width=8, height=6)
+draw(h1, padding = unit(c(0.2, 0.2, 2, 0.2), "cm"), merge=TRUE)
 dev.off()
-# ggsave(filename="../data/00_paper_figures/6c1.pdf", width=10, height=10)
 ```
+
+
+### Looking at peaks
+
+```{r peak-centered, fig.width=8, fig.height=6}
+plotSigAndRNA(peaks2h[which(peaks2h$gene_name %in% degs2h)], SE=se2, tracks=tracks[1:3], top_annotation=FALSE, k=3, row_title="Activated after 2h DEX (GR peaks)", nf=nf[1:3], widths = list(1,3), forceSeqlevelsStyle = "chr", axis_name="TSS", trim=c(0,0.98), extend=2500, rna_top_annotation=NA, gaps_at="condition")
+```
+
+Note that this is restricted to genes that are the closets gene to a GR peak, and showing signal at that peak.
 
 ## Fig 6d.1 (Q8). 
 
 Heatmap visualizing conditions dmso, untreated, dex 18h, 2h dex>KH103, 2h dex>MIF, 2h dex>Cort113, also show next to it GRtracks at TSS +/-2.5kb and at enhancer, the map needs to be clustered in 3 clusters– hopefully according to the genes that are not inhibited by a given inhibitor (message1: KH103 if given after dex, blocks less good probably compared to mif and cort113) (message 2: The genes that are not blocked cluster by inhibitor – we might be able to infer the way the inhibitor profile/specificity)
 
-```{r 6d1, fig.width=14, fig.height=12, results="asis", warning=FALSE}
-reduced_view2 <- plot_signals_and_sechm(gr_peaks, plot_around_gene_tss=TRUE, 
-                                       subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("12h-DEX"), nclusters=3)
+```{r, fig.width=9, fig.height=6}
+deas <- grep("^DEA\\.", colnames(rowData(se)), value=TRUE)
+deas <- lapply(setNames(deas, gsub("^DEA\\.", "", deas)),
+               FUN=function(x) rowData(se)[[x]])
+degs <- lapply(deas, FUN=function(x){
+  row.names(x)[which(x$FDR<0.05)]
+})
 
-reduced_view2
+dea16h <- deas$`2h DEX > 16h DEX+DMSO`
+degs16h <- row.names(dea16h)[abs(dea16h$logFC)>log2(1.2) & dea16h$FDR<0.01]
+degs16h <- degs16h[!is.na(degs16h)]
 
-pdf("../data/00_paper_figures/6d1.pdf", width=14, height=10)
-reduced_view2
+inhibDegs2 <- unique(intersect(degs16h, degs[["inhibited.after"]]))
+
+cond_subset <- c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113")
+se2 <- se[,se$condition %in% cond_subset]
+
+h <- hmWrap(degs16h, se2=se2, i=c(1,3:5), row_title="Activated after 12h DEX", k=4, assayName = "log2FC")
+
+pdf("../data/00_paper_figures/6d1.pdf", width=9, height=6)
+draw(h, padding = unit(c(0.2, 0.2, 2, 0.2), "cm"), merge=TRUE)
 dev.off()
-# ggsave(filename="../data/00_paper_figures/6d1.pdf", width=8, height=12)
 ```
+
+## Fig 7b.2 (Q8). 
+
+
+
+
+```{r, fig.width=8, fig.height=6}
+inhibDegs <- unique(c(intersect(degs2h, 
+                                unlist(degs[c("inhibited by KH103.prior",
+                                              "inhibited by others.prior")])),
+                      unlist(degs[c("KHonly","otherInhibs")])))
+
+cond_subset <- c("18h untreated", "18h DMSO", "16h DMSO >\n2h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "16h Cort113 >\n2h DEX+Cort113")
+se2 <- se[,se$condition %in% cond_subset]
+
+
+h <- hmWrap(inhibDegs, se2=se2, row_title="Different across inhibitors", k=3)
+
+pdf("../data/00_paper_figures/7b1_differentAcrossInhibitors.pdf", width=8, height=6)
+draw(h, padding = unit(c(0.2, 0.2, 2, 0.2), "cm"), merge=TRUE)
+dev.off()
+```
+
+
 
 ## Fig 7b.2 (Q8). 
 
 Heatmap of those 13 genes that are significant in KH-103 alone condition comparing with untreated/dmso/Dex2h/Dex 18h (maybe also MIF/Cort113) alongside their TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list (maybe if possible also including the long range enhancer info as well?). (message: a. these few genes that are changed in kh103 are also mostly changed in other inhibitor and dex conditions too, b. only 5 of those changed genes have direct GR mediation (except some have GR around enhancer) and c. marking up TEF and Cry2 as the only ones that are specifically changed only by KH103)
 
-```{r 7b2, fig.width=14, fig.height=4, results="asis", warning=FALSE}
-kh.protac <- read.xlsx("../docs/downloads/Q4_KH_DE_GR_bound.xlsx")
-
-# Maybe if possible also including the long range enhancer info as well
-genes <- kh.protac[kh.protac$FDR < 0.05,]
-
-fig7b <- plot_signals_and_sechm(gr_peaks, genes_subset=genes$Gene, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h KH-103", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("2h-DEX", "12h-DEX"), show_rownames=TRUE)
 
 
-fig7b
-# ggsave(filename="../data/00_paper_figures/7b2.pdf", width=8, height=4)
+```{r, fig.width=9, fig.height=5}
+cond_subset <- c("18h untreated", "18h DMSO", "18h KH-103",  "18h Cort113","18h MIF",
+                 "16h DMSO >>\2h DEX+DMSO","2h DEX >\n16h DEX+DMSO")
+se2 <- se[,se$condition %in% cond_subset]
+
+idegs <- unique(unlist(degs[c("18h KH-103", "18h Cort113", "18h MIF")]))
+
+hi <- hmWrap(idegs, se2=se2, i=c(1,3:5), row_title="Triggered by the inhibitors", k=4)
 
 
-pdf("../data/00_paper_figures/fig7b2.pdf", width=8, height=4)
-fig7b
+pdf("../data/00_paper_figures/fig7b2.pdf", width=8, height=6)
+draw(hi, padding = unit(c(0.1, 0.1, 2, 0.1), "cm"), merge=TRUE)
+dev.off()
+draw(hi, padding = unit(c(0.1, 0.1, 2, 0.1), "cm"), merge=TRUE)
+
+
+hk <- hmWrap(degs[["18h KH-103"]], se2=se2, i=c(1,3:5), row_title="Triggered by KH-103")
+pdf("../data/00_paper_figures/fig7b1.pdf", width=8, height=5)
+draw(hk, padding = unit(c(0.1, 0.1, 2, 0.1), "cm"), merge=TRUE)
 dev.off()
 
-## stop here
 ```
 
 
-## Signaltracks + DE plot for Side effects of the inhibitors {.tabset}
-
-In the following we show the same plots, but for smaller subsets of genes. We choose at most the 200 most significantly differentially expressed genes from a given comparison named below.
-
-The signals are plotted around the gene TSS ± 25'000bp.
-
-```{r signaltracks plus de plot, fig.width=22, fig.height=10, results="asis"}
-se.processed <- readRDS(file="../data/results/SE.processed.rds")
-
-# prep
-w <- se$condition2 %in% c("control","18h Cort113","18h KH-103","18h MIF")
-dds2 <- dds[,w]
-
-cat("\n\n### Genes triggered by all inhibitors \n\n")
-# Genes triggered by all inhibitors
-mm <- model.matrix(~se$isInhibited[w])
-fit <- glmFit(dds2,mm)
-res <- as.data.frame(topTags(glmLRT(fit),Inf))
-rnames_all_inhibs <- head(row.names(res)[res$FDR<0.05],200)
-plt_all_inhibs <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_all_inhibs, plot_around_gene_tss=TRUE)
-plt_all_inhibs
-
-cat("\n\n### Genes specifically altered by KH-103 \n\n")
-# ## Genes specifically altered by KH-103
-isKh <- se$condition[w]=="18h KH-103"
-mm <- model.matrix(~isKh)
-fit <- glmFit(estimateDisp(dds2,mm),mm)
-res <- as.data.frame(topTags(glmLRT(fit, "isKhTRUE"),Inf))
-rnames_kh103 <- row.names(res)[res$FDR<0.05]
-
-### BUG
-# plt_kh103  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103, plot_around_gene_tss=TRUE)
-# plt_kh103
-### BUG
-```
-
-## fig7b.1 (Q8)
-
-Heatmap plot of our RNAseq next to the 
-- TSS centered waterfall (TLS1 selected TSS) +- 2500 bp of the GR Chipseq of Reddy for the list: “genes that are triggered by inhibitors but not or less by kh-103”. 
-- Visualized next to Dex 2h and Dex 18h and untreated/dmso DE genes
-
-```{r fig7b.1, fig.width=18, fig.height=14, results="asis"}
-cat("\n\n### Genes triggered by other inhibitors and not (or less) KH-103 \n\n")
-## Genes triggered by other inhibitors and not (or less) KH-103
-mm <- model.matrix(~se$isInhibited[w]+isKh)
-fit <- glmFit(estimateDisp(dds2,mm),mm)
-res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,1,-1)),Inf))
-rnames_inhibs_not_kh <- head(row.names(res)[res$FDR<0.05],200)
-plt_inhibs_not_kh  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibs_not_kh, plot_around_gene_tss=TRUE, subset_columns = c("18h untreated", "18h DMSO", "18h KH-103", "18h MIF", "18h Cort113", "16h DMSO >\n2h DEX+DMSO", "2h DEX >\n16h DEX+DMSO"), tracks_subset=c("12h-DEX"))
-plt_inhibs_not_kh
-
-pdf("../data/00_paper_figures/7b1.pdf", width=14, height=14)
-plt_inhibs_not_kh
-dev.off()
-# ggsave(plot=ggplotify::as.ggplot(plt_inhibs_not_kh), filename="../data/00_paper_figures/7b1.pdf", width=10, height=14)
-```
-
-## Signaltracks + DE plot for inhibition effects {.tabset}
-
-The signals are plotted around the gene TSS ± 1000bp.
-
-```{r inhibition effects, fig.width=22, fig.height=10, results="asis"}
-cat("\n\n### DEX-triggered genes that are inhibited (prior) \n\n")
-## DEX-triggered genes that are inhibited (prior)
-wPrior <- which(se$condition2 %in% c("control", "16h Cort113 > 2h DEX+Cort113", "16h DMSO > 2h DEX+DMSO", 
-"16h KH-103 > 2h DEX+KH-103", "16h MIF  > 2h DEX+MIF"))
-mm <- model.matrix(~droplevels(se$condition2[wPrior]))
-fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
-res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
-rnames_dex_triggered <-  head(row.names(res)[res$FDR<0.05],200)
-plt_dex_triggered  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_dex_triggered, plot_around_gene_tss=TRUE)
-plt_dex_triggered
-
-
-cat("\n\n### Significantly more inhibited by KH-103 than by other inhibitors \n\n")
-### Significantly more inhibited by KH-103 than by other inhibitors
-tmp <- grepl("KH-103|control",se$condition2)[wPrior]
-mm <- model.matrix(~tmp)
-fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
-res <- as.data.frame(topTags(glmLRT(fit), Inf))
-rnames_kh103_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
-plt_kh103_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_inhibited, plot_around_gene_tss=TRUE)
-plt_kh103_inhibited
-
-
-cat("\n\n### Significantly less inhibited by KH-103 than by other inhibitors \n\n")
-### Significantly less inhibited by KH-103 than by other inhibitors
-tmp <- grepl("KH-103|DEX\\+DMSO",se$condition2)[wPrior]
-mm <- model.matrix(~tmp)
-fit <- glmFit(estimateDisp(dds[,wPrior],mm),mm)
-res <- as.data.frame(topTags(glmLRT(fit), Inf))
-rnames_kh103_less_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
-plt_kh103_less_inhibited  <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_kh103_less_inhibited, plot_around_gene_tss=TRUE)
-plt_kh103_less_inhibited
-
-cat("\n\n### DEX-triggered genes that are inhibited (after)\n\n")
-## DEX-triggered genes that are inhibited (after)
-wAfter <- which(se$condition2 %in% c("control", "2h DEX > 16h DEX+Cort113", "2h DEX > 16h DEX+DMSO", 
-"2h DEX > 16h DEX+KH-103", "2h DEX > 16h DEX+MIF"))
-mm <- model.matrix(~droplevels(se$condition2[wAfter]))
-fit <- glmFit(estimateDisp(dds[,wAfter],mm),mm)
-res <- as.data.frame(topTags(glmLRT(fit, contrast=c(0,0,1,0,0)), Inf))
-attr(res, "description") <- "Significantly-inhibited DEX-responsive genes by any all inhibitors, when administered after DEX"
-rnames_inhibited <-  head(row.names(res)[res$FDR<0.05],200)
-plt_inhibited   <- plot_signals_and_sechm(gr_peaks, genes_subset=rnames_inhibited, plot_around_gene_tss=TRUE)
-plt_inhibited 
-```
-
-
-# Q9: What is the relation of differential expression of genes and differential binding of nearby regions? {.tabset}
-
-```{r q9}
-et <- readRDS(file="../data/results/differential_binding_results.rds")
-merged_peaks <- readRDS(file="../data/results/merged_peaks.rds")
-```
-
-`r sum(et$FDR < 0.05)` genes are significant at a 0.05 FDR level.
-
-An overview of the differential binding peaks is available in the downloads section.
-
-## Tabular overview:
-
-```{r tabular overview}
-# print table
-et %>% 
-  dplyr::select(nearestTSS.gene_name, nearestTSS, FDR,  everything()) %>% 
-  head(20) %>%
-  kable() %>% 
-  kable_styling()
-```
-
-## Volcano plot
-
-```{r volcano plot}
-ggplot(et, aes(logFC, -log10(FDR))) + geom_point() + 
-  geom_hline(yintercept=-log10(0.05), linetype="dashed") +
-  theme_ipsum_rc() +
-  labs(title=paste0("Differential binding results for ", dim(et)[1], " genes")) +
-  ggrepel::geom_text_repel(data=et,
-                           aes(x=logFC, y=-log10(FDR), label=nearestTSS.gene_name, size=4),
-                           show.legend=F,
-                           max.overlaps = 30)
-```
-
-## Signal tracks
-
-```{r signal tracks, fig.width=8, fig.height=4}
-tracks2 <- list("C2"="../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig",
-               "C3"="../data/single_replicate_peaks/control/Chip_GR_control_s3.bigWig",
-               "t12_1"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s1.bigWig",
-               "t12_2"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2.bigWig",
-               "t12_3"="../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3.bigWig")
-m <- signal2Matrix(tracks2, merged_peaks)
-plotEnrichedHeatmaps(m)
-```
-
-
-## Average signal plots
-
-```{r average signal plots, fig.width=8, fig.height=6}
-d1 <- meltSignals(m)
-d1$condition <- gsub("[0-9]","",d1$sample)
-d1$condition <- ifelse(d1$condition=="C", "Control", "12hDEX")
-p1 <- ggplot(d1, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle("Average signal plots") + theme_ipsum_rc()
-p1
-# d2 <- meltSignals(m2)
-# d2$condition <- gsub("[0-9]","",d2$sample)
-# d2$condition <- ifelse(d2$condition=="C", "Control", "12hDEX")
-# p2 <- ggplot(d2, aes(position, mean, group=sample, colour=condition)) + geom_line() + ggtitle("Top peaks normalization") + theme_ipsum_rc()
-# ggpubr::ggarrange(p1, p2, ncol=2)
-```
-
-# Q10: Dataset of known enhancer - target gene interactions by Salviato et al.
-
-**Q: Are there some GR peaks which influence expression of genes despite not being close to these genes?**
-
-[Salviato et al.](https://academic.oup.com/nar/article/49/17/e97/6312759) have curated a dataset of genomic regions which are known to act with distal genes. By comparing these regions with our peaks we can identify potential long-distance relationships between GR peaks and genes.
-
-```{r ETG interactions}
-interactions <- read.csv("../data/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv", sep="\t")
-interactions_gr <- makeGRangesFromDataFrame(interactions, keep.extra.columns=T)
-
-# subset for peaks which are in a range of 2500bp of a TSS
-# gr_peaks <- gr_peaks[gr_peaks$nearestTSS.gene_name.2500r != ""]
-
-# find peaks from our data peak dataset that overlap with the known ETG interactions
-overlap_peaks <- findOverlaps(gr_peaks, interactions_gr)
-
-# get a granges object of all peaks which have an associated long-range interaction in the table
-new_peaks_lri <- gr_peaks[queryHits(overlap_peaks)]
-new_peaks_lri$long_range_interaction <- TRUE
-new_peaks_lri$long_range_gene <- interactions_gr[subjectHits(overlap_peaks)]$symbol
-new_peaks_lri$dist2lr_target <- interactions_gr[subjectHits(overlap_peaks)]$distance
-
-# get peaks from our dataset which have no known interactions with distal genes
-mask_peaks_with_no_lr_interactions <- !(1:length(gr_peaks) %in% unique(queryHits(overlap_peaks)))
-new_peaks_no_lri <- gr_peaks[mask_peaks_with_no_lr_interactions]
-new_peaks_no_lri$long_range_interaction <- FALSE
-new_peaks_no_lri$long_range_gene <- NA
-new_peaks_no_lri$dist2lr_target <- NA
-
-# merge the granges objects together. This object will contain duplicates
-peaks <- c(new_peaks_lri, new_peaks_no_lri)
-
-# Subset the granges object for 
-```
-
-
-### How many significant genes are there in our 18h DEX treatment depending on the type of peaks associated with the gene?
-
-TRUE/FALSE indicates whether the gene was found to be differentially expressed in our 18h DEX treatment at a 0.05 FDR level.
-
-```{r table overview LRI significant DE genes}
-### How many peaks have no TSS nearby but are known for long-range interactions?
-de_res <- read.xlsx("../docs/downloads/Q2_GR_bound_DE_genes.xlsx")
-de_res <- de_res %>% left_join(as.data.frame(peaks) %>% dplyr::select("long_range_gene", "long_range_interaction", "dist2lr_target") %>% dplyr::rename(Gene=long_range_gene),
-                               by="Gene") %>%
-  group_by(Gene) %>%
-  mutate(min_dist2lr_target=min(abs(dist2lr_target))) %>%
-  dplyr::select(-dist2lr_target) %>%
-  distinct() %>%
-  tidyr::replace_na(list(long_range_interaction=F))
-
-de_res$category <- NA
-de_res[(de_res$chip_peaks.2500r > 0) & (de_res$long_range_interaction == FALSE), "category"] <- "<2500 to TSS only"
-de_res[(de_res$chip_peaks.2500r == 0) & (de_res$long_range_interaction == TRUE), "category"] <- "LRI only"
-de_res[(de_res$chip_peaks.2500r == 0) & (de_res$long_range_interaction == FALSE), "category"] <- "Neither"
-de_res[(de_res$chip_peaks.2500r > 0) & (de_res$long_range_interaction == TRUE), "category"] <- "<2500 to TSS+LRI"
-de_res$category <- factor(de_res$category, levels=c("Neither", "LRI only", "<2500 to TSS only","<2500 to TSS+LRI"))
-
-kableExtra::kable(table(de_res$is_significant, de_res$category)) %>% kableExtra::kable_styling()
-```
-
-### Do we see different log-fold changes depending on the type of associated peaks?
-
-```{r boxplot LRI}
-# Idea: A table of our peaks with a the gene it is influencing and the distance to the gene
-### boxplot: no closeby peak, but known lr-interaction VS. no peak at all, closeby peak and long-range interaction, closeby peak only
-de_res %>%
-  dplyr::filter(FDR < 0.05) %>%
-  ggplot(aes(x=category, y=abs(logFC))) + 
-  geom_boxplot() +
-  theme_ipsum_rc() +#
-  ylim(c(0,2)) +
-  labs(title="Absolute logFC differences based on types of associated peaks", subtitle="DE genes with FDR < 0.05 only", y="Absolute logFC")
-```
-
-```{r peaks short}
-###
-# Idea 2: A table of peaks with a column containing a string. This string is the comma-separated gene names
-peaks_short <- as.data.frame(peaks) %>% 
-  dplyr::mutate(id=paste0(seqnames, ":", start, "-", end)) %>%
-  # select("id", everything()) %>%
-  group_by(id) %>% 
-  mutate(lr_genes = paste0(long_range_gene, collapse = ", "))  %>%
-  dplyr::select(-c("long_range_gene","dist2lr_target")) %>%
-  distinct() %>%
-  dplyr::select("id", "score", "signalValue", "pValue", "distance2nearestTSS", "nearestTSS.gene_name", #"nearestTSS", 
-         "class","long_range_interaction", "lr_genes")
-
-```
-
-
-### Is the gene closest to a peak included in the list of genes acting at long-range, based on the Salviato dataset?
-
-```{r Same LRI gene as closest gene?}
-peaks_short$nearestTSS.in.LRI_genes <- mapply(grepl, peaks_short$nearestTSS.gene_name, peaks_short$lr_genes)
-peaks_short[peaks_short$nearestTSS.gene_name == "", "nearestTSS.in.LRI_genes"] <-  NA
-table(as.character(peaks_short$nearestTSS.in.LRI_genes), useNA="always") %>% 
-  as.data.frame() %>% 
-  dplyr::rename("Nearest TSS is one of the LRI genes"=Var1) %>% 
-  kable() %>% 
-  kable_styling()
-```
-
-A table of the genes as displayed below can be accessed as an excel file in the download section.
-
-It includes the DE results from Mahshid's 18h DEX experiment augmented by information on whether a peak in the ChIP data was found to be closest to this gene, as well as whether a peak was found to interact with the TSS of the gene based on the Salviato dataset.
-
-```{r peek table LRI}
-wb <- createWorkbook()
-sheet_name <- "Augmented_18h_DE"
-addWorksheet(wb, sheet_name)
-writeData(wb, sheet = sheet_name, de_res)
-saveWorkbook(wb, "../docs/downloads/Q10_DE_genes_long_range_interactions.xlsx", overwrite = TRUE)
-
-de_res %>% head(20) %>% kable() %>% kable_styling()
-```
-
-## Fig 6c.1 and 6d.1 (interaction signals)
-
-```{r 6c1 and 6d1, fig.width=18, fig.height=10, results="asis", warning=FALSE}
-# subset genes which do not have a GR peak
-# From the heatmap you're already making, extract the genes for which there's no GR binding at the TSS.
-# list of all genes
-all.genes <- rownames(se)
-# which are not closest to a peak
-gr.orphans.genes <- all.genes[!all.genes %in% gr_peaks$nearestTSS.gene_name]
-
-
-tracks.2h12h <-  list("2h-DEX"="../data/reddy_bigwig_DEX2h_r123.bigWig",
-                "12h-DEX"="../data/reddy_bigwig_DEX12h_r123.bigWig")
-
-# prefilter for only the relevant genes
-interactions.filtered <- interactions %>%
-  dplyr::filter(symbol %in% gr.orphans.genes)
-interactions.prefiltered.gr <- makeGRangesFromDataFrame(interactions.filtered, keep.extra.columns=T)
-
-if (!file.exists("../data/EOS_files/sm_lris.rds")){
-  sm <- signal2Matrix(tracks.2h12h, interactions.prefiltered.gr)  
-  saveRDS(sm, "../data/EOS_files/sm_lris.rds")
-} else {
-  sm <- readRDS("../data/EOS_files/sm_lris.rds")
-}
-
-if (!file.exists("../data/EOS_files/sm_lris.rds")){
-  interactions.filtered$GR.score <- pmax(enriched_score(sm[[1]]), enriched_score(sm[[2]]))
-  saveRDS(interactions.filtered, "../data/EOS_files/interaction_filtered.rds")
-} else {
-  interactions.filtered <- readRDS("../data/EOS_files/interaction_filtered.rds")
-}
-
-# For these genes, find those that have an annotated distal enhancer (using the predictions I shared with you a while back).
-interactions.filtered <- interactions.filtered %>% 
-  group_by(symbol) %>% 
-  top_n(-1, wt=GR.score) %>% 
-  mutate("nearestTSS.gene_name"=symbol)
-
-interactions.filtered.granges <- makeGRangesFromDataFrame(interactions.filtered, keep.extra.columns=T)
-
-# For those, do the heatmap with these enhancers instead of the TSS. (If a gene has more than one annotated distal enhancer, use the one with the highest GR signal)
-
-### 6c1
-all.genes.enhancer.tracks6c1 <- plot_signals_and_sechm(interactions.filtered.granges, plot_around_gene_tss=FALSE, subset_columns = c("18h untreated", "18h DMSO", "16h DMSO >\n2h DEX+DMSO", "16h KH-103 >\n2h DEX+KH-103", "16h MIF  >\n2h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
-all.genes.enhancer.tracks6c1
-
-pdf("../data/00_paper_figures/6c1b.pdf", width=14, height=10)
-all.genes.enhancer.tracks6c1
-dev.off()
-
-
-### 6d1
-all.genes.enhancer.tracks6d1 <- plot_signals_and_sechm(interactions.filtered.granges, plot_around_gene_tss=FALSE, 
-                                       subset_columns = c("18h untreated", "18h DMSO", "2h DEX >\n16h DEX+DMSO", "2h DEX >\n16h DEX+KH-103", "2h DEX >\n16h DEX+MIF", "2h DEX >\n16h DEX+Cort113"), tracks_subset=c("2h-DEX", "12h-DEX"), nclusters=3)
-
-all.genes.enhancer.tracks6d1
-
-pdf("../data/00_paper_figures/6d1b.pdf", width=14, height=10)
-all.genes.enhancer.tracks6d1
-dev.off()
-```
-
-
-#

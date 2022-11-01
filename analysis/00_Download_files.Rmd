@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+options(timeout=120)
 ```
 
 # About
@@ -41,6 +42,9 @@ download.file("https://www.encodeproject.org/files/ENCFF248HYY/@@download/ENCFF2
 # Download bed and bigwig files for the GC receptor
 
 ```{r, eval=FALSE}
+# bigwig 0.5h DEX 
+download.file("https://www.encodeproject.org/files/ENCFF901SYU/@@download/ENCFF901SYU.bigWig", "../data/reddy_bed_DEX30min_r123.bigWig")
+
 # Bed file for 2h DEX treatment
 download.file("https://www.encodeproject.org/files/ENCFF869DAZ/@@download/ENCFF869DAZ.bed.gz", "../data/reddy_bed_DEX2h_r123.bed.gz")
 # Bigwig for 2h DEX  treatment
@@ -83,9 +87,9 @@ download.file("https://www.encodeproject.org/files/ENCFF139XJH/@@download/ENCFF1
 We need the individual sample files for differential binding. We only have the bigwig files (no bed files) for the control experiments so we need to call the peaks from the bigwig files. To ensure that the peak calling method applied to the control and treatment files is the same we also call the peaks on the bigwig files for the treated samples.
 
 ```{r download individual files for bigwig, eval=FALSE}
-mk.dir("../data/single_replicate_peaks")
-mk.dir("../data/single_replicate_peaks/control")
-mk.dir("../data/single_replicate_peaks/dex12h")
+dir.create("../data/single_replicate_peaks")
+dir.create("../data/single_replicate_peaks/control")
+dir.create("../data/single_replicate_peaks/dex12h")
 
 # for the control (we only have two files)
 download.file("https://www.encodeproject.org/files/ENCFF627XPX/@@download/ENCFF627XPX.bigWig", "../data/single_replicate_peaks/control/Chip_GR_control_s2.bigWig")
@@ -116,3 +120,11 @@ download.file("https://www.encodeproject.org/files/ENCFF374ZTE/@@download/ENCFF3
 download.file("https://www.encodeproject.org/files/ENCFF333BTQ/@@download/ENCFF333BTQ.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s2_input.bam")
 download.file("https://www.encodeproject.org/files/ENCFF690OST/@@download/ENCFF690OST.bam", "../data/single_replicate_peaks/dex12h/Chip_GR_12hDex_s3_input.bam")
 ```
+
+
+# Enhancer targets
+
+```{r}
+download.file("https://github.com/ElisaSalviato/3D-ETG/blob/main/Results/Formatted_Candidate_ETG_20200305_TAD10Kb.tsv.gz?raw=true", "../data/enhancerTargets.tsv.gz")
+```
+
